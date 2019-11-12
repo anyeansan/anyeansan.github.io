@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hexo</title>
+    <url>/anyeansan.github.io/2019/11/12/Hexo/</url>
+    <content><![CDATA[<h1 id="一-搭建"><a href="#一-搭建" class="headerlink" title="一 搭建"></a>一 搭建</h1><h2 id="1-GitHub"><a href="#1-GitHub" class="headerlink" title="1 GitHub"></a>1 GitHub</h2><ol>
+<li>注册账号</li>
+<li>创建仓库，名为<code>yourname.github.io</code></li>
+</ol>
+<h2 id="2-Git"><a href="#2-Git" class="headerlink" title="2 Git"></a>2 Git</h2><ol>
+<li>安装git及gitbash</li>
+<li>配置github账号及ssh key</li>
+</ol>
+<h2 id="3-NodeJs"><a href="#3-NodeJs" class="headerlink" title="3 NodeJs"></a>3 NodeJs</h2><h2 id="4-Hexo"><a href="#4-Hexo" class="headerlink" title="4 Hexo"></a>4 Hexo</h2><h3 id="4-1-安装"><a href="#4-1-安装" class="headerlink" title="4.1 安装"></a>4.1 安装</h3><ul>
+<li><code>npm install -g hexo</code></li>
+</ul>
+<h3 id="4-2-初始化"><a href="#4-2-初始化" class="headerlink" title="4.2 初始化"></a>4.2 初始化</h3><ul>
+<li><code>hexo init</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node_modules：依赖包</span><br><span class="line">public：存放生成的页面</span><br><span class="line">scaffolds：命令生成文章等的模板</span><br><span class="line">source：用命令创建的各种文章（post下为原始md文件）</span><br><span class="line">themes：主题</span><br><span class="line">_config.yml：整个博客的配置</span><br><span class="line">db.json：source解析所得到的</span><br><span class="line">package.json：项目所需模块项目的配置信息</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-3-root-config-yml配置deploy"><a href="#4-3-root-config-yml配置deploy" class="headerlink" title="4.3 root config.yml配置deploy"></a>4.3 root config.yml配置deploy</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:anyeansan/anyeansan.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h1 id="二-命令"><a href="#二-命令" class="headerlink" title="二 命令"></a>二 命令</h1><h2 id="1-hexo-n"><a href="#1-hexo-n" class="headerlink" title="1 hexo n"></a>1 hexo n</h2><ul>
+<li><code>hexo n xxx</code><ul>
+<li>在<code>source/post</code>目录下根据<code>scaffolds/post.md</code>模板创建<code>xxx.md</code></li>
+</ul>
+</li>
+<li><code>hexo n page xxx</code><ul>
+<li>在<code>source</code>目录下根据<code>scaffolds/page.md</code>模板创建<code>xxx</code>文件夹并生成<code>index.md</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-hexo-clean"><a href="#2-hexo-clean" class="headerlink" title="2 hexo clean"></a>2 hexo clean</h2><ul>
+<li>删除根下<code>public</code>目录</li>
+</ul>
+<h2 id="3-hexo-g"><a href="#3-hexo-g" class="headerlink" title="3 hexo g"></a>3 hexo g</h2><ul>
+<li>在根下创建<code>public</code>目录并生成静态文件</li>
+<li><code>source</code>目录下的所有文件都会原样复制（除了md文件会转成html）到<code>public</code>目录</li>
+</ul>
+<h2 id="4-hexo-d"><a href="#4-hexo-d" class="headerlink" title="4 hexo d"></a>4 hexo d</h2><ul>
+<li>部署到服务端</li>
+<li><code>ERROR Deployer not found: git</code><ul>
+<li>需要安装<code>npm install hexo-deployer-git --save</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="5-hexo-s"><a href="#5-hexo-s" class="headerlink" title="5 hexo s"></a>5 hexo s</h2><ul>
+<li>启动服务</li>
+<li><code>http://localhost:4000</code></li>
+</ul>
+<h1 id="三-配置"><a href="#三-配置" class="headerlink" title="三 配置"></a>三 配置</h1><h2 id="1-root-config-yml"><a href="#1-root-config-yml" class="headerlink" title="1 root _config.yml"></a>1 root _config.yml</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: 安₃</span><br><span class="line">subtitle: 我未成名君未嫁 可能俱是不如人</span><br><span class="line">description: 一蓑烟雨任平生</span><br><span class="line">keywords:</span><br><span class="line">author: 安₃</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">skip_render: README.md</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">url: https://anyeansan.github.io</span><br><span class="line">root: /anyeansan.github.io</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">theme: next</span><br><span class="line"></span><br><span class="line"># Deployment</span><br><span class="line">deploy:</span><br><span class="line">	type: git</span><br><span class="line">	repository: git@github.com:anyeansan/anyeansan.github.io.git</span><br><span class="line">	branch: master</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-本地搜索local-search"><a href="#2-本地搜索local-search" class="headerlink" title="2 本地搜索local-search"></a>2 本地搜索local-search</h2><ol>
+<li><code>npm install hexo-generator-searchdb</code></li>
+<li><code>root _config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">		path: search.xml</span><br><span class="line">		field: post</span><br><span class="line">		content: true</span><br><span class="line">		format: html</span><br></pre></td></tr></table></figure></li>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local_search:</span><br><span class="line">		enable: true</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="3-RSS"><a href="#3-RSS" class="headerlink" title="3 RSS"></a>3 RSS</h2><ol>
+<li><code>npm install hexo-generator-feed --save</code></li>
+<li><code>root _config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">feed:</span><br><span class="line">		type: atom</span><br><span class="line">		path: atom.xml</span><br><span class="line">		limit: 20</span><br></pre></td></tr></table></figure></li>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rss: /atom.xml</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="4-目录编号"><a href="#4-目录编号" class="headerlink" title="4 目录编号"></a>4 目录编号</h2><ul>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">toc:</span><br><span class="line">	number: true/false</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="5-文章底部标签和结束语"><a href="#5-文章底部标签和结束语" class="headerlink" title="5 文章底部标签和结束语"></a>5 文章底部标签和结束语</h2><h3 id="5-1-底部标签"><a href="#5-1-底部标签" class="headerlink" title="5.1 底部标签"></a>5.1 底部标签</h3><ul>
+<li><code>next/layout/_macro/post.swig</code>中搜索<code>rel=&quot;tag</code>去掉标签或修改标签样式<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rel=&quot;tag&quot;&gt; &lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="5-2-结束语"><a href="#5-2-结束语" class="headerlink" title="5.2 结束语"></a>5.2 结束语</h3><ol>
+<li><code>next/layout/_macro</code>添加<code>passage-end-tag.swig</code>，内容如下<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #66ccff;font-size:14px;&quot;&gt;-------------The End&amp;nbsp;&amp;nbsp;&lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt;&amp;nbsp;&amp;nbsp;客官请自便-------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div</span><br></pre></td></tr></table></figure></li>
+<li><code>next/layout/_macro/post.swig</code>在<code>post-body</code>和<code>post-footer</code>之间添加<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">	&#123;% if not is_index %&#125;</span><br><span class="line">		&#123;% include &apos;passage-end-tag.swig&apos; %&#125;</span><br><span class="line">	&#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="6-中英文"><a href="#6-中英文" class="headerlink" title="6 中英文"></a>6 中英文</h2><ul>
+<li><code>next/languages/zh-CN.yml</code>酌情修改</li>
+</ul>
+<h2 id="7-图片"><a href="#7-图片" class="headerlink" title="7 图片"></a>7 图片</h2><h3 id="7-1-Logo"><a href="#7-1-Logo" class="headerlink" title="7.1 Logo"></a>7.1 Logo</h3><ul>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">favicon:</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="7-2-头像"><a href="#7-2-头像" class="headerlink" title="7.2 头像"></a>7.2 头像</h3><ul>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">avatar:</span><br><span class="line">	url: /images/lbb.png 头像</span><br><span class="line">	rounded: true 是否为圆形</span><br><span class="line">	rotated: true 是否鼠标放上去旋转</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="8-页面底部"><a href="#8-页面底部" class="headerlink" title="8 页面底部"></a>8 页面底部</h2><ul>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">footer:</span><br><span class="line">	since: 2019</span><br><span class="line">	icon:</span><br><span class="line">	copyright:</span><br><span class="line">	powered:</span><br><span class="line">	theme:</span><br><span class="line">	beian:</span><br><span class="line">	creative_commons:</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="9-menu-amp-sidebar"><a href="#9-menu-amp-sidebar" class="headerlink" title="9 menu &amp; sidebar"></a>9 menu &amp; sidebar</h2><ul>
+<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">sidebar:</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="四-技巧"><a href="#四-技巧" class="headerlink" title="四 技巧"></a>四 技巧</h1><h2 id="1-博文不显示全部内容"><a href="#1-博文不显示全部内容" class="headerlink" title="1 博文不显示全部内容"></a>1 博文不显示全部内容</h2><ul>
+<li>在合适的位置加上<code>&lt;!--more--&gt;</code>即可</li>
+</ul>
+<h2 id="2-创建tags和categories"><a href="#2-创建tags和categories" class="headerlink" title="2 创建tags和categories"></a>2 创建tags和categories</h2><ol>
+<li><code>hexo n page tages</code></li>
+<li><code>source/tages/index.md</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2019-11-12 12:46:04</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure></li>
+<li>文章中使用<ul>
+<li>tags为多个标签<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tags:</span><br><span class="line">-空格one</span><br><span class="line">-空格two</span><br><span class="line">-空格three</span><br><span class="line">-空格...</span><br><span class="line">结果为：#one #two #three #...</span><br></pre></td></tr></table></figure></li>
+<li>categorys为层级<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">categorys:</span><br><span class="line">-空格爷</span><br><span class="line">-空格父</span><br><span class="line">-空格孙</span><br><span class="line">-空格...</span><br><span class="line">结果为：爷 &gt; 父 &gt; 孙 &gt;...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-绑定域名"><a href="#3-绑定域名" class="headerlink" title="3 绑定域名"></a>3 绑定域名</h2><h3 id="3-1-购买域名"><a href="#3-1-购买域名" class="headerlink" title="3.1 购买域名"></a>3.1 购买域名</h3><ul>
+<li><a href="https://www.namesilo.com" target="_blank" rel="noopener">namesilo</a></li>
+</ul>
+<h3 id="3-2-设置dns"><a href="#3-2-设置dns" class="headerlink" title="3.2 设置dns"></a>3.2 设置dns</h3><ul>
+<li>dns默认有四个<code>A A A CNAME</code>，修改后边的<code>A CNAME</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">A @ ip（通过Ping yourname.github.io获取）TTL</span><br><span class="line">CNAME www yourname.github.io TTL</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="3-3-创建CNAME"><a href="#3-3-创建CNAME" class="headerlink" title="3.3 创建CNAME"></a>3.3 创建CNAME</h3><ul>
+<li>在<code>source</code>目录创建<code>CNAME</code>文件，内容为你的域名</li>
+</ul>
+<h3 id="3-4-配置仓库"><a href="#3-4-配置仓库" class="headerlink" title="3.4 配置仓库"></a>3.4 配置仓库</h3><ul>
+<li>在<code>yourname.github.io</code>仓库的<code>setting</code>中配置域名<ul>
+<li><code>GitHub Pages -&gt; Custom domain</code></li>
+<li>不确定是否必须0.0</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-README-md"><a href="#4-README-md" class="headerlink" title="4 README.md"></a>4 README.md</h2><h3 id="4-1-原因"><a href="#4-1-原因" class="headerlink" title="4.1 原因"></a>4.1 原因</h3><ol>
+<li><code>hexo g</code>会把<code>source</code>目录下的md文件(包括<code>Readme.md</code>)渲染为html文件并放到<code>public</code>目录下</li>
+<li><code>hexo d</code>会把<code>public</code>目录下所有文件提交到<code>yourname.github.io</code>仓库</li>
+<li>由于<code>public</code>目录下并没有<code>README.md</code>而只有<code>Readme.html</code>，所以deploy后<code>yourname.github.io</code>是没有<code>Readme.md</code>的</li>
+</ol>
+<h3 id="4-2-解决"><a href="#4-2-解决" class="headerlink" title="4.2 解决"></a>4.2 解决</h3><ol>
+<li><code>source</code>目录下创建<code>README.md</code></li>
+<li><code>root_config.yml</code><ul>
+<li><code>skip_render: README.md</code></li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>技</category>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+</search>
