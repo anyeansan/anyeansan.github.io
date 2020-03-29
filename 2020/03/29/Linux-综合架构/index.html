@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 中小规模网站综合架构组成1.1 前端 防火墙 访问策略控制   负载均衡服务器 对访问请求进行调度处理   web服务器 处理用户请求    1.2 后端 数据库服务器 存储字符数据，如订单…   存储服务器 存储图片 音频 视频 附件都数据   备份服务器 存储网站所有服务器重要数据   缓存服务器 将常用数据存储到内存中，减轻服务器压力，提升用户体验    1.3 扩展 批量管理服务器 批">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 综合架构">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;03&#x2F;29&#x2F;Linux-%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 中小规模网站综合架构组成1.1 前端 防火墙 访问策略控制   负载均衡服务器 对访问请求进行调度处理   web服务器 处理用户请求    1.2 后端 数据库服务器 存储字符数据，如订单…   存储服务器 存储图片 音频 视频 附件都数据   备份服务器 存储网站所有服务器重要数据   缓存服务器 将常用数据存储到内存中，减轻服务器压力，提升用户体验    1.3 扩展 批量管理服务器 批">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-29T03:05:52.277Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/03/29/Linux-%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Linux 综合架构 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>书斋</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/29/Linux-%E7%BB%BC%E5%90%88%E6%9E%B6%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 综合架构
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-03-29 11:04:30 / 修改时间：11:05:52" itemprop="dateCreated datePublished" datetime="2020-03-29T11:04:30+08:00">2020-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-中小规模网站综合架构组成"><a href="#一-中小规模网站综合架构组成" class="headerlink" title="一 中小规模网站综合架构组成"></a>一 中小规模网站综合架构组成</h1><h2 id="1-1-前端"><a href="#1-1-前端" class="headerlink" title="1.1 前端"></a>1.1 前端</h2><ol>
+<li>防火墙<ul>
+<li>访问策略控制</li>
+</ul>
+</li>
+<li>负载均衡服务器<ul>
+<li>对访问请求进行调度处理</li>
+</ul>
+</li>
+<li>web服务器<ul>
+<li>处理用户请求</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-2-后端"><a href="#1-2-后端" class="headerlink" title="1.2 后端"></a>1.2 后端</h2><ol>
+<li>数据库服务器<ul>
+<li>存储字符数据，如订单…</li>
+</ul>
+</li>
+<li>存储服务器<ul>
+<li>存储图片 音频 视频 附件都数据</li>
+</ul>
+</li>
+<li>备份服务器<ul>
+<li>存储网站所有服务器重要数据</li>
+</ul>
+</li>
+<li>缓存服务器<ul>
+<li>将常用数据存储到内存中，减轻服务器压力，提升用户体验</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-3-扩展"><a href="#1-3-扩展" class="headerlink" title="1.3 扩展"></a>1.3 扩展</h2><ol>
+<li>批量管理服务器<ul>
+<li>批量管理多台服务器主机</li>
+</ul>
+</li>
+<li>VPN服务器<ul>
+<li>内部员工访问架构 <code>PPTP vpn</code></li>
+</ul>
+</li>
+<li>审计服务器（跳板机）<ul>
+<li>内部员工操作管理架构 <code>jumpserver</code></li>
+</ul>
+</li>
+<li>监控服务器<ul>
+<li>综合架构服务器的监控 <code>zabbix</code></li>
+</ul>
+</li>
+<li>网站架构单点问题（高可用服务）<ol>
+<li>负载均衡服务器 <code>keepalived</code></li>
+<li>数据库 <code>mha</code></li>
+<li>存储服务器 <code>分布式存储</code></li>
+<li>备份服务 <code>rsync 云存储</code></li>
+<li>缓存服务 <code>集群/哨兵模式</code></li>
+</ol>
+</li>
+</ol>
+<h1 id="二-备份"><a href="#二-备份" class="headerlink" title="二 备份"></a>二 备份</h1><h2 id="2-1-备份策略"><a href="#2-1-备份策略" class="headerlink" title="2.1 备份策略"></a>2.1 备份策略</h2><ol>
+<li>全量备份<ul>
+<li>完整备份所有数据</li>
+</ul>
+</li>
+<li>增量备份<ul>
+<li>做一次完全备份，以后每次只备份新增的数据</li>
+<li>例<ul>
+<li>第一天完全备份</li>
+<li>第二天备份第二天新增数据</li>
+<li>第三天备份第三天新增数据</li>
+<li>第四天备份第四天新增数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>差异备份<ul>
+<li>做一次完全备份，以后每次只备份和第一次完全备份不同的数据</li>
+<li>例<ul>
+<li>第一天完全备份</li>
+<li>第二天备份第二天新增数据</li>
+<li>第三天备份第二天和第三天新增数据（和第一次比较）</li>
+<li>第四天备份第二天第三天和第四天新增数据（和第一次比较）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-2-备份命令"><a href="#2-2-备份命令" class="headerlink" title="2.2 备份命令"></a>2.2 备份命令</h2><ol>
+<li>本地备份<ul>
+<li><code>cp</code></li>
+</ul>
+</li>
+<li>远程备份<ul>
+<li><code>scp -rp</code><ul>
+<li><code>-r</code><ul>
+<li>递归</li>
+</ul>
+</li>
+<li><code>-p</code><ul>
+<li>保持文件属性</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-3-rsync"><a href="#2-3-rsync" class="headerlink" title="2.3 rsync"></a>2.3 rsync</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具</li>
+<li>安装 <code>rsync</code> 软件包</li>
+</ol>
+<h3 id="2-本地备份"><a href="#2-本地备份" class="headerlink" title="2 本地备份"></a>2 本地备份</h3><ul>
+<li><code>rsync [OPTION] SRC DEST</code><ul>
+<li>等价于 <code>cp</code> 命令</li>
+</ul>
+</li>
+<li><code>rsync FILE</code><ul>
+<li>等价于 <code>ls</code> 命令</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-远程备份"><a href="#3-远程备份" class="headerlink" title="3 远程备份"></a>3 远程备份</h3><h4 id="1-Push"><a href="#1-Push" class="headerlink" title="1 Push"></a>1 Push</h4><ul>
+<li><code>rsync [OPTION] SRC [USER@]HOST:DEST</code><ul>
+<li>等价于 <code>scp</code> 命令</li>
+<li><code>OPTION</code><ul>
+<li><code>-a</code><ul>
+<li>命令的归档参数，等价于 <code>-rtopgDl</code></li>
+</ul>
+</li>
+<li><code>-v</code><ul>
+<li>显示详细的传输信息</li>
+</ul>
+</li>
+<li><code>-z</code><ul>
+<li>传输时进行压缩以提高效率</li>
+</ul>
+</li>
+<li><code>-r</code><ul>
+<li>递归</li>
+</ul>
+</li>
+<li><code>-t</code><ul>
+<li>保持文件最后修改时间不变</li>
+</ul>
+</li>
+<li><code>-o</code><ul>
+<li>保持文件属主信息不变</li>
+</ul>
+</li>
+<li><code>-p</code><ul>
+<li>保持文件权限信息不变</li>
+</ul>
+</li>
+<li><code>-g</code><ul>
+<li>保持文件属组信息不变</li>
+</ul>
+</li>
+<li><code>-D</code><ul>
+<li>保持设备文件信息不变</li>
+</ul>
+</li>
+<li><code>-P</code><ul>
+<li>显示数据传输的进度信息</li>
+</ul>
+</li>
+<li><code>-l</code><ul>
+<li>保留软连接信息</li>
+</ul>
+</li>
+<li><code>-L</code><ul>
+<li>保留软连接指向目标文件的数据</li>
+</ul>
+</li>
+<li><code>--exclude=PATTERN</code><ul>
+<li>排除指定数据不被传输</li>
+</ul>
+</li>
+<li><code>--exclude-from=file</code><ul>
+<li>排除指定数据不被传输(批量排除)</li>
+</ul>
+</li>
+<li><code>--bwlimit=RATE</code><ul>
+<li>显示传输的速率</li>
+</ul>
+</li>
+<li><code>--delete</code><ul>
+<li>让目标和源数据保持一致，即会删除目标中源没有的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>USER@</code><ul>
+<li>以什么用户身份推送数据（默认以当前用户）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Pull"><a href="#2-Pull" class="headerlink" title="2 Pull"></a>2 Pull</h4><ul>
+<li><code>rsync [OPTION] [USER@]HOST:SRC [DEST]</code><ul>
+<li><code>USER@</code><ul>
+<li>以什么用户身份拉取数据（默认以当前用户）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-守护进程方式（一直在后台持续的运行）"><a href="#4-守护进程方式（一直在后台持续的运行）" class="headerlink" title="4 守护进程方式（一直在后台持续的运行）"></a>4 守护进程方式（一直在后台持续的运行）</h3><h4 id="1-rsync-守护进程部署流程"><a href="#1-rsync-守护进程部署流程" class="headerlink" title="1 rsync 守护进程部署流程"></a>1 rsync 守护进程部署流程</h4><ol>
+<li>安装 <ul>
+<li><code>rpm -qa rsync</code></li>
+<li><code>yum install -y rsync</code> </li>
+</ul>
+</li>
+<li>配置文件 <code>/etc/rsyncd.conf</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">uid = nobody # 管理备份目录的用户</span><br><span class="line">gid = nobody # 管理备份目录的用户组</span><br><span class="line">port = 873 # rsync # 备份服务的端口号</span><br><span class="line">fake super = yes # 将rsync服务虚拟用户伪装成为一个超级管理员用户</span><br><span class="line">use chroot = yes # 安全相关</span><br><span class="line">max connections = 4 # 最大链接数</span><br><span class="line">timeout = 900 # 超时时间</span><br><span class="line">pid file = /var/run/rsyncd.pid # 记录进程号的文件，服务运行时才有</span><br><span class="line">lock file = /var/run/rsync.lock # 锁文件</span><br><span class="line">log file = /var/log/rsyncd.log # rsync 服务日志文件</span><br><span class="line">ignore errors # 忽略传输过程中的简单错误</span><br><span class="line">read only =false # 备份目录可读写</span><br><span class="line">list = false # 客户端是否可以查看服务端的模块信息</span><br><span class="line">hosts allow = # 白名单</span><br><span class="line">hosts deny =  # 黑名单</span><br><span class="line">auth users =	 # 指定认证用户</span><br><span class="line">secrests file = /etc/rsync.password # 指定认证用户密码文件 `用户名称:密码信息`</span><br><span class="line">[backup] # 模块信息</span><br><span class="line">	comment = # 注释信息  </span><br><span class="line">	path =  # 指定备份目录</span><br></pre></td></tr></table></figure></li>
+<li>创建rsync服务的虚拟用户</li>
+<li>创建rsync服务密码认证文件（权限 600）</li>
+<li>创建备份目录并修改属主属组信息</li>
+<li>启动服务 <code>systemctl start rsyncd</code></li>
+</ol>
+<h4 id="2-客户端免密码配置"><a href="#2-客户端免密码配置" class="headerlink" title="2 客户端免密码配置"></a>2 客户端免密码配置</h4><ol>
+<li>创建一个密码文件（权限 600），存储密码</li>
+<li>执行命令时，在命令后添加 <code>--password-file =密码文件路径</code></li>
+</ol>
+<h4 id="3-Push"><a href="#3-Push" class="headerlink" title="3 Push"></a>3 Push</h4><ul>
+<li><code>rsync [OPTION] SRC [USER@]HOST::DEST</code><ul>
+<li><code>OPTION</code><ul>
+<li>常用 <code>-avz</code></li>
+</ul>
+</li>
+<li><code>USER@</code><ul>
+<li>指定认证用户信息</li>
+</ul>
+</li>
+<li><code>DEST</code><ul>
+<li>指定备份服务器的模块</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-Pull"><a href="#4-Pull" class="headerlink" title="4 Pull"></a>4 Pull</h4><ul>
+<li><code>rsync [OPTION] [USER@]HOST::SRC [DEST]</code></li>
+</ul>
+<h3 id="5-rsync-原理"><a href="#5-rsync-原理" class="headerlink" title="5 rsync 原理"></a>5 rsync 原理</h3><ol>
+<li>客户端当前登录用户通过命令向服务端发送推送请求</li>
+<li>服务端判断客户端命令中认证用户是否存在配置 <code>/etc/rsyncd.conf</code> 中</li>
+<li>服务端判断客户端认证用户密码是否正确 <code>/etc/rsync.password</code></li>
+<li>开始传输后，无论客户端发送请求的是root还是普通用户，到服务端都是通过配置的虚拟管理用户来备份。也就是说，传输的文件属主和属组在服务端会改为虚拟管理用户。<ol>
+<li>假如文件在客户端属主和属组是 root，服务端虚拟管理用户是 xiaoqiang，即在传输文件时需要把文件的属主和属组改为xiaoqiang，权限不足。</li>
+<li><code>fake super</code> 配置会将虚拟管理用户伪装成root</li>
+</ol>
+</li>
+</ol>
+<h1 id="三-存储"><a href="#三-存储" class="headerlink" title="三 存储"></a>三 存储</h1><h2 id="3-1-存储服务"><a href="#3-1-存储服务" class="headerlink" title="3.1 存储服务"></a>3.1 存储服务</h2><ol>
+<li>FTP（File Transfer Protocol）<ul>
+<li>FTP 服务器</li>
+<li>FTP 客户端</li>
+</ul>
+</li>
+<li>samba<ul>
+<li>windows–linux之间数据传输，Linux部署samba</li>
+</ul>
+</li>
+<li>NFS（Network File System）<ul>
+<li>linux–linux之间数据传输</li>
+</ul>
+</li>
+<li>门户网站-分布式存储<ul>
+<li>FastDFS</li>
+<li>GlusterFS</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-2-NFS"><a href="#3-2-NFS" class="headerlink" title="3.2 NFS"></a>3.2 NFS</h2><h3 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>网络文件共享系统，主要功能是通过网络（一般是局域网）让不同的主机系统之间可以共享文件</li>
+</ol>
+<h3 id="2-RPC（Remote-Procedure-Call）"><a href="#2-RPC（Remote-Procedure-Call）" class="headerlink" title="2 RPC（Remote Procedure Call）"></a>2 RPC（Remote Procedure Call）</h3><h1 id="四-批量管理"><a href="#四-批量管理" class="headerlink" title="四 批量管理"></a>四 批量管理</h1><h2 id="4-1-ansible"><a href="#4-1-ansible" class="headerlink" title="4.1 ansible"></a>4.1 ansible</h2><h1 id="五-WEB服务"><a href="#五-WEB服务" class="headerlink" title="五 WEB服务"></a>五 WEB服务</h1>
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/29/Linux-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" rel="next" title="Linux 定时任务">
+                  <i class="fa fa-chevron-left"></i> Linux 定时任务
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          书斋
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-中小规模网站综合架构组成"><span class="nav-text">一 中小规模网站综合架构组成</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-前端"><span class="nav-text">1.1 前端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-后端"><span class="nav-text">1.2 后端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-扩展"><span class="nav-text">1.3 扩展</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-备份"><span class="nav-text">二 备份</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-备份策略"><span class="nav-text">2.1 备份策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-备份命令"><span class="nav-text">2.2 备份命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-rsync"><span class="nav-text">2.3 rsync</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-本地备份"><span class="nav-text">2 本地备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-远程备份"><span class="nav-text">3 远程备份</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Push"><span class="nav-text">1 Push</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Pull"><span class="nav-text">2 Pull</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-守护进程方式（一直在后台持续的运行）"><span class="nav-text">4 守护进程方式（一直在后台持续的运行）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-rsync-守护进程部署流程"><span class="nav-text">1 rsync 守护进程部署流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-客户端免密码配置"><span class="nav-text">2 客户端免密码配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Push"><span class="nav-text">3 Push</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Pull"><span class="nav-text">4 Pull</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-rsync-原理"><span class="nav-text">5 rsync 原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-存储"><span class="nav-text">三 存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-存储服务"><span class="nav-text">3.1 存储服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-NFS"><span class="nav-text">3.2 NFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RPC（Remote-Procedure-Call）"><span class="nav-text">2 RPC（Remote Procedure Call）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-批量管理"><span class="nav-text">四 批量管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-ansible"><span class="nav-text">4.1 ansible</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-WEB服务"><span class="nav-text">五 WEB服务</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">秘笈</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
