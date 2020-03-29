@@ -51,30 +51,33 @@
   };
 </script>
 
-  <meta name="description" content="一蓑烟雨任平生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="安₃">
-<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;">
+  <meta name="description" content="一 帮助命令1.1 man（manual） man [OPTION] 命令 查看外部命令的功能 参数 帮助信息等等 OPTION 1 查看命令帮助文档   5 查看配置帮助文档，当命令和配置同名时，使用15来区分，如passwd           文档操作 说明    空格, f 向下翻页   b 向上翻页   回车 向下一行   k 向上一行   &#x2F;key 向下查找key，n 下一个匹配，N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 命令">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;03&#x2F;29&#x2F;Linux-%E5%91%BD%E4%BB%A4&#x2F;">
 <meta property="og:site_name" content="安₃">
-<meta property="og:description" content="一蓑烟雨任平生">
+<meta property="og:description" content="一 帮助命令1.1 man（manual） man [OPTION] 命令 查看外部命令的功能 参数 帮助信息等等 OPTION 1 查看命令帮助文档   5 查看配置帮助文档，当命令和配置同名时，使用15来区分，如passwd           文档操作 说明    空格, f 向下翻页   b 向上翻页   回车 向下一行   k 向上一行   &#x2F;key 向下查找key，n 下一个匹配，N">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;3noanswer&#x2F;npics&#x2F;raw&#x2F;master&#x2F;Linux&#x2F;Linux-Nettools-vs-Iproute2.webp">
+<meta property="og:updated_time" content="2020-03-29T02:08:53.350Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;gitee.com&#x2F;3noanswer&#x2F;npics&#x2F;raw&#x2F;master&#x2F;Linux&#x2F;Linux-Nettools-vs-Iproute2.webp">
 
-<link rel="canonical" href="https://anyeansan.github.io/">
+<link rel="canonical" href="https://anyeansan.github.io/2020/03/29/Linux-%E5%91%BD%E4%BB%A4/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>安₃</title>
+  <title>Linux 命令 | 安₃</title>
   
 
 
@@ -207,455 +210,10 @@
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/29/Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/anyeansan.github.io/images/lbb.png">
-      <meta itemprop="name" content="安₃">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="安₃">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/anyeansan.github.io/2020/03/29/Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">Linux 安装和配置</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">✦</span>
-              
-
-              <time title="创建时间：2020-03-29 10:09:49 / 修改时间：10:10:51" itemprop="dateCreated datePublished" datetime="2020-03-29T10:09:49+08:00">2020-03-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">☛</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-          <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><h2 id="1-1-硬件"><a href="#1-1-硬件" class="headerlink" title="1.1 硬件"></a>1.1 硬件</h2><ol>
-<li>电源</li>
-<li>CPU<ol>
-<li>路数：即CPU的个数，1 路 = 1 CPU</li>
-<li>核数</li>
-</ol>
-</li>
-<li>内存<ol>
-<li>缓冲（buffer）<ul>
-<li>写：<code>数据 → 内存 → 磁盘</code></li>
-</ul>
-</li>
-<li>缓存（cache）<ul>
-<li>读：<code>磁盘 → 内存 → 数据</code></li>
-</ul>
-</li>
-</ol>
-</li>
-<li>磁盘</li>
-<li>主板</li>
-<li>显卡</li>
-<li>声卡</li>
-<li>键鼠</li>
-</ol>
-<h2 id="1-2-服务器"><a href="#1-2-服务器" class="headerlink" title="1.2 服务器"></a>1.2 服务器</h2><ol>
-<li>硬件服务器<ol>
-<li>机架服务器</li>
-<li>刀片服务器</li>
-<li>塔式服务器</li>
-</ol>
-</li>
-<li>虚拟服务器<ol>
-<li>阿里云</li>
-<li>亚马逊（AWS）</li>
-<li>腾讯云</li>
-</ol>
-</li>
-</ol>
-<h2 id="1-3-操作系统"><a href="#1-3-操作系统" class="headerlink" title="1.3 操作系统"></a>1.3 操作系统</h2><ul>
-<li><code>硬件 + 内核 + shell + 软件</code></li>
-</ul>
-<h2 id="1-4-Linux发展历史"><a href="#1-4-Linux发展历史" class="headerlink" title="1.4 Linux发展历史"></a>1.4 Linux发展历史</h2><ol>
-<li><code>FSF</code><ul>
-<li><code>free software foundation</code> 自由软件基金会，主要项目是GNU</li>
-</ul>
-</li>
-<li><code>GNU</code><ul>
-<li><code>GNU是“GNU is Not Unix”的递归缩写</code>，目标是建立可自由发布和移值的类unix操作系统</li>
-<li>GNU类UNIX操作系统是由一系列应用程序，系统库和开发工具构成的软件集合（如Emacs，gcc，bash，gawk），并加上了用于资源分配和硬件管理的内核。</li>
-</ul>
-</li>
-<li><code>GPL</code><ul>
-<li><code>general public license</code>：通用公共许可，是一个开源许可协议</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li><code>linux 操作系统 = linux内核 + GNU软件和系统软件 + 必要的应用程序</code></li>
-</ul>
-<h2 id="1-5-Linux-发行版"><a href="#1-5-Linux-发行版" class="headerlink" title="1.5 Linux 发行版"></a>1.5 Linux 发行版</h2><ol>
-<li><code>Fedora</code><ul>
-<li>免费，新功能，小白鼠</li>
-</ul>
-</li>
-<li><code>Red Hat</code><ul>
-<li>收费</li>
-</ul>
-</li>
-<li><code>CentOS</code><ul>
-<li>去掉Red Hat的logo，收费软件被重新打包编译</li>
-<li>后被Red Hat 收购</li>
-</ul>
-</li>
-<li><code>Ubuntu</code><ul>
-<li>桌面</li>
-</ul>
-</li>
-<li><code>Debian FreeBSD</code><ul>
-<li>安全 稳定</li>
-</ul>
-</li>
-</ol>
-<h2 id="1-6-语录"><a href="#1-6-语录" class="headerlink" title="1.6 语录"></a>1.6 语录</h2><ol>
-<li>Linux 一切从根开始</li>
-<li>Linux 一切皆文件</li>
-<li>Linux 系统中命令行的修改大部分都是临时修改，配置文件是永久修改。</li>
-<li>Linux 系统服务配置文件修改后，需要重启服务（重新加载配置文件）</li>
-</ol>
-<h1 id="二-CentOS-7-安装"><a href="#二-CentOS-7-安装" class="headerlink" title="二 CentOS 7 安装"></a>二 CentOS 7 安装</h1><h2 id="2-1-下载镜像"><a href="#2-1-下载镜像" class="headerlink" title="2.1 下载镜像"></a>2.1 下载镜像</h2><ol>
-<li><a href="https://www.centos.org/" target="_blank" rel="noopener" title="CentOS 官网">CentoOS project</a></li>
-<li><a href="https://developer.aliyun.com/mirror/" target="_blank" rel="noopener" title="阿里云官方镜像站">Aliyun mirror</a></li>
-</ol>
-<h2 id="2-2-准备虚拟环境"><a href="#2-2-准备虚拟环境" class="headerlink" title="2.2 准备虚拟环境"></a>2.2 准备虚拟环境</h2><ol>
-<li>虚拟软件 <code>VMware Workstation</code></li>
-</ol>
-<h2 id="2-3-安装配置"><a href="#2-3-安装配置" class="headerlink" title="2.3 安装配置"></a>2.3 安装配置</h2><h3 id="1-软件安装"><a href="#1-软件安装" class="headerlink" title="1 软件安装"></a>1 软件安装</h3><ul>
-<li><code>Minimal Insatll</code><ul>
-<li><code>Debugging Tools</code></li>
-<li><code>Compatibility Libraries</code></li>
-<li><code>Development Tools</code></li>
-<li><code>System Administration Tools</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="2-网络（NAT）"><a href="#2-网络（NAT）" class="headerlink" title="2 网络（NAT）"></a>2 网络（NAT）</h3><ol>
-<li>主机名</li>
-<li><code>config</code><ol>
-<li><code>General</code><ul>
-<li>勾选自动连接</li>
-</ul>
-</li>
-<li><code>IPv4 settings</code><ol>
-<li><code>Method</code> <ul>
-<li><code>Manual</code> （手动）</li>
-</ul>
-</li>
-<li>ip 子网掩码 网关 <ul>
-<li>根据虚拟机网络编辑器中 <code>VMnet8</code> 网卡设置</li>
-</ul>
-</li>
-<li>dns <ul>
-<li>如 <code>223.5.5.5</code>，<code>8.8.8.8</code></li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="3-磁盘分区（standard-partition）"><a href="#3-磁盘分区（standard-partition）" class="headerlink" title="3 磁盘分区（standard partition）"></a>3 磁盘分区（standard partition）</h3><ul>
-<li><code>/boot</code><ul>
-<li>引导分区，256Mb</li>
-</ul>
-</li>
-<li><code>swap</code><ul>
-<li>交换分区，</li>
-<li>内存 &gt; 8G，swap = 8G，内存 &lt; 8G，swap = 内存 * 1.5</li>
-</ul>
-</li>
-<li><code>/</code><ul>
-<li>根分区，剩余大小</li>
-</ul>
-</li>
-</ul>
-<h3 id="4-关闭安全策略"><a href="#4-关闭安全策略" class="headerlink" title="4 关闭安全策略"></a>4 关闭安全策略</h3><ol>
-<li><code>KDUMP</code></li>
-<li><code>SECURITY POLICY</code></li>
-</ol>
-<h1 id="三-初始化配置"><a href="#三-初始化配置" class="headerlink" title="三 初始化配置"></a>三 初始化配置</h1><h2 id="3-1-配置-yum-源"><a href="#3-1-配置-yum-源" class="headerlink" title="3.1 配置 yum 源"></a>3.1 配置 yum 源</h2><h3 id="1-安装-wget"><a href="#1-安装-wget" class="headerlink" title="1 安装 wget"></a>1 安装 wget</h3><ul>
-<li><code>yum install wget -y</code></li>
-</ul>
-<h3 id="2-备份"><a href="#2-备份" class="headerlink" title="2 备份"></a>2 备份</h3><ul>
-<li><code>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</code></li>
-</ul>
-<h3 id="3-下载基本-yum-源"><a href="#3-下载基本-yum-源" class="headerlink" title="3 下载基本 yum 源"></a>3 下载基本 yum 源</h3><ol>
-<li><code>curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</code></li>
-<li><code>wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</code></li>
-</ol>
-<h3 id="4-下载扩展-yum-源-EPEL"><a href="#4-下载扩展-yum-源-EPEL" class="headerlink" title="4 下载扩展 yum 源 EPEL"></a>4 下载扩展 yum 源 EPEL</h3><ul>
-<li><code>wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</code></li>
-</ul>
-<h2 id="3-2-更新系统和软件"><a href="#3-2-更新系统和软件" class="headerlink" title="3.2 更新系统和软件"></a>3.2 更新系统和软件</h2><ul>
-<li><code>yum update -y</code></li>
-</ul>
-<h2 id="3-3-安装企业运维常用基础工具包"><a href="#3-3-安装企业运维常用基础工具包" class="headerlink" title="3.3 安装企业运维常用基础工具包"></a>3.3 安装企业运维常用基础工具包</h2><h3 id="1-CentOS-6-amp-7-都要安装的"><a href="#1-CentOS-6-amp-7-都要安装的" class="headerlink" title="1 CentOS 6 &amp; 7 都要安装的"></a>1 CentOS 6 &amp; 7 都要安装的</h3><ul>
-<li><code>yum install tree nmap dos2unix lrzsz nc lsof tcpdump htop iftop iotop sysstat nethogs -y</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>软件包名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>tree</code></td>
-<td>树形结构显示文件和目录</td>
-</tr>
-<tr>
-<td><code>nmap</code></td>
-<td>扫描端口的工具</td>
-</tr>
-<tr>
-<td><code>dos2unix</code></td>
-<td>转换脚本格式的工具</td>
-</tr>
-<tr>
-<td><code>lrzsz</code></td>
-<td>包含上传（rz）和下载（sz）文件工具</td>
-</tr>
-<tr>
-<td><code>nc</code></td>
-<td>文件传输、端口检查工具</td>
-</tr>
-<tr>
-<td><code>lsof</code></td>
-<td>反查端口进程，以及服务开发文件工具</td>
-</tr>
-<tr>
-<td><code>wget</code></td>
-<td>网络下载工具</td>
-</tr>
-<tr>
-<td><code>tcpdump</code></td>
-<td>抓包、监听等重要排错工具</td>
-</tr>
-<tr>
-<td><code>htop</code></td>
-<td>系统进程相关信息查看工具</td>
-</tr>
-<tr>
-<td><code>iftop</code></td>
-<td>主机网卡宽带查看工具</td>
-</tr>
-<tr>
-<td><code>sysstat</code></td>
-<td>含有sar iostat 等重要系统性能查看工具</td>
-</tr>
-<tr>
-<td><code>nethogs</code></td>
-<td>显示进程的网络流量</td>
-</tr>
-</tbody></table>
-<h3 id="2-CentOS-7-安装的"><a href="#2-CentOS-7-安装的" class="headerlink" title="2 CentOS 7 安装的"></a>2 CentOS 7 安装的</h3><ul>
-<li><code>yum install psmisc net-tools bash-completion bash-completion-extras vim-enhanced -y</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>软件包名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>psmisc</code></td>
-<td>含有 <code>killalll pstree</code> 等命令</td>
-</tr>
-<tr>
-<td><code>net-tools</code></td>
-<td>含有 <code>netstat ifconfig route arp</code> 等命令</td>
-</tr>
-<tr>
-<td><code>bash-completion</code></td>
-<td>tab补全功能工具包</td>
-</tr>
-<tr>
-<td><code>bash-completion-extras</code></td>
-<td>tab补全功能扩展工具包</td>
-</tr>
-<tr>
-<td><code>vim-enhanced</code></td>
-<td>vim</td>
-</tr>
-</tbody></table>
-<h2 id="3-4-修改网卡名称"><a href="#3-4-修改网卡名称" class="headerlink" title="3.4 修改网卡名称"></a>3.4 修改网卡名称</h2><h3 id="1-安装系统时"><a href="#1-安装系统时" class="headerlink" title="1 安装系统时"></a>1 安装系统时</h3><ol>
-<li>菜单界面 按 <code>tab</code></li>
-<li>输入 <code>net.ifnames=0 biosdevname=0</code></li>
-</ol>
-<h3 id="2-安装系统后"><a href="#2-安装系统后" class="headerlink" title="2 安装系统后"></a>2 安装系统后</h3><ol>
-<li>修改网卡配置文件内容及文件名 <code>/etc/sysconfig/netword-scripts/ens33</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 修改内容</span><br><span class="line">	vim /etc/sysconfig/netword-scripts/ens33</span><br><span class="line">	name=eth0</span><br><span class="line">	device=eth0</span><br><span class="line">2 修改文件名</span><br><span class="line">	mv /etc/sysconfig/netword-scripts/ens33 /etc/sysconfig/netword-scripts/eth0</span><br></pre></td></tr></table></figure></li>
-<li>修改网卡名称规则内核文件 <code>/etc/default/grub</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/default/grub</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;rhgb quiet&quot; 改为</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;net.ifnames=0 biosdevname=0 rhgb quiet&quot;</span><br><span class="line">```	</span><br><span class="line">3. 系统重新加载 grup 配置文件</span><br><span class="line">	* `grub2-mkconfig -o /boot/grub2/grub.cfg`</span><br><span class="line"></span><br><span class="line">## 3.5 系统优化</span><br><span class="line">### 1 selinux</span><br><span class="line">#### 1 概述</span><br><span class="line">* `Security-Enhanced Linux`</span><br><span class="line">	* 它是一个 Linux 内核模块，也是 Linux 的一个安全子系统。</span><br><span class="line">	* Selinux 用于对 root 用户的权限进行控制</span><br><span class="line"></span><br><span class="line">#### 2 操作</span><br><span class="line">1. `getenforce`</span><br><span class="line">	* 查看状态</span><br><span class="line">2. `setenforce 0`</span><br><span class="line">	* 临时关闭</span><br><span class="line">3. `/etc/selinux/config`</span><br></pre></td></tr></table></figure>
-<h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1>SELINUX=disabled # 永久关闭<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2 关闭防火墙</span><br><span class="line">1. `systemctl stop firewalld`</span><br><span class="line">2. `systemctl disable firewalld`</span><br><span class="line"></span><br><span class="line">### 3 字符编码</span><br><span class="line">1. 修改环境变量 `LANG`（优先级高）</span><br><span class="line">2. 修改 `/etc/locale.conf`</span><br><span class="line">3. `localectl set-locale en_US.UTF-8`</span><br><span class="line"></span><br><span class="line">### 4 优化远程连接速度</span><br><span class="line">1. 修改ssh服务配置文件 `/etc/ssh/sshd_config`</span><br></pre></td></tr></table></figure>
-79  GSSAPIAuthentication no<br>116 UseDNS no<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2. 配置本地 hosts 文件 `/etc/hosts`</span><br></pre></td></tr></table></figure>
-服务器ip 服务器主机名hostname</li>
-<li>168.13.24 anyeansan<br>```</li>
-<li>重启 ssh 服务<ul>
-<li><code>systemctl restart sshd</code></li>
-</ul>
-</li>
-</ol>
-<h3 id="4-配置Shell命令提示符样式-PS1"><a href="#4-配置Shell命令提示符样式-PS1" class="headerlink" title="4 配置Shell命令提示符样式 PS1"></a>4 配置Shell命令提示符样式 PS1</h3><h4 id="1-设置格式"><a href="#1-设置格式" class="headerlink" title="1 设置格式"></a>1 设置格式</h4><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>\h</code></td>
-<td>hostname（short）</td>
-</tr>
-<tr>
-<td><code>\H</code></td>
-<td>hostname（full）</td>
-</tr>
-<tr>
-<td><code>\w</code></td>
-<td>current working directory</td>
-</tr>
-<tr>
-<td><code>\W</code></td>
-<td>current working directory（basename）</td>
-</tr>
-<tr>
-<td><code>\t</code></td>
-<td>24小时格式显示时间 <code>HH:MM:SS</code></td>
-</tr>
-<tr>
-<td><code>\d</code></td>
-<td>日期 <code>weekday month date</code></td>
-</tr>
-<tr>
-<td><code>\u</code></td>
-<td>当前用户名</td>
-</tr>
-<tr>
-<td><code>\$</code></td>
-<td>root 显示 <code>#</code> 普通用户显示 <code>$</code></td>
-</tr>
-</tbody></table>
-<h4 id="2-颜色"><a href="#2-颜色" class="headerlink" title="2 颜色"></a>2 颜色</h4><ul>
-<li><code>\[\e[F;Bm\]内容\[\e[0m\]</code><ul>
-<li><code>\[\e[F;Bm\]</code><ul>
-<li>颜色开始<ul>
-<li>F<ul>
-<li>表示字体颜色，30~37</li>
-</ul>
-</li>
-<li>B<ul>
-<li>表示背景颜色，40~47</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>特殊显示<ul>
-<li>0 关闭颜色</li>
-<li>1 高亮</li>
-<li>4 下划线</li>
-<li>5 闪烁</li>
-<li>7 反白</li>
-<li>8 颜色不可见</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>\[\e[0m\]</code><ul>
-<li>颜色结束</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-式样"><a href="#3-式样" class="headerlink" title="3 式样"></a>3 式样</h3><ol>
-<li><code>export PS1=&#39;\[\e[32;1m\][\u@\h \W]\$ \[\e[0m\]&#39;</code></li>
-<li><code>export PS1=&#39;\[\e[32;1m\][\u@\h \[\e[34;1m\]\W\[\e[32;1m\]]\$ \[\e[0m\]&#39;</code></li>
-</ol>
-<h1 id="四-远程连接"><a href="#四-远程连接" class="headerlink" title="四 远程连接"></a>四 远程连接</h1><h2 id="4-1-远程连接软件"><a href="#4-1-远程连接软件" class="headerlink" title="4.1 远程连接软件"></a>4.1 远程连接软件</h2><table>
-<thead>
-<tr>
-<th>软件</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>xShell</code></td>
-<td>免费（实用）</td>
-</tr>
-<tr>
-<td><code>ScureCRT</code></td>
-<td>收费</td>
-</tr>
-<tr>
-<td><code>Putty</code></td>
-<td>免费 功能简单</td>
-</tr>
-</tbody></table>
-<h2 id="4-2-xShell-相关配置"><a href="#4-2-xShell-相关配置" class="headerlink" title="4.2 xShell 相关配置"></a>4.2 xShell 相关配置</h2><h3 id="1-窗口外观"><a href="#1-窗口外观" class="headerlink" title="1 窗口外观"></a>1 窗口外观</h3><p><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E7%AA%97%E5%8F%A3%E5%A4%96%E8%A7%82.png" alt=""></p>
-<h3 id="2-默认会话属性"><a href="#2-默认会话属性" class="headerlink" title="2 默认会话属性"></a>2 默认会话属性</h3><p><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-01.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-02.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-03.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-04.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-05.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-06.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-07.png" alt=""><br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E9%BB%98%E8%AE%A4%E4%BC%9A%E8%AF%9D%E5%B1%9E%E6%80%A7-08.png" alt=""></p>
-<h3 id="3-使用密钥连接"><a href="#3-使用密钥连接" class="headerlink" title="3 使用密钥连接"></a>3 使用密钥连接</h3><ol>
-<li>将公钥上传至服务端 <code>~/.ssh/authorized_keys</code>，权限 <code>600</code></li>
-<li>配置 xShell<br><img src="https://gitee.com/3noanswer/npics/raw/master/Linux/xShell/%E5%AF%86%E9%92%A5%E8%BF%9E%E6%8E%A5.png" alt=""></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
   
   
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/29/Linux-%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -669,8 +227,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/anyeansan.github.io/2020/03/29/Linux-%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">Linux 命令</a>
+          Linux 命令
         </h1>
 
         <div class="post-meta">
@@ -706,7 +263,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="一-帮助命令"><a href="#一-帮助命令" class="headerlink" title="一 帮助命令"></a>一 帮助命令</h1><h2 id="1-1-man（manual）"><a href="#1-1-man（manual）" class="headerlink" title="1.1 man（manual）"></a>1.1 man（manual）</h2><ul>
+        <h1 id="一-帮助命令"><a href="#一-帮助命令" class="headerlink" title="一 帮助命令"></a>一 帮助命令</h1><h2 id="1-1-man（manual）"><a href="#1-1-man（manual）" class="headerlink" title="1.1 man（manual）"></a>1.1 man（manual）</h2><ul>
 <li><code>man [OPTION] 命令</code><ul>
 <li>查看外部命令的功能 参数 帮助信息等等</li>
 <li><code>OPTION</code><ul>
@@ -2187,7 +1744,6 @@
 </li>
 </ul>
 
-      
     </div>
 
     
@@ -2196,306 +1752,42 @@
 
     <div>
       
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
     </div>
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2019/11/12/Hexo/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/anyeansan.github.io/images/lbb.png">
-      <meta itemprop="name" content="安₃">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2019/11/12/Hexo/" rel="next" title="Hexo">
+                  <i class="fa fa-chevron-left"></i> Hexo
+                </a>
+            </div>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="安₃">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/anyeansan.github.io/2019/11/12/Hexo/" class="post-title-link" itemprop="url">Hexo</a>
-        </h1>
+            <span class="post-nav-divider"></span>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">✦</span>
-
-              <time title="创建时间：2019-11-12 14:41:59" itemprop="dateCreated datePublished" datetime="2019-11-12T14:41:59+08:00">2019-11-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 10:06:32" itemprop="dateModified" datetime="2020-03-29T10:06:32+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">☛</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/%E6%8A%80/" itemprop="url" rel="index">
-                    <span itemprop="name">技</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/%E6%8A%80/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一-搭建"><a href="#一-搭建" class="headerlink" title="一 搭建"></a>一 搭建</h1><h2 id="1-GitHub"><a href="#1-GitHub" class="headerlink" title="1 GitHub"></a>1 GitHub</h2><ol>
-<li>注册账号</li>
-<li>创建仓库，名为<code>yourname.github.io</code></li>
-</ol>
-<h2 id="2-Git"><a href="#2-Git" class="headerlink" title="2 Git"></a>2 Git</h2><ol>
-<li>安装git及gitbash</li>
-<li>配置github账号及ssh key</li>
-</ol>
-<h2 id="3-NodeJs"><a href="#3-NodeJs" class="headerlink" title="3 NodeJs"></a>3 NodeJs</h2><h2 id="4-Hexo"><a href="#4-Hexo" class="headerlink" title="4 Hexo"></a>4 Hexo</h2><h3 id="4-1-安装"><a href="#4-1-安装" class="headerlink" title="4.1 安装"></a>4.1 安装</h3><ul>
-<li><code>npm install -g hexo</code></li>
-</ul>
-<h3 id="4-2-初始化"><a href="#4-2-初始化" class="headerlink" title="4.2 初始化"></a>4.2 初始化</h3><ul>
-<li><code>hexo init</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules：依赖包</span><br><span class="line">public：存放生成的页面</span><br><span class="line">scaffolds：命令生成文章等的模板</span><br><span class="line">source：用命令创建的各种文章（post下为原始md文件）</span><br><span class="line">themes：主题</span><br><span class="line">_config.yml：整个博客的配置</span><br><span class="line">db.json：source解析所得到的</span><br><span class="line">package.json：项目所需模块项目的配置信息</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="4-3-root-config-yml配置deploy"><a href="#4-3-root-config-yml配置deploy" class="headerlink" title="4.3 root config.yml配置deploy"></a>4.3 root config.yml配置deploy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:anyeansan/anyeansan.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-
-<h1 id="二-命令"><a href="#二-命令" class="headerlink" title="二 命令"></a>二 命令</h1><h2 id="1-hexo-n"><a href="#1-hexo-n" class="headerlink" title="1 hexo n"></a>1 hexo n</h2><ul>
-<li><code>hexo n xxx</code><ul>
-<li>在<code>source/post</code>目录下根据<code>scaffolds/post.md</code>模板创建<code>xxx.md</code></li>
-</ul>
-</li>
-<li><code>hexo n page xxx</code><ul>
-<li>在<code>source</code>目录下根据<code>scaffolds/page.md</code>模板创建<code>xxx</code>文件夹并生成<code>index.md</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="2-hexo-clean"><a href="#2-hexo-clean" class="headerlink" title="2 hexo clean"></a>2 hexo clean</h2><ul>
-<li>删除根下<code>public</code>目录</li>
-</ul>
-<h2 id="3-hexo-g"><a href="#3-hexo-g" class="headerlink" title="3 hexo g"></a>3 hexo g</h2><ul>
-<li>在根下创建<code>public</code>目录并生成静态文件</li>
-<li><code>source</code>目录下的所有文件都会原样复制（除了md文件会转成html）到<code>public</code>目录</li>
-</ul>
-<h2 id="4-hexo-d"><a href="#4-hexo-d" class="headerlink" title="4 hexo d"></a>4 hexo d</h2><ul>
-<li>部署到服务端</li>
-<li><code>ERROR Deployer not found: git</code><ul>
-<li>需要安装<code>npm install hexo-deployer-git --save</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="5-hexo-s"><a href="#5-hexo-s" class="headerlink" title="5 hexo s"></a>5 hexo s</h2><ul>
-<li>启动服务</li>
-<li><code>http://localhost:4000</code></li>
-</ul>
-<h1 id="三-配置"><a href="#三-配置" class="headerlink" title="三 配置"></a>三 配置</h1><h2 id="1-root-config-yml"><a href="#1-root-config-yml" class="headerlink" title="1 root _config.yml"></a>1 root _config.yml</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: 安₃</span><br><span class="line">subtitle: 我未成名君未嫁 可能俱是不如人</span><br><span class="line">description: 一蓑烟雨任平生</span><br><span class="line">keywords:</span><br><span class="line">author: 安₃</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">skip_render: README.md</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">url: https://anyeansan.github.io</span><br><span class="line">root: /anyeansan.github.io</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">theme: next</span><br><span class="line"></span><br><span class="line"># Deployment</span><br><span class="line">deploy:</span><br><span class="line">	type: git</span><br><span class="line">	repository: git@github.com:anyeansan/anyeansan.github.io.git</span><br><span class="line">	branch: master</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-本地搜索local-search"><a href="#2-本地搜索local-search" class="headerlink" title="2 本地搜索local-search"></a>2 本地搜索local-search</h2><ol>
-<li><code>npm install hexo-generator-searchdb</code></li>
-<li><code>root _config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">search:</span><br><span class="line">	path: search.xml</span><br><span class="line">	field: post</span><br><span class="line">	content: true</span><br><span class="line">	format: html</span><br></pre></td></tr></table></figure></li>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">local_search:</span><br><span class="line">		enable: true</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="3-RSS"><a href="#3-RSS" class="headerlink" title="3 RSS"></a>3 RSS</h2><ol>
-<li><code>npm install hexo-generator-feed --save</code></li>
-<li><code>root _config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">	type: atom</span><br><span class="line">	path: atom.xml</span><br><span class="line">	limit: 20</span><br></pre></td></tr></table></figure></li>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rss: /atom.xml</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="4-目录编号"><a href="#4-目录编号" class="headerlink" title="4 目录编号"></a>4 目录编号</h2><ul>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">toc:</span><br><span class="line">	number: true/false</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="5-文章底部标签和结束语"><a href="#5-文章底部标签和结束语" class="headerlink" title="5 文章底部标签和结束语"></a>5 文章底部标签和结束语</h2><h3 id="5-1-底部标签"><a href="#5-1-底部标签" class="headerlink" title="5.1 底部标签"></a>5.1 底部标签</h3><ul>
-<li><code>next/layout/_macro/post.swig</code>中搜索<code>rel=&quot;tag</code>去掉标签或修改标签样式<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rel=&quot;tag&quot;&gt; &lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="5-2-结束语"><a href="#5-2-结束语" class="headerlink" title="5.2 结束语"></a>5.2 结束语</h3><ol>
-<li><code>next/layout/_macro</code>添加<code>passage-end-tag.swig</code>，内容如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #66ccff;font-size:14px;&quot;&gt;-------------The End&amp;nbsp;&amp;nbsp;&lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt;&amp;nbsp;&amp;nbsp;客官请自便-------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div</span><br></pre></td></tr></table></figure></li>
-<li><code>next/layout/_macro/post.swig</code>在<code>post-body</code>和<code>post-footer</code>之间添加<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">	&#123;% if not is_index %&#125;</span><br><span class="line">		&#123;% include &apos;passage-end-tag.swig&apos; %&#125;</span><br><span class="line">	&#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="6-中英文"><a href="#6-中英文" class="headerlink" title="6 中英文"></a>6 中英文</h2><ul>
-<li><code>next/languages/zh-CN.yml</code>酌情修改</li>
-</ul>
-<h2 id="7-图片"><a href="#7-图片" class="headerlink" title="7 图片"></a>7 图片</h2><h3 id="7-1-Logo"><a href="#7-1-Logo" class="headerlink" title="7.1 Logo"></a>7.1 Logo</h3><ul>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">favicon:</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="7-2-头像"><a href="#7-2-头像" class="headerlink" title="7.2 头像"></a>7.2 头像</h3><ul>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">avatar:</span><br><span class="line">	url: /images/lbb.png 头像</span><br><span class="line">	rounded: true 是否为圆形</span><br><span class="line">	rotated: true 是否鼠标放上去旋转</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="8-页面底部"><a href="#8-页面底部" class="headerlink" title="8 页面底部"></a>8 页面底部</h2><ul>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">footer:</span><br><span class="line">	since: 2019</span><br><span class="line">	icon:</span><br><span class="line">	copyright:</span><br><span class="line">	powered:</span><br><span class="line">	theme:</span><br><span class="line">	beian:</span><br><span class="line">	creative_commons:</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="9-menu-amp-sidebar"><a href="#9-menu-amp-sidebar" class="headerlink" title="9 menu &amp; sidebar"></a>9 menu &amp; sidebar</h2><ul>
-<li><code>_config.yml</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">sidebar:</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h1 id="四-技巧"><a href="#四-技巧" class="headerlink" title="四 技巧"></a>四 技巧</h1><h2 id="1-博文不显示全部内容"><a href="#1-博文不显示全部内容" class="headerlink" title="1 博文不显示全部内容"></a>1 博文不显示全部内容</h2><ul>
-<li>在合适的位置加上<code>&lt;!--more--&gt;</code>即可</li>
-</ul>
-<h2 id="2-创建tags和categories"><a href="#2-创建tags和categories" class="headerlink" title="2 创建tags和categories"></a>2 创建tags和categories</h2><ol>
-<li><code>hexo n page tages</code></li>
-<li><code>source/tages/index.md</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2019-11-12 12:46:04</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure></li>
-<li>文章中使用<ul>
-<li>tags为多个标签<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tags:</span><br><span class="line">-空格one</span><br><span class="line">-空格two</span><br><span class="line">-空格three</span><br><span class="line">-空格...</span><br><span class="line">结果为：#one #two #three #...</span><br></pre></td></tr></table></figure></li>
-<li>categorys为层级<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">categorys:</span><br><span class="line">-空格爷</span><br><span class="line">-空格父</span><br><span class="line">-空格孙</span><br><span class="line">-空格...</span><br><span class="line">结果为：爷 &gt; 父 &gt; 孙 &gt;...</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="3-绑定域名"><a href="#3-绑定域名" class="headerlink" title="3 绑定域名"></a>3 绑定域名</h2><h3 id="3-1-购买域名"><a href="#3-1-购买域名" class="headerlink" title="3.1 购买域名"></a>3.1 购买域名</h3><ul>
-<li><a href="https://www.namesilo.com" target="_blank" rel="noopener">namesilo</a></li>
-</ul>
-<h3 id="3-2-设置dns"><a href="#3-2-设置dns" class="headerlink" title="3.2 设置dns"></a>3.2 设置dns</h3><ul>
-<li>dns默认有四个<code>A A A CNAME</code>，只需要两个即可</li>
-</ul>
-<h4 id="1-A-A"><a href="#1-A-A" class="headerlink" title="1 A + A"></a>1 A + A</h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>HOSTNAME</th>
-<th>ADDRESS</th>
-<th>TTL</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>A</td>
-<td>空</td>
-<td>ip</td>
-<td>3600</td>
-</tr>
-<tr>
-<td>A</td>
-<td>www</td>
-<td>ip</td>
-<td>3600</td>
-</tr>
-<tr>
-<td>* ip通过<code>ping yourname.github.io</code>获取</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h4 id="2-A-CNAME"><a href="#2-A-CNAME" class="headerlink" title="2 A + CNAME"></a>2 A + CNAME</h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>HOSTNAME</th>
-<th>ADDRESS</th>
-<th>TTL</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>A</td>
-<td>空</td>
-<td>ip</td>
-<td>3600</td>
-</tr>
-<tr>
-<td>CNAME</td>
-<td>www</td>
-<td>yourname.github.io</td>
-<td>3600</td>
-</tr>
-<tr>
-<td>* 创建CNAME</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>* 在<code>source</code>目录创建<code>CNAME</code>文件，内容为你的域名</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="3-3-配置仓库"><a href="#3-3-配置仓库" class="headerlink" title="3.3 配置仓库"></a>3.3 配置仓库</h3><ul>
-<li>在<code>yourname.github.io</code>仓库的<code>setting</code>中配置域名<ul>
-<li><code>GitHub Pages -&gt; Custom domain</code></li>
-<li>不确定是否必须0.0</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-README-md"><a href="#4-README-md" class="headerlink" title="4 README.md"></a>4 README.md</h2><h3 id="4-1-原因"><a href="#4-1-原因" class="headerlink" title="4.1 原因"></a>4.1 原因</h3><ol>
-<li><code>hexo g</code>会把<code>source</code>目录下的md文件(包括<code>Readme.md</code>)渲染为html文件并放到<code>public</code>目录下</li>
-<li><code>hexo d</code>会把<code>public</code>目录下所有文件提交到<code>yourname.github.io</code>仓库</li>
-<li>由于<code>public</code>目录下并没有<code>README.md</code>而只有<code>Readme.html</code>，所以deploy后<code>yourname.github.io</code>是没有<code>Readme.md</code>的</li>
-</ol>
-<h3 id="4-2-解决"><a href="#4-2-解决" class="headerlink" title="4.2 解决"></a>4.2 解决</h3><ol>
-<li><code>source</code>目录下创建<code>README.md</code></li>
-<li><code>root_config.yml</code><ul>
-<li><code>skip_render: README.md</code></li>
-</ul>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/29/Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" rel="prev" title="Linux 安装和配置">
+                  Linux 安装和配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
       </footer>
+    
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -2524,6 +1816,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-帮助命令"><span class="nav-text">一 帮助命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-man（manual）"><span class="nav-text">1.1 man（manual）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-–help"><span class="nav-text">1.2 –help</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-help"><span class="nav-text">1.3 help</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-开关机命令"><span class="nav-text">二 开关机命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-其它命令"><span class="nav-text">三 其它命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-echo（display-a-line-of-text）"><span class="nav-text">3.1 echo（display a line of text）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-xargs"><span class="nav-text">3.2 xargs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-column"><span class="nav-text">3.3 column</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-tr"><span class="nav-text">3.4 tr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-tee"><span class="nav-text">3.5 tee</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-read"><span class="nav-text">3.6 read</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-cut"><span class="nav-text">3.7 cut</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-sort"><span class="nav-text">3.8 sort</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-history"><span class="nav-text">3.9 history</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-10-dd"><span class="nav-text">3.10 dd</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-文件-amp-目录命令"><span class="nav-text">四 文件 &amp; 目录命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-pwd（print-working-directory）"><span class="nav-text">4.1 pwd（print working directory）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-cd（change-directory）"><span class="nav-text">4.2 cd（change directory）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-mkdir（make-directories）"><span class="nav-text">4.3 mkdir（make directories）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-ls（list-directory-contents）"><span class="nav-text">4.4 ls（list directory contents）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-tree（list-contents-of-directories-in-a-tree-like-format）"><span class="nav-text">4.5 tree（list contents of directories in a tree-like format）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-touch（change-file-timestamps）"><span class="nav-text">4.6 touch（change file timestamps）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-cp（copy-files-and-directories）"><span class="nav-text">4.7 cp（copy files and directories）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-8-rm（remove-empty-directories）"><span class="nav-text">4.8 rm（remove empty directories）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-9-mv（move-rename-files）"><span class="nav-text">4.9 mv（move (rename) files）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-10-cat（concatenate-files-and-print-on-the-standard-output）"><span class="nav-text">4.10 cat（concatenate files and print on the standard output）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-11-more（file-perusal-filter-for-crt-viewing）"><span class="nav-text">4.11 more（file perusal filter for crt viewing）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-12-less（opposite-of-more）"><span class="nav-text">4.12 less（opposite of more）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-13-head（output-the-first-part-of-files）"><span class="nav-text">4.13 head（output the first part of files）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-14-tail（output-the-last-part-of-files）"><span class="nav-text">4.14 tail（output the last part of files）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-15-file（determine-file-type）"><span class="nav-text">4.15 file（determine file type）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-16-diff（compare-files-line-by-line）"><span class="nav-text">4.16 diff（compare files line by line）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-17-stat"><span class="nav-text">4.17 stat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-18-wc"><span class="nav-text">4.18 wc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-19-rename"><span class="nav-text">4.19 rename</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-时间命令"><span class="nav-text">五 时间命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-date"><span class="nav-text">5.1 date</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-ntpdate"><span class="nav-text">5.2 ntpdate</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-打包压缩解压命令"><span class="nav-text">六 打包压缩解压命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-打包压缩"><span class="nav-text">6.2 打包压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-解压"><span class="nav-text">6.3 解压</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-查看压缩包中的文件"><span class="nav-text">6.4 查看压缩包中的文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-搜索命令"><span class="nav-text">七 搜索命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-find（search-for-files-in-a-directory-hierarchy）"><span class="nav-text">7.1 find（search for files in a directory hierarchy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-locate（find-files-by-name）"><span class="nav-text">7.2 locate（find files by name）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用"><span class="nav-text">2 使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-which（shows-the-full-path-of-shell-commands）"><span class="nav-text">7.3 which（shows the full path of (shell) commands）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-whereis（locate-the-binary-source-and-manual-page-files-for-a-command）"><span class="nav-text">7.4 whereis（locate the binary, source, and manual page files for a command）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-磁盘命令"><span class="nav-text">八 磁盘命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-df（report-file-system-disk-space-usage）"><span class="nav-text">8.1 df（report file system disk space usage）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-du（disk-usage）"><span class="nav-text">8.2 du（disk usage）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注"><span class="nav-text">注</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九-网络命令"><span class="nav-text">九 网络命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-curl"><span class="nav-text">9.1 curl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-wget"><span class="nav-text">9.2 wget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-net-tools-amp-iproute2"><span class="nav-text">9.3 net-tools &amp; iproute2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-netstat"><span class="nav-text">1 netstat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-route"><span class="nav-text">2 route</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-查"><span class="nav-text">1 查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-增删默认路由"><span class="nav-text">2 增删默认路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-增删网络路由"><span class="nav-text">3 增删网络路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-增删主机路由"><span class="nav-text">4 增删主机路由</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ip"><span class="nav-text">3 ip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-ss"><span class="nav-text">4 ss</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十-三剑客"><span class="nav-text">十 三剑客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-grep（print-lines-matching-a-pattern）"><span class="nav-text">10.1 grep（print lines matching a pattern）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-sed（stream-editor-for-filtering-and-transforming-text）"><span class="nav-text">10.2 sed（stream editor for filtering and transforming text）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-原理"><span class="nav-text">2 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-语法"><span class="nav-text">3 语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3-awk（pattern-scanning-and-processing-language）"><span class="nav-text">10.3 awk（pattern scanning and processing language）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-原理-1"><span class="nav-text">2 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-语法-1"><span class="nav-text">3 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-运算符"><span class="nav-text">1 运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-内置变量"><span class="nav-text">2 内置变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-内置函数"><span class="nav-text">3 内置函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-print-amp-printf"><span class="nav-text">4 print &amp; printf</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#printf"><span class="nav-text">printf</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#print"><span class="nav-text">print</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
