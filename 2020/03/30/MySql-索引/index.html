@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述 系统根据某种算法，将已有的数据（或未来可能新增的数据）单独建立一个文件，此文件能够实现快速的匹配数据，并且能够快速的找到对应表中的记录 几乎所有的索引都是建立在字段之上 索引本身会产生索引文件(有时候有可能比数据文件还大)，会占用磁盘空间. 索引类似书或字典前边的目录，提升查询速度，但是增删改时，索引也要动态的维护，降低了效率。  二 作用 优化查询 如果某个字段需要作为查询的条件经常使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql 索引">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;03&#x2F;30&#x2F;MySql-%E7%B4%A2%E5%BC%95&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述 系统根据某种算法，将已有的数据（或未来可能新增的数据）单独建立一个文件，此文件能够实现快速的匹配数据，并且能够快速的找到对应表中的记录 几乎所有的索引都是建立在字段之上 索引本身会产生索引文件(有时候有可能比数据文件还大)，会占用磁盘空间. 索引类似书或字典前边的目录，提升查询速度，但是增删改时，索引也要动态的维护，降低了效率。  二 作用 优化查询 如果某个字段需要作为查询的条件经常使">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-30T13:36:56.837Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/03/30/MySql-%E7%B4%A2%E5%BC%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>MySql 索引 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>书斋</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/MySql-%E7%B4%A2%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySql 索引
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-03-30 21:34:48 / 修改时间：21:36:56" itemprop="dateCreated datePublished" datetime="2020-03-30T21:34:48+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/DB/" itemprop="url" rel="index">
+                    <span itemprop="name">DB</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/DB/MySql/" itemprop="url" rel="index">
+                    <span itemprop="name">MySql</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li>系统根据某种算法，将已有的数据（或未来可能新增的数据）单独建立一个文件，此文件能够实现快速的匹配数据，并且能够快速的找到对应表中的记录</li>
+<li>几乎所有的索引都是建立在字段之上</li>
+<li>索引本身会产生索引文件(有时候有可能比数据文件还大)，会占用磁盘空间.</li>
+<li>索引类似书或字典前边的目录，提升查询速度，但是增删改时，索引也要动态的维护，降低了效率。</li>
+</ol>
+<h1 id="二-作用"><a href="#二-作用" class="headerlink" title="二 作用"></a>二 作用</h1><ol>
+<li>优化查询<ul>
+<li>如果某个字段需要作为查询的条件经常使用，那么可以使用索引</li>
+</ul>
+</li>
+<li>约束数据的有效性<ul>
+<li>如果某个字段需要进行数据的有效性约束, 也可能使用索引（主键,唯一键 …）</li>
+</ul>
+</li>
+</ol>
+<h1 id="三-索引分类（算法）"><a href="#三-索引分类（算法）" class="headerlink" title="三 索引分类（算法）"></a>三 索引分类（算法）</h1><table>
+<thead>
+<tr>
+<th>算法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>B-tree</code></td>
+<td>B 树索引</td>
+</tr>
+<tr>
+<td><code>FullText</code></td>
+<td>全文索引</td>
+</tr>
+<tr>
+<td><code>Hash</code></td>
+<td>哈希索引</td>
+</tr>
+<tr>
+<td><code>GIS</code></td>
+<td>地理位置索引</td>
+</tr>
+<tr>
+<td><code>R-tree</code></td>
+<td>R 树索引</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>B-tree</code><ol>
+<li><code>B-tree</code></li>
+<li><code>B+tree</code></li>
+<li><code>B*tree</code><ul>
+<li>Mysql 默认</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="四-索引分类（物理-功能）"><a href="#四-索引分类（物理-功能）" class="headerlink" title="四 索引分类（物理/功能）"></a>四 索引分类（物理/功能）</h1><h2 id="4-1-辅助索引-普通索引（secondary-index）"><a href="#4-1-辅助索引-普通索引（secondary-index）" class="headerlink" title="4.1 辅助索引 / 普通索引（secondary index）"></a>4.1 辅助索引 / 普通索引（secondary index）</h2><ol>
+<li>辅助索引手动生成，基于表中的列（索引键）生成B树结构</li>
+<li>提取列的所有索引键，进行排序</li>
+<li>将排序后的索引键均匀的分布在叶节点中，且叶节点中生成索引键对应表数据的指针</li>
+<li>根据叶节点生成枝节点和根节点，生成树结构。</li>
+</ol>
+<h2 id="4-2-聚集索引"><a href="#4-2-聚集索引" class="headerlink" title="4.2 聚集索引"></a>4.2 聚集索引</h2><ol>
+<li>聚集索引由数据库自动生成</li>
+<li>Mysql 自动选择主键列作为聚集索引列，没有主键则选择唯一键（如果都没有，会生成隐藏的）</li>
+<li>Mysql 存储数据时，会按照聚集索引列值的顺序存储数据行（又称之为聚集索引组织表）</li>
+<li>将排好序的数据行作为叶节点，进而生成树结构。</li>
+<li>查询时<ol>
+<li>根据辅助索引的B树，查找到辅助索引键</li>
+<li>进而找到辅助索引键对应表数据的指针（即聚集索引键，通常为主键 ID）</li>
+<li>根据聚集索引的B树，查找到聚集索引键</li>
+<li>而聚集索引的叶节点其实就是表数据，所以就查找到了聚集索引键对应的表数据</li>
+</ol>
+</li>
+</ol>
+<h2 id="4-3-区别"><a href="#4-3-区别" class="headerlink" title="4.3 区别"></a>4.3 区别</h2><ol>
+<li>表中任何一列都可以创建辅助索引，且可以有多个（不重名即可）</li>
+<li>一张表聚集索引只能有一个，通常是主键列</li>
+<li>辅助索引叶节点存储<ol>
+<li>索引列的值（索引键）</li>
+<li>聚集索引列的值（聚集索引键）</li>
+</ol>
+</li>
+<li>聚集索引叶节点存储<ol>
+<li>有序的整行数据</li>
+</ol>
+</li>
+<li>mysql 的表数据存储的是聚集索引组织表</li>
+</ol>
+<h1 id="五-索引分类（逻辑）"><a href="#五-索引分类（逻辑）" class="headerlink" title="五 索引分类（逻辑）"></a>五 索引分类（逻辑）</h1><ol>
+<li>主键索引 <code>primary key</code></li>
+<li>唯一索引 <code>unique key</code></li>
+<li>普通索引 <code>index / key</code><ol>
+<li>单列索引</li>
+<li>多列索引（联合索引）</li>
+<li>前缀索引<ul>
+<li>建索引时，可以只索引列的一部分内容</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>全文索引 <code>full text</code></li>
+</ol>
+<h1 id="六-索引操作"><a href="#六-索引操作" class="headerlink" title="六 索引操作"></a>六 索引操作</h1><h2 id="6-1-查"><a href="#6-1-查" class="headerlink" title="6.1 查"></a>6.1 查</h2><ol>
+<li><code>desc 表名</code><ul>
+<li><code>key</code> 列显示索引信息<ol>
+<li><code>PRI</code> ：主键索引</li>
+<li><code>UNI</code> ：唯一索引</li>
+<li><code>MUL</code> ：普通索引</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><code>show index from 表名</code><ul>
+<li>显示索引详细信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-2-增"><a href="#6-2-增" class="headerlink" title="6.2 增"></a>6.2 增</h2><h3 id="1-普通索引"><a href="#1-普通索引" class="headerlink" title="1 普通索引"></a>1 普通索引</h3><ol>
+<li><code>alter table 表名 add index 索引名(列1[(lenght)][,列2, ...])</code><ul>
+<li>创建单列/双列/前缀 普通索引</li>
+</ul>
+</li>
+<li><code>create index 索引名 on 表名(列1(lenght)][,列2, ...])</code></li>
+</ol>
+<h3 id="2-唯一索引"><a href="#2-唯一索引" class="headerlink" title="2 唯一索引"></a>2 唯一索引</h3><ol>
+<li><code>alter table 表名 add unique index 索引名(列名)</code></li>
+<li><code>create unique index 索引名 on 表名(列名)</code></li>
+</ol>
+<h2 id="6-3-删"><a href="#6-3-删" class="headerlink" title="6.3 删"></a>6.3 删</h2><ol>
+<li><code>alter table 表名 drop index 索引名</code></li>
+<li><code>drop index 索引名 on 表名</code></li>
+</ol>
+<h1 id="七-执行计划"><a href="#七-执行计划" class="headerlink" title="七 执行计划"></a>七 执行计划</h1><h2 id="7-1-概述"><a href="#7-1-概述" class="headerlink" title="7.1 概述"></a>7.1 概述</h2><ol>
+<li>SQL 层解析器会生成多个执行计划，优化器会选择最优的执行计划</li>
+<li>执行计划分析<ul>
+<li>就是在执行前获取这个最优执行计划，查看其计划信息，可以有效的防止性能较差的语句带来的性能问题</li>
+</ul>
+</li>
+</ol>
+<h2 id="7-2-获取执行计划"><a href="#7-2-获取执行计划" class="headerlink" title="7.2 获取执行计划"></a>7.2 获取执行计划</h2><ol>
+<li><code>desc sql语句</code></li>
+<li><code>explain sql语句</code></li>
+</ol>
+<h2 id="7-3-执行计划分析"><a href="#7-3-执行计划分析" class="headerlink" title="7.3 执行计划分析"></a>7.3 执行计划分析</h2><ol>
+<li><code>table</code><ul>
+<li>查询所操作的表</li>
+</ul>
+</li>
+<li><code>type</code><ol>
+<li>全表扫描：<code>all</code><ul>
+<li>不走索引<ol>
+<li>没有查询条件，或者查询条件列无索引</li>
+<li>查询结构集是原表中的大部分数据，一般25%以上</li>
+<li><code>! not</code><ul>
+<li>普通索引列</li>
+</ul>
+</li>
+<li><code>like %xxx</code></li>
+<li>联合索引有时只走部分索引</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>索引扫描（性能依次变好）<ol>
+<li><code>index</code><ul>
+<li>全索引扫描<ul>
+<li>无条件查询索引列 <code>select id from t</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>range</code><ul>
+<li>索引范围扫描<ol>
+<li><code>&gt; &gt;= &lt; &lt;= between and or in()</code></li>
+<li><code>like xxx%</code></li>
+<li><code>! not</code><ul>
+<li>主键索引或唯一索引列</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><code>ref</code><ul>
+<li>普通索引列的等值查询</li>
+</ul>
+</li>
+<li><code>eq_ref</code><ul>
+<li>在多表连接时，子表（被连接表）使用主键列或者唯一列作为连接条件</li>
+</ul>
+</li>
+<li><code>consist(system)</code><ul>
+<li>主键索引或唯一索引列的等值查询</li>
+</ul>
+</li>
+<li><code>null</code></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><code>possible_key</code><ul>
+<li>可能会用到的索引</li>
+</ul>
+</li>
+<li><code>key</code><ul>
+<li>真正使用的索引</li>
+</ul>
+</li>
+<li><code>key_len</code><ul>
+<li>索引最大预留长度</li>
+</ul>
+</li>
+<li><code>extra</code><ul>
+<li><code>using filesort</code><ul>
+<li>说明查询中有关排序的条件列没有合理的应用索引，因为索引本身已经是有序的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="7-4-联合索引"><a href="#7-4-联合索引" class="headerlink" title="7.4 联合索引"></a>7.4 联合索引</h2><h3 id="1-联合索引说明"><a href="#1-联合索引说明" class="headerlink" title="1 联合索引说明"></a>1 联合索引说明</h3><ul>
+<li>优化器会自动对查询条件按照索引创建时的顺序排序<ol>
+<li>最终使用的索引列是排序后连续的等值比较查询</li>
+<li>也就是说碰到不连续的或者非等值比较查询（&gt; &gt;= &lt; &lt;= like …）就会停止</li>
+</ol>
+</li>
+<li>例：创建联合索引 <code>inx_haha(a,b,c,d)</code><ol>
+<li>查询条件是 <code>b= c= a= d=</code>，排序后 <code>a= b= c= d=</code>，最终使用的索引列 <code>abcd</code></li>
+<li>查询条件是 <code>b= a= d=</code>，排序后 <code>a= b= d=</code>，最终使用的索引列 <code>ab</code></li>
+<li>查询条件是 <code>c= a= d=</code>，排序后 <code>a= c= d=</code>，最终使用的索引列 <code>a</code></li>
+<li>查询条件是 <code>b&gt; a= c= d=</code>，排序后 <code>a= b&gt; c= d=</code>，最终使用的索引列 <code>ab</code></li>
+</ol>
+</li>
+</ul>
+<h3 id="2-联合索引优化"><a href="#2-联合索引优化" class="headerlink" title="2 联合索引优化"></a>2 联合索引优化</h3><ol>
+<li>创建联合索引时唯一键多的列放在最左侧</li>
+<li>创建联合索引时等值比较的列放在最左侧</li>
+<li>如果查询中出现多种子句（where group by …），要按照子句的执行顺序建立索引</li>
+</ol>
+<h2 id="7-5-索引应用规范"><a href="#7-5-索引应用规范" class="headerlink" title="7.5 索引应用规范"></a>7.5 索引应用规范</h2><ol>
+<li>建表必须有主键，一般是个无关列，自增值</li>
+<li>经常需要where 、ORDER BY、GROUP BY,join on等操作的列建立索引，</li>
+<li>值长度较长的列，建议使用前缀索引</li>
+<li>索引不是越多越好，不要创建无用索引，不常使用的索引要清理</li>
+<li>索引维护避开业务繁忙期</li>
+<li>小表不建索引</li>
+<li>联合索引优化</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/30/MySql-%E5%85%83%E6%95%B0%E6%8D%AE%E5%92%8C%E8%AF%AD%E6%B3%95/" rel="next" title="MySql 元数据和语法">
+                  <i class="fa fa-chevron-left"></i> MySql 元数据和语法
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/30/MySql-%E4%BA%8B%E5%8A%A1/" rel="prev" title="MySql 事务">
+                  MySql 事务 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-作用"><span class="nav-text">二 作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-索引分类（算法）"><span class="nav-text">三 索引分类（算法）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-索引分类（物理-功能）"><span class="nav-text">四 索引分类（物理/功能）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-辅助索引-普通索引（secondary-index）"><span class="nav-text">4.1 辅助索引 / 普通索引（secondary index）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-聚集索引"><span class="nav-text">4.2 聚集索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-区别"><span class="nav-text">4.3 区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-索引分类（逻辑）"><span class="nav-text">五 索引分类（逻辑）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-索引操作"><span class="nav-text">六 索引操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-查"><span class="nav-text">6.1 查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-增"><span class="nav-text">6.2 增</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-普通索引"><span class="nav-text">1 普通索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-唯一索引"><span class="nav-text">2 唯一索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-删"><span class="nav-text">6.3 删</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-执行计划"><span class="nav-text">七 执行计划</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-概述"><span class="nav-text">7.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-获取执行计划"><span class="nav-text">7.2 获取执行计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-执行计划分析"><span class="nav-text">7.3 执行计划分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-联合索引"><span class="nav-text">7.4 联合索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-联合索引说明"><span class="nav-text">1 联合索引说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-联合索引优化"><span class="nav-text">2 联合索引优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-5-索引应用规范"><span class="nav-text">7.5 索引应用规范</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">书斋</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

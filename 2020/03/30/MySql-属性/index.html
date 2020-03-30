@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 字符集 charset1.1 MySQL 的 UTF-8 MySQL 中的 utf8mb4 才是真正的 UTF-8，而 utf8 是 utf8mb3 的别名，是 MySQL 脑残的产物 MySQL 表示未来会删除 utf8mb3，然后 utf8 指代 utf8mb4（真是个小机灵鬼）  1.2 字符集说明 show charset 查看数据库支持的字符集   show variables li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql 属性">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;03&#x2F;30&#x2F;MySql-%E5%B1%9E%E6%80%A7&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 字符集 charset1.1 MySQL 的 UTF-8 MySQL 中的 utf8mb4 才是真正的 UTF-8，而 utf8 是 utf8mb3 的别名，是 MySQL 脑残的产物 MySQL 表示未来会删除 utf8mb3，然后 utf8 指代 utf8mb4（真是个小机灵鬼）  1.2 字符集说明 show charset 查看数据库支持的字符集   show variables li">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-30T13:23:14.663Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/03/30/MySql-%E5%B1%9E%E6%80%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>MySql 属性 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>书斋</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/MySql-%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySql 属性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-03-30 21:20:53 / 修改时间：21:23:14" itemprop="dateCreated datePublished" datetime="2020-03-30T21:20:53+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/DB/" itemprop="url" rel="index">
+                    <span itemprop="name">DB</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/DB/MySql/" itemprop="url" rel="index">
+                    <span itemprop="name">MySql</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-字符集-charset"><a href="#一-字符集-charset" class="headerlink" title="一 字符集 charset"></a>一 字符集 charset</h1><h2 id="1-1-MySQL-的-UTF-8"><a href="#1-1-MySQL-的-UTF-8" class="headerlink" title="1.1 MySQL 的 UTF-8"></a>1.1 MySQL 的 UTF-8</h2><ol>
+<li>MySQL 中的 <code>utf8mb4</code> 才是真正的 <code>UTF-8</code>，而 <code>utf8</code> 是 <code>utf8mb3</code> 的别名，是 MySQL 脑残的产物</li>
+<li>MySQL 表示未来会删除 <code>utf8mb3</code>，然后 <code>utf8</code> 指代 <code>utf8mb4</code>（真是个小机灵鬼）</li>
+</ol>
+<h2 id="1-2-字符集说明"><a href="#1-2-字符集说明" class="headerlink" title="1.2 字符集说明"></a>1.2 字符集说明</h2><ol>
+<li><code>show charset</code><ul>
+<li>查看数据库支持的字符集</li>
+</ul>
+</li>
+<li><code>show variables like &#39;character%&#39;</code><ul>
+<li>查看数据库默认字符集设置</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>character_set_database</code></td>
+<td>数据库默认字符集，若没设置则使用 <code>character_set_server</code></td>
+</tr>
+<tr>
+<td><code>character_set_client</code></td>
+<td>客户端字符集</td>
+</tr>
+<tr>
+<td><code>character_set_connection</code></td>
+<td>客户端连接数据库使用的字符集</td>
+</tr>
+<tr>
+<td><code>character_set_results</code></td>
+<td>数据库给客户端返回数据使用的字符集，若没设置则使用 <code>character_set_server</code></td>
+</tr>
+<tr>
+<td><code>character_set_server</code></td>
+<td>服务器字符集，建议由系统自己管理，不要人为定义</td>
+</tr>
+<tr>
+<td><code>character_set_filesystem</code></td>
+<td>用于将系统文件名转化成此字符集，默认 <code>binary</code> 不做转换（建议不改动）</td>
+</tr>
+<tr>
+<td><code>character_set_system</code></td>
+<td>数据库系统用来存储元数据的编码，通常是 <code>utf8</code>（不要改动）</td>
+</tr>
+<tr>
+<td><code>character_sets_dir</code></td>
+<td>字符集安装目录</td>
+</tr>
+</tbody></table>
+<h2 id="1-3-乱码问题"><a href="#1-3-乱码问题" class="headerlink" title="1.3 乱码问题"></a>1.3 乱码问题</h2><h3 id="1-涉及的字符集"><a href="#1-涉及的字符集" class="headerlink" title="1 涉及的字符集"></a>1 涉及的字符集</h3><ol>
+<li>数据本身字符集</li>
+<li>客户端字符集 <code>character_set_client</code></li>
+<li>连接字符集 <code>character_set_connection</code></li>
+<li>数据库字符集 <code>character_set_database</code></li>
+<li>结果字符集 <code>character_set_results</code></li>
+</ol>
+<h3 id="2-存"><a href="#2-存" class="headerlink" title="2 存"></a>2 存</h3><ul>
+<li><code>数据字符集</code> → <code>客户端字符集</code> → <code>连接字符集</code> → <code>数据库字符集</code><ol>
+<li><code>数据本身字符集 = 客户端字符集</code>，若不一致则会乱码</li>
+<li>将数据从 <code>客户端字符集</code> 转为 <code>连接字符集</code>，若一致则不转换</li>
+<li>将数据从 <code>连接字符集</code> 转为 <code>数据库字符集</code>，若一致则不转换</li>
+<li>存数据最终是按照 <code>数据库字符集</code> 存储</li>
+</ol>
+</li>
+<li>结论<ol>
+<li>保证 <code>数据本身字符集 = 客户端字符集</code></li>
+<li>连接字符集不要太小导致转换损失数据</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-取"><a href="#3-取" class="headerlink" title="3 取"></a>3 取</h3><ul>
+<li><code>数据库字符集</code> → <code>连接字符集</code> → <code>结果字符集</code> → <code>客户端字符集</code><ol>
+<li>将数据从 <code>数据库字符集</code> 转为 <code>连接字符集</code> ，若一致则不转换</li>
+<li>将数据从 <code>连接字符集</code> 转为 <code>结果字符集</code>，若一致则不转换</li>
+<li>取数据最终是按照结果字符集返回给客户端</li>
+<li>比较 <code>结果字符集</code> 与 <code>客户端字符集</code> 是否一致</li>
+</ol>
+</li>
+<li>结论<ol>
+<li>保证 <code>结果字符集 = 客户端字符集</code></li>
+<li>连接字符集不要太小导致转换损失数据</li>
+</ol>
+</li>
+</ul>
+<h1 id="二-校对集-collation"><a href="#二-校对集-collation" class="headerlink" title="二 校对集 collation"></a>二 校对集 collation</h1><h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h2><ol>
+<li>校对集，就是数据的比较方式，或者排序规则</li>
+<li>只有当数据产生比较的时候，校对集才会生效</li>
+<li>必须在没有数据之前声明好校对集，如果有了数据再进行校对集修改，修改无效</li>
+<li>校对集依赖字符集，每个字符集都对应 1 或 多个校对集<ul>
+<li><code>utf8mb4</code> 默认校对集 <code>utf8mb4_general_ci</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="2-2-校对集格式"><a href="#2-2-校对集格式" class="headerlink" title="2.2 校对集格式"></a>2.2 校对集格式</h2><ol>
+<li><code>show collation</code><ul>
+<li>查看数据库支持的校对集</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>_bin</code></td>
+<td><code>binary</code>，二进制比较, 大小写敏感（适用比较特殊的数据，如拼音，日文…）</td>
+</tr>
+<tr>
+<td><code>_ci</code></td>
+<td><code>case insensitive</code>，大小写不敏感</td>
+</tr>
+<tr>
+<td><code>_cs</code></td>
+<td><code>case sensitive</code>，大小写敏感</td>
+</tr>
+</tbody></table>
+<h1 id="三-存储引擎-engine"><a href="#三-存储引擎-engine" class="headerlink" title="三 存储引擎 engine"></a>三 存储引擎 engine</h1><h2 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h2><ol>
+<li>MySQL进行存储数据的方式。</li>
+<li>每一种存储引擎使用不同的存储机制，索引技巧，锁定水平，最终提供广泛且不同的功能。</li>
+</ol>
+<h2 id="3-2-分类"><a href="#3-2-分类" class="headerlink" title="3.2 分类"></a>3.2 分类</h2><ol>
+<li><code>InnoDB</code><ul>
+<li>新版 MySQL 默认存储引擎</li>
+</ul>
+</li>
+<li><code>Myisam</code><ul>
+<li>速度快，不支持事务，安全性不够</li>
+</ul>
+</li>
+<li><code>Memory</code><ul>
+<li>数据存在内存中，不存在磁盘，一关闭服务器就消失。适合临时数据</li>
+</ul>
+</li>
+<li><code>CSV</code></li>
+<li><code>Archive</code></li>
+<li><code>XtraDB</code><ul>
+<li><code>PerconaDB</code> 默认存储引擎</li>
+</ul>
+</li>
+<li><code>TokuDB RocksDB MyRocks</code><ul>
+<li>第三方存储引擎：共同点是压缩比较高,数据插入性能极高</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-3-存储引擎操作"><a href="#3-3-存储引擎操作" class="headerlink" title="3.3 存储引擎操作"></a>3.3 存储引擎操作</h2><h3 id="1-查"><a href="#1-查" class="headerlink" title="1 查"></a>1 查</h3><ol>
+<li><code>show engines</code><ul>
+<li>查看支持的存储引擎</li>
+</ul>
+</li>
+<li><code>select @@default_storage_engine</code><ul>
+<li>查看默认的存储引擎</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-改"><a href="#2-改" class="headerlink" title="2 改"></a>2 改</h3><ol>
+<li><code>alter table 表名 engine=存储引擎</code><ul>
+<li>除了修改存储引擎外，还会做碎片整理</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-4-InnoDB"><a href="#3-4-InnoDB" class="headerlink" title="3.4 InnoDB"></a>3.4 InnoDB</h2><h3 id="1-特性"><a href="#1-特性" class="headerlink" title="1 特性"></a>1 特性</h3><ol>
+<li>事务（Transaction）</li>
+<li>行级锁（Row-level Lock）</li>
+<li>多版本并发控制 MVCC（Multi-Version Concurrency Control）</li>
+<li>自动故障安全恢复 ACSR（Auto Crash Safey Recovery）</li>
+<li>热备份（Hot Backup）</li>
+<li>外键</li>
+<li>复制 Replication<ol>
+<li>Group Commit</li>
+<li>GTID (Global Transaction ID)</li>
+<li>多线程（Multi-Threads-SQL）</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-物理存储结构"><a href="#2-物理存储结构" class="headerlink" title="2 物理存储结构"></a>2 物理存储结构</h3><h4 id="1-共享表空间"><a href="#1-共享表空间" class="headerlink" title="1 共享表空间"></a>1 共享表空间</h4><ol>
+<li><code>idbdata1</code><ul>
+<li>系统数据字典信息（统计信息），Undo 回滚日志等数据</li>
+</ul>
+</li>
+<li><code>ib_logfile0~ib_logfile1</code><ul>
+<li>Redo 重做日志文件，事务日志文件</li>
+</ul>
+</li>
+<li><code>ibtmp1</code><ul>
+<li>临时表空间，存储临时表（如 join union 等操作）</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-独立表空间"><a href="#2-独立表空间" class="headerlink" title="2 独立表空间"></a>2 独立表空间</h4><ol>
+<li><code>frm</code><ul>
+<li>存储表列信息（列名，列属性）</li>
+</ul>
+</li>
+<li><code>ibd</code><ul>
+<li>存储表数据行和索引</li>
+</ul>
+</li>
+<li><code>opt</code><ul>
+<li>存储库属性</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>一张 InnoDB 表 = <code>ibdata1 + frm + ibd（段、区、页）</code></li>
+</ul>
+<h4 id="3-表空间-Tablespace"><a href="#3-表空间-Tablespace" class="headerlink" title="3 表空间 Tablespace"></a>3 表空间 Tablespace</h4><ol>
+<li>共享表空间：将所有数据存储到同一个表空间中 ，管理比较混乱</li>
+<li>独立表空间：一张表一个 <code>frm</code> 存储列信息，一个 <code>ibd</code> 存储数据行和索引</li>
+<li>说明<ol>
+<li>共享表空间是 5.5 版本出现的管理模式</li>
+<li>5.6 版本开始默认使用独立表空间，保留共享表空间，只用来存储：数据字典信息，undo，临时表</li>
+<li>5.7 版本临时表被独立出去，共享表空间只存储：数据字典信息，undo</li>
+<li>8.0 版本undo也被独立出去，共享表空间只存储：数据字典信息</li>
+</ol>
+</li>
+</ol>
+<h4 id="4-核心参数"><a href="#4-核心参数" class="headerlink" title="4 核心参数"></a>4 核心参数</h4><h5 id="1-存储引擎"><a href="#1-存储引擎" class="headerlink" title="1 存储引擎"></a>1 存储引擎</h5><ol>
+<li><code>default_storage_engine=innodb</code><ul>
+<li>默认存储引擎</li>
+</ul>
+</li>
+</ol>
+<h5 id="2-表空间"><a href="#2-表空间" class="headerlink" title="2 表空间"></a>2 表空间</h5><ol>
+<li><code>innobd_file_pre_table=1</code><ul>
+<li>表空间模式，1 独立表空间</li>
+</ul>
+</li>
+<li><code>innodb_data_file_path=ibdata1:512M:ibdata2:512M:autoextend</code><ul>
+<li>共享表空间文件个数和大小</li>
+</ul>
+</li>
+</ol>
+<h5 id="3-缓冲区"><a href="#3-缓冲区" class="headerlink" title="3 缓冲区"></a>3 缓冲区</h5><ol>
+<li><code>innodb_flush_log_at_trx_commit=1</code><ul>
+<li>双一标准之一</li>
+<li>控制了 innodb 将 <code>log buffer</code> 中的数据写入日志文件并 flush 磁盘的时间点，取值分别为 0、1、2 三个</li>
+</ul>
+</li>
+<li><code>Innodb_flush_method=(O_DIRECT, fdatasync)</code><ul>
+<li>双一标准之一</li>
+<li>控制 <code>log buffer</code> 和 <code>data buffer</code> 刷写磁盘的时候是否经过文件系统缓存 <code>OS buffer</code></li>
+</ul>
+</li>
+<li><code>innodb_max_dirty_pages_pct=75</code><ul>
+<li>脏页刷写策略</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-redo-日志"><a href="#4-redo-日志" class="headerlink" title="4 redo 日志"></a>4 redo 日志</h5><ol>
+<li><code>innodb_log_buffer_size</code></li>
+<li><code>innodb_log_file_size</code></li>
+<li><code>innodb_log_files_in_group</code></li>
+</ol>
+<h1 id="四-列属性"><a href="#四-列属性" class="headerlink" title="四 列属性"></a>四 列属性</h1><h2 id="4-1-数据类型"><a href="#4-1-数据类型" class="headerlink" title="4.1 数据类型"></a>4.1 数据类型</h2><h3 id="1-数值类型"><a href="#1-数值类型" class="headerlink" title="1 数值类型"></a>1 数值类型</h3><h4 id="1-整型"><a href="#1-整型" class="headerlink" title="1 整型"></a>1 整型</h4><p>类型|大小|无符号范围|有符号范围<br>-|-|-|-|-<br><strong>tinyint</strong> |1 Byte|<code>0 ~ 255</code>|<code>-128 ~ 127</code><br><code>smallint</code>|2 Byte|<code>0 ~ 65535</code>|<code>-2<sup>15</sup> ~ 2<sup>15</sup>-1</code><br><code>mediumint</code>|3 Byte|<code>0 ~ 2<sup>24</sup>-1</code><code>|&lt;code&gt;-2&lt;sup&gt;23&lt;/sup&gt; ~ 2&lt;sup&gt;23&lt;/sup&gt;-1&lt;/code&gt;
+**int**|4 Byte|&lt;code&gt;0 ~ 2&lt;sup&gt;32&lt;/sup&gt;-1&lt;/code&gt;</code>|<code>-2<sup>31</sup> ~ 2<sup>31</sup>-1</code><br><code>bigint</code>|8 Byte|<code>0 ~ 2<sup>64</sup>-1</code>`|<code>-2<sup>63</sup> ~ 2<sup>63</sup>-1</code></p>
+<ul>
+<li><code>int(M)</code><ul>
+<li><code>M</code> 与存储长度无关，只是标识显示长度，且要配合 <code>zerofill</code> 才有意义</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-浮点型-amp-定点型"><a href="#2-浮点型-amp-定点型" class="headerlink" title="2 浮点型 &amp; 定点型"></a>2 浮点型 &amp; 定点型</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>float</code></td>
+<td>单精度 4 Byte</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双精度 8 Byte</td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td>精确数值</td>
+</tr>
+<tr>
+<td>1. <code>float(M,D)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* <code>M</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 精度，即总位数</td>
+<td></td>
+</tr>
+<tr>
+<td>* <code>D</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 标度，即小数点后的位数</td>
+<td></td>
+</tr>
+<tr>
+<td>* 不足用0补，超过则四舍五入</td>
+<td></td>
+</tr>
+<tr>
+<td>2. <code>decimal(M,D)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* <code>0&lt;M&lt;65</code>，<code>D&lt;M &amp;&amp; 0&lt;D&lt;30</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 默认为 <code>decimal(10, 0)</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="2-字符串类型"><a href="#2-字符串类型" class="headerlink" title="2 字符串类型"></a>2 字符串类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>char</strong></td>
+<td>定长字符串</td>
+</tr>
+<tr>
+<td><strong>varchar</strong></td>
+<td>变长字符串</td>
+</tr>
+<tr>
+<td><code>tinytext</code></td>
+<td>短文本</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>文本</td>
+</tr>
+<tr>
+<td><code>mediumtext</code></td>
+<td>中长文本</td>
+</tr>
+<tr>
+<td><code>longtext</code></td>
+<td>长文本</td>
+</tr>
+</tbody></table>
+<h4 id="1-char"><a href="#1-char" class="headerlink" title="1 char"></a>1 char</h4><ol>
+<li>非空 char 的最大长度是 255【字节】</li>
+<li>可空 char 的最大长度是 254【字节】，因为非空标记需要占用 1 个字节<ul>
+<li>当允许为空时，系统会自动从整个记录中保留一个字节来存储 NULL</li>
+</ul>
+</li>
+<li><code>char(M)</code><ol>
+<li>M 为字符数，<code>0~255</code></li>
+<li>char 存储时会立即分配 M 个字符长度的存储空间，未占满的空间使用<strong>空格</strong>填充</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-varchar"><a href="#2-varchar" class="headerlink" title="2 varchar"></a>2 varchar</h4><ol>
+<li>非空 varchar 的最大长度是 65532【字节】<ol>
+<li>如果存储值小于 255 字节，则使用 1 个字节标记长度</li>
+<li>如果存储值超过 255 字节，则使用 2 个字节标记长度</li>
+<li>varchar是从第二个字节开始存储的</li>
+</ol>
+</li>
+<li>可空 varchar 的最大长度是 65531【字节】</li>
+<li><code>varchar(M)</code><ol>
+<li>M 为字符数，<code>0 ~ 65535</code>，但由于 varcahr 最大长度是 65532 字节，所以 M 实际范围跟字符集有关，比如 utf8 一个字符占用 3 个字节，则 M 最大长度是 <code>65532 / 3</code></li>
+<li>varchar 存储前会先判断长度，按需分配空间</li>
+</ol>
+</li>
+</ol>
+<h4 id="3-以-utf8-为例比较"><a href="#3-以-utf8-为例比较" class="headerlink" title="3 以 utf8 为例比较"></a>3 以 utf8 为例比较</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>可存字符</th>
+<th>实存字符</th>
+<th>实占字节</th>
+<th>利用率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>char(M)</code></td>
+<td>M</td>
+<td>n</td>
+<td><code>M * 3</code></td>
+<td><code>n / M</code></td>
+</tr>
+<tr>
+<td><code>varchar(M)</code></td>
+<td>M</td>
+<td>n</td>
+<td><code>n * 3 + (1~2)</code></td>
+<td><code>n * 3 / （n * 3 + (1~2)）</code></td>
+</tr>
+</tbody></table>
+<h3 id="3-枚举-enum"><a href="#3-枚举-enum" class="headerlink" title="3 枚举 enum"></a>3 枚举 enum</h3><ul>
+<li><code>enum(value1, value2, value3, ...)</code><ol>
+<li>建表时在字段上定义枚举列表，按照定义顺序索引值从 1 开始编号<ul>
+<li>空字符串 <code>&quot;&quot;</code> 索引为 0，<code>null</code> 索引为 <code>null</code></li>
+</ul>
+</li>
+<li>插入数据时（单选），可以使用索引值或者枚举值</li>
+<li>数据库存储时存储索引，读取时再根据枚举列表将索引转为枚举值</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-集合-set"><a href="#4-集合-set" class="headerlink" title="4 集合 set"></a>4 集合 set</h3><ul>
+<li><code>set(value1, value2, value3, ...)</code><ol>
+<li>建表时在字段上定义集合列表，集合中每个值对应一个二进制位<ul>
+<li>第一个值对应 <code>1 = 1</code></li>
+<li>第二个值对应 <code>10 = 2</code></li>
+<li>第三个值对应 <code>100 = 4</code></li>
+<li>第四个值对应 <code>1000 = 8</code></li>
+<li>…</li>
+<li>也就是说一个二进制数，从低位向高位依次对应集合从 1 开始的值</li>
+</ul>
+</li>
+<li>插入数据时（多选），可以使用二进制对应的十进制数字，插入数字对应的二进制，相应位置为 1 代表插入该值，例如<ul>
+<li>插入 <code>6</code>，转为二进制 <code>110</code>，即插入第二和第三个值</li>
+<li>插入 <code>7</code>，转为二进制 <code>111</code>，即插入前三个值</li>
+<li>插入 <code>8</code>，转为二进制 <code>1000</code>，即插入第四个值</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="5-日期类型"><a href="#5-日期类型" class="headerlink" title="5 日期类型"></a>5 日期类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>格式</th>
+<th>大小</th>
+<th>最小值</th>
+<th>最大值</th>
+<th>零值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>datetime</strong></td>
+<td><code>yyyy-mm-dd hh:mm:ss</code></td>
+<td>8 Byte</td>
+<td><code>1000-01-01 00:00:00</code></td>
+<td><code>9999-12-31 23:59:59</code></td>
+<td><code>0000-00-00 00:00:00</code></td>
+</tr>
+<tr>
+<td><strong>timestamp</strong></td>
+<td><code>yyyy-mm-dd hh:mm:ss</code></td>
+<td>4 Byte</td>
+<td><code>1970-01-01 00:00:00</code></td>
+<td><code>2038-01-19 03:14:07</code></td>
+<td><code>0000-00-00 00:00:00</code></td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td><code>yyyy-mm-dd</code></td>
+<td>3 Byte</td>
+<td><code>1000-01-01</code></td>
+<td><code>9999-12-31</code></td>
+<td><code>0000-00-00</code></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>hh:mm:ss</code></td>
+<td>3 Byte</td>
+<td><code>-838:59:59</code></td>
+<td><code>838:59:59</code></td>
+<td><code>00:00:00</code></td>
+</tr>
+<tr>
+<td>1. Mysql保存日期格式使用 <code>YYYY-MM-DD HH:MM:SS</code> 的ISO 8601标准</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. 向数据表储存日期与时间必须使用ISO格式</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. <code>timestamp</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1. <code>yyyy-mm-dd hh:mm:ss</code> 格式的时间戳（从 <code>1970-01-01 00:00:00</code> 到指定时间的毫秒值）</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2. 插入和更新时如果未指定则会插入当前时间</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3. 根据时区自动变化显示</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="6-二进制类型"><a href="#6-二进制类型" class="headerlink" title="6 二进制类型"></a>6 二进制类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tinyblob</code></td>
+<td>最大长度为255B</td>
+</tr>
+<tr>
+<td><code>blob</code></td>
+<td>最大长度为64KB</td>
+</tr>
+<tr>
+<td><code>mediumblob</code></td>
+<td>最大长度为16MB</td>
+</tr>
+<tr>
+<td><code>longblob</code></td>
+<td>最大长度为4GB</td>
+</tr>
+<tr>
+<td>* 二进制数据类型可存储任何数据（甚至包括二进制信息），如图像、多媒体、字处理文档等</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="4-2-注释"><a href="#4-2-注释" class="headerlink" title="4.2 注释"></a>4.2 注释</h2><ul>
+<li><code>comment &#39;注释&#39;</code><ul>
+<li>用于描述字段信息</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-3-unsigned"><a href="#4-3-unsigned" class="headerlink" title="4.3 unsigned"></a>4.3 unsigned</h2><ul>
+<li><code>unsigned</code><ol>
+<li>将数值类型声明为无符号</li>
+<li>MySQL 中的数值默认都是有符号的。</li>
+</ol>
+</li>
+</ul>
+<h2 id="4-4-zerofill"><a href="#4-4-zerofill" class="headerlink" title="4.4 zerofill"></a>4.4 zerofill</h2><ul>
+<li><code>zerofill</code><ol>
+<li>数值类型的列位数不足时用 0 补填充</li>
+<li>如果声明 <code>zerofill</code>，则会自动声明为 <code>unsigned</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="4-5-自增长"><a href="#4-5-自增长" class="headerlink" title="4.5 自增长"></a>4.5 自增长</h2><h3 id="1-增"><a href="#1-增" class="headerlink" title="1 增"></a>1 增</h3><ul>
+<li><code>auto_increment</code><ol>
+<li>自增长需要搭配主键使用</li>
+<li>自增长字段必须是数字(整型)</li>
+<li>一张表最多只能有一个自增长</li>
+<li>如果插入数据时字段指定为0、null或未指定值，那么插入自增长的值</li>
+<li>如果插入数据时字段指定了具体值<ol>
+<li>如果插入值&lt;自增值，则表的自增值不变</li>
+<li>如果插入值&gt;自增值，则表的自增值会变成插入值</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-查"><a href="#2-查" class="headerlink" title="2 查"></a>2 查</h3><ol>
+<li><code>show variables like &#39;auto_increment%&#39;</code><ul>
+<li><code>auto_increment_increment</code><ul>
+<li>初始值</li>
+</ul>
+</li>
+<li><code>auto_increment_offset</code> <ul>
+<li>种子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>select last_insert_id()</code><ul>
+<li>获取自增的最后一个值</li>
+</ul>
+</li>
+<li><code>show create database 库名</code><ul>
+<li>可以通过查看表创建语句查看下一次自增长的值</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-修改自增长的值"><a href="#3-修改自增长的值" class="headerlink" title="3 修改自增长的值"></a>3 修改自增长的值</h3><ul>
+<li><code>alter table 表名 auto_increment = 值</code><ul>
+<li>只能比当前自增长的最大值大，不能小(小不生效)</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-删除自增长"><a href="#4-删除自增长" class="headerlink" title="4 删除自增长"></a>4 删除自增长</h3><ul>
+<li>修改列属性为没有 <code>auto_increment</code> 即删除。</li>
+</ul>
+<h2 id="4-6-约束"><a href="#4-6-约束" class="headerlink" title="4.6 约束"></a>4.6 约束</h2><h3 id="1-主键约束-primary-key"><a href="#1-主键约束-primary-key" class="headerlink" title="1 主键约束 primary key"></a>1 主键约束 <code>primary key</code></h3><h4 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>主键约束列唯一，非null</li>
+<li>一张表只能有一个主键</li>
+</ol>
+<h4 id="2-增"><a href="#2-增" class="headerlink" title="2 增"></a>2 增</h4><ol>
+<li><code>列名 primaray key</code><ul>
+<li>建表时为当前列添加主键</li>
+</ul>
+</li>
+<li><code>primary key(列1,列2,...)</code><ul>
+<li>建表时，单独一行，添加单一主键或复合主键</li>
+</ul>
+</li>
+<li><code>alter table 表名 add [constraint 主键约束名] primary key(列1,列2,...)</code><ul>
+<li>建表后，添加单一主键或复合主键</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-改-删"><a href="#3-改-删" class="headerlink" title="3 改 / 删"></a>3 改 / 删</h4><ol>
+<li>主键无法修改</li>
+<li>删除<ol>
+<li>有自增先要删除自增</li>
+<li>删除主键<ol>
+<li><code>alter table 表名 drop primary key</code></li>
+<li><code>alter table 表名 drop constraint 主键约束名</code></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="4-主键冲突-（主键值已存在-Duplicate-key）"><a href="#4-主键冲突-（主键值已存在-Duplicate-key）" class="headerlink" title="4 主键冲突 （主键值已存在 Duplicate key）"></a>4 主键冲突 （主键值已存在 <code>Duplicate key</code>）</h4><ol>
+<li>更新<ul>
+<li><code>Insert into 表名[字段列表(包含主键)] values(值列表) on duplicate key update 字段 = 新值</code></li>
+</ul>
+</li>
+<li>替换<ul>
+<li><code>Replace into 表名 [字段列表(包含主键)] values(值列表)</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="2-外键约束-foreign-key"><a href="#2-外键约束-foreign-key" class="headerlink" title="2 外键约束 foreign key"></a>2 外键约束 <code>foreign key</code></h3><h4 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>父表和子表必须使用相同的存储引擎 <code>InnoDB</code>，且禁止使用临时表</li>
+<li>外键列和参照列必须具有一样的数据类型，数字的长度和是否有符号必须一致，字符长度可以不同</li>
+<li>外键列和参照列必须创建索引，如果外键列不存在索引，mysql会自动创建索引。</li>
+</ol>
+<h4 id="2-外键约束模式"><a href="#2-外键约束模式" class="headerlink" title="2 外键约束模式"></a>2 外键约束模式</h4><h5 id="1-语法"><a href="#1-语法" class="headerlink" title="1 语法"></a>1 语法</h5><ol>
+<li><code>on update 模式</code></li>
+<li><code>on delete 模式</code></li>
+</ol>
+<h5 id="2-模式"><a href="#2-模式" class="headerlink" title="2 模式"></a>2 模式</h5><ol>
+<li><code>restrict</code><ul>
+<li>严格模式（默认）</li>
+<li>如果子表中有关联的记录，则父表不能 <code>update/delete</code></li>
+</ul>
+</li>
+<li><code>no action</code><ul>
+<li>标准SQL的关键字，在 MySQL 中同 <code>restrict</code></li>
+</ul>
+</li>
+<li><code>cascade</code><ul>
+<li>级联模式</li>
+<li>对父表 <code>update/delete</code> 时，子表相关联的记录同步 <code>update/delete</code></li>
+</ul>
+</li>
+<li><code>set null</code><ul>
+<li>置空模式</li>
+<li>对父表 <code>update/delete</code> 时，将子表外键列设为 <code>null</code>（子表的外键列不能为 <code>not null</code>）</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-增"><a href="#3-增" class="headerlink" title="3 增"></a>3 增</h4><ol>
+<li><code>[constraint 外键约束名] foreign key(外键字段) references 父表(主键字段) [on delete 模式 on update 模式]</code><ul>
+<li>建表时添加，在所有字段后</li>
+</ul>
+</li>
+<li><code>Alter table 表名 add [constraint 外键约束名] foreign key(外键字段) references 父表(主键字段) [on delete 模式 on update 模式]</code><ul>
+<li>建表后添加</li>
+</ul>
+</li>
+</ol>
+<h4 id="4-改-删"><a href="#4-改-删" class="headerlink" title="4 改 / 删"></a>4 改 / 删</h4><ol>
+<li>外键不能修改</li>
+<li>删除<ul>
+<li><code>Alter table 表名 drop foreign key 外键约束名</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="3-非空约束-not-null"><a href="#3-非空约束-not-null" class="headerlink" title="3 非空约束 not null"></a>3 非空约束 <code>not null</code></h3><ol>
+<li><code>null</code><ul>
+<li>列允许为空（默认）</li>
+</ul>
+</li>
+<li><code>not null</code><ul>
+<li>列不能为空，必须插入值，通常配合 <code>default</code> 使用</li>
+<li><code>null</code> 没有意义且所有运算一律返回 <code>null</code>，效率不高，影响索引结果</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-默认约束-default"><a href="#4-默认约束-default" class="headerlink" title="4 默认约束 default"></a>4 默认约束 <code>default</code></h3><h4 id="1-增-1"><a href="#1-增-1" class="headerlink" title="1 增"></a>1 增</h4><ol>
+<li><code>列名 default 值</code><ul>
+<li>建表时，给当前列添加默认值</li>
+</ul>
+</li>
+<li><code>alter table 表名 alter [column] 列 set default 值</code><ul>
+<li>建表后，给指定列添加默认值</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-删"><a href="#2-删" class="headerlink" title="2 删"></a>2 删</h4><ul>
+<li><code>alter table 表名 alter [column] 列 drop default</code></li>
+</ul>
+<h4 id="3-使用"><a href="#3-使用" class="headerlink" title="3 使用"></a>3 使用</h4><ol>
+<li>对应字段没有插入值，则使用默认值。</li>
+<li>显式的插入 <code>default</code> 关键字，表示使用默认值</li>
+</ol>
+<h3 id="5-唯一约束-unique-key"><a href="#5-唯一约束-unique-key" class="headerlink" title="5 唯一约束 unique key"></a>5 唯一约束 <code>unique key</code></h3><h4 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>唯一约束列唯一，可以为 <code>null</code>，且可以有多个 <code>null</code>，因为 <code>null = null</code> 返回 false</li>
+<li>一张表可以有多个唯一约束 </li>
+</ol>
+<h4 id="2-增-1"><a href="#2-增-1" class="headerlink" title="2 增"></a>2 增</h4><ol>
+<li><code>列 unique key</code><ul>
+<li>建表时，为当前列添加唯一约束</li>
+</ul>
+</li>
+<li><code>unique key(列1,列2,...)</code><ul>
+<li>建表时，单独一行，为指定列添加唯一约束</li>
+</ul>
+</li>
+<li><code>alter table 表名 add [constraint 唯一约束名] unique key(列1,列2,...)</code><ul>
+<li>建表后，为指定列添加唯一约束</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-删"><a href="#3-删" class="headerlink" title="3 删"></a>3 删</h4><ol>
+<li><code>alter table 表名 drop [index/key] 唯一约束名</code></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/30/MySql-%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/" rel="next" title="MySql 安装和配置">
+                  <i class="fa fa-chevron-left"></i> MySql 安装和配置
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/03/30/MySql-SQL%E8%AF%AD%E5%8F%A5/" rel="prev" title="MySql SQL语句">
+                  MySql SQL语句 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-字符集-charset"><span class="nav-text">一 字符集 charset</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-MySQL-的-UTF-8"><span class="nav-text">1.1 MySQL 的 UTF-8</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-字符集说明"><span class="nav-text">1.2 字符集说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-乱码问题"><span class="nav-text">1.3 乱码问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-涉及的字符集"><span class="nav-text">1 涉及的字符集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-存"><span class="nav-text">2 存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-取"><span class="nav-text">3 取</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-校对集-collation"><span class="nav-text">二 校对集 collation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-概述"><span class="nav-text">2.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-校对集格式"><span class="nav-text">2.2 校对集格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-存储引擎-engine"><span class="nav-text">三 存储引擎 engine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-概述"><span class="nav-text">3.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-分类"><span class="nav-text">3.2 分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-存储引擎操作"><span class="nav-text">3.3 存储引擎操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查"><span class="nav-text">1 查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-改"><span class="nav-text">2 改</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-InnoDB"><span class="nav-text">3.4 InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-特性"><span class="nav-text">1 特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-物理存储结构"><span class="nav-text">2 物理存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-共享表空间"><span class="nav-text">1 共享表空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-独立表空间"><span class="nav-text">2 独立表空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-表空间-Tablespace"><span class="nav-text">3 表空间 Tablespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-核心参数"><span class="nav-text">4 核心参数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-存储引擎"><span class="nav-text">1 存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-表空间"><span class="nav-text">2 表空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-缓冲区"><span class="nav-text">3 缓冲区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-redo-日志"><span class="nav-text">4 redo 日志</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-列属性"><span class="nav-text">四 列属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-数据类型"><span class="nav-text">4.1 数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-数值类型"><span class="nav-text">1 数值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-整型"><span class="nav-text">1 整型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-浮点型-amp-定点型"><span class="nav-text">2 浮点型 &amp; 定点型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-字符串类型"><span class="nav-text">2 字符串类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-char"><span class="nav-text">1 char</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-varchar"><span class="nav-text">2 varchar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-以-utf8-为例比较"><span class="nav-text">3 以 utf8 为例比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-枚举-enum"><span class="nav-text">3 枚举 enum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-集合-set"><span class="nav-text">4 集合 set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-日期类型"><span class="nav-text">5 日期类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-二进制类型"><span class="nav-text">6 二进制类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-注释"><span class="nav-text">4.2 注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-unsigned"><span class="nav-text">4.3 unsigned</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-zerofill"><span class="nav-text">4.4 zerofill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-自增长"><span class="nav-text">4.5 自增长</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-增"><span class="nav-text">1 增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查"><span class="nav-text">2 查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修改自增长的值"><span class="nav-text">3 修改自增长的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-删除自增长"><span class="nav-text">4 删除自增长</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-约束"><span class="nav-text">4.6 约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-主键约束-primary-key"><span class="nav-text">1 主键约束 primary key</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-增"><span class="nav-text">2 增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-改-删"><span class="nav-text">3 改 / 删</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-主键冲突-（主键值已存在-Duplicate-key）"><span class="nav-text">4 主键冲突 （主键值已存在 Duplicate key）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-外键约束-foreign-key"><span class="nav-text">2 外键约束 foreign key</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-外键约束模式"><span class="nav-text">2 外键约束模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-语法"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-模式"><span class="nav-text">2 模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-增"><span class="nav-text">3 增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-改-删"><span class="nav-text">4 改 / 删</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-非空约束-not-null"><span class="nav-text">3 非空约束 not null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-默认约束-default"><span class="nav-text">4 默认约束 default</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-增-1"><span class="nav-text">1 增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-删"><span class="nav-text">2 删</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-使用"><span class="nav-text">3 使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-唯一约束-unique-key"><span class="nav-text">5 唯一约束 unique key</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-增-1"><span class="nav-text">2 增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-删"><span class="nav-text">3 删</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">书斋</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
