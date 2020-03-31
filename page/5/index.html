@@ -206,203 +206,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/CSS-%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
-      <meta itemprop="name" content="安₃">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="安₃">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/anyeansan.github.io/2020/03/30/CSS-%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">CSS 概述</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">✦</span>
-              
-
-              <time title="创建时间：2020-03-30 20:45:21 / 修改时间：20:46:12" itemprop="dateCreated datePublished" datetime="2020-03-30T20:45:21+08:00">2020-03-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">☛</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/UI/" itemprop="url" rel="index">
-                    <span itemprop="name">UI</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/UI/CSS/" itemprop="url" rel="index">
-                    <span itemprop="name">CSS</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><h2 id="1-1-CSS"><a href="#1-1-CSS" class="headerlink" title="1.1 CSS"></a>1.1 CSS</h2><ul>
-<li><code>Cascading Style Sheets</code> 层叠样式表</li>
-</ul>
-<h2 id="1-2-规范"><a href="#1-2-规范" class="headerlink" title="1.2 规范"></a>1.2 规范</h2><ul>
-<li>CSS1 &amp; CSS2<ul>
-<li>都是单一的规范</li>
-</ul>
-</li>
-<li>CSS3<ul>
-<li>CSS3 由于css内容日益增多，被划分成了多个模块，每个模块都有自己的规范</li>
-</ul>
-</li>
-</ul>
-<h2 id="1-3-周边"><a href="#1-3-周边" class="headerlink" title="1.3 周边"></a>1.3 周边</h2><ul>
-<li><code>less css</code><ul>
-<li>一种简化的功能更多的css语言</li>
-</ul>
-</li>
-<li><code>sass</code><ul>
-<li>一种简化的功能更多的css语言</li>
-</ul>
-</li>
-<li><code>postcss</code><ul>
-<li>一种css处理程序</li>
-</ul>
-</li>
-</ul>
-<h1 id="二-语法"><a href="#二-语法" class="headerlink" title="二 语法"></a>二 语法</h1><h2 id="2-1-注释"><a href="#2-1-注释" class="headerlink" title="2.1 注释"></a>2.1 注释</h2><ul>
-<li><code>/* */</code></li>
-</ul>
-<h2 id="2-2-CSS属性值定义语法中的符号说明"><a href="#2-2-CSS属性值定义语法中的符号说明" class="headerlink" title="2.2 CSS属性值定义语法中的符号说明"></a>2.2 CSS属性值定义语法中的符号说明</h2><table>
-<thead>
-<tr>
-<th>符号</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>[]</td>
-<td>表示组</td>
-</tr>
-<tr>
-<td>&nbsp;</td>
-<td>空格前后的各部分必须出现且按顺序出现</td>
-</tr>
-<tr>
-<td>&amp;&amp;</td>
-<td>各部分必须出现，但可以不按顺序</td>
-</tr>
-<tr>
-<td>&#124;&#124;</td>
-<td>各部分至少出现一个，可以不按顺序</td>
-</tr>
-<tr>
-<td>&#124;</td>
-<td>各部分只能出现一个</td>
-</tr>
-<tr>
-<td>&lt;&gt;</td>
-<td>值类型</td>
-</tr>
-<tr>
-<td>?</td>
-<td>零次或一次</td>
-</tr>
-<tr>
-<td>*</td>
-<td>零次、一次或多次</td>
-</tr>
-<tr>
-<td>+</td>
-<td>一次或多次</td>
-</tr>
-<tr>
-<td>#</td>
-<td>一次或多次，但多次出现必须以逗号分隔</td>
-</tr>
-<tr>
-<td>{m,n}</td>
-<td>至少m次，至多n次</td>
-</tr>
-<tr>
-<td>!</td>
-<td>组后面的叹号表示该组是必需的，并且至少产生一个值；即使组内项目的语法允许省略全部的值，也至少要保留一个值</td>
-</tr>
-</tbody></table>
-<h2 id="2-3-样式语法"><a href="#2-3-样式语法" class="headerlink" title="2.3 样式语法"></a>2.3 样式语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">选择器 &#123;</span><br><span class="line">	属性:值;</span><br><span class="line">	属性:值 值;</span><br><span class="line">	属性:值 值 值;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>属性:值;</code> 即声明，声明可以有多个，声明之间用<strong>分号</strong>隔开，表示结束</li>
-<li>属性与值之间用<strong>冒号</strong>隔开</li>
-<li>一个属性有多个值用<strong>空格</strong>隔开</li>
-</ul>
-<h1 id="三-HTML引入CSS样式"><a href="#三-HTML引入CSS样式" class="headerlink" title="三 HTML引入CSS样式"></a>三 HTML引入CSS样式</h1><h2 id="3-1-内联样式（行内样式）"><a href="#3-1-内联样式（行内样式）" class="headerlink" title="3.1 内联样式（行内样式）"></a>3.1 内联样式（行内样式）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;属性:值;属性:值;&quot;&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>每个html标签都有一个<strong>style属性</strong>，该属性的值就是css样式</li>
-</ul>
-<h2 id="3-2-内部样式"><a href="#3-2-内部样式" class="headerlink" title="3.2 内部样式"></a>3.2 内部样式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">	css样式</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>在当前页面使用<code>&lt;style&gt;</code>标签书写css样式</li>
-</ul>
-<h2 id="3-3-外部样式"><a href="#3-3-外部样式" class="headerlink" title="3.3 外部样式"></a>3.3 外部样式</h2><ul>
-<li>将css样式抽取成一个单独css文件,使用时导入页面。</li>
-</ul>
-<h3 id="导入方式"><a href="#导入方式" class="headerlink" title="导入方式"></a>导入方式</h3><ol>
-<li><code>&lt;link&gt;</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
-<li><code>@import</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 1 在html导入css文件</span><br><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">	@import url(&quot;&quot;); </span><br><span class="line">&lt;/style&gt;</span><br><span class="line">// 2 在css文件中引入其它css文件（需在文件头部）</span><br><span class="line">@import url(&apos;&apos;)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li><code>link</code> 和 <code>@import</code>方式的区别<ol>
-<li><code>link</code> 属于 HTML 标签，而 <code>@import</code> 是 CSS 提供的</li>
-<li><code>@import</code> 只在 IE 5 以上才能识别，而 <code>link</code> 是 HTML 标签，无兼容问题</li>
-<li>页面被加载时，<code>link</code> 会同时被加载，而 <code>@import</code> 引用的 CSS 会等到页面被加载完再加载</li>
-<li><code>link</code> 方式的样式的权重高于 <code>@import</code> 权重</li>
-<li><code>@import</code> 不支持js的动态修改</li>
-<li>一般推荐<code>link</code>，<code>@import</code> 补充使用</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/HTML/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4099,6 +3902,1158 @@ export JAVA_HOME=解压路径<br>export PATH=$JAVA_HOME/bin:$PATH <figure class=
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/29/Linux-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/anyeansan.github.io/2020/03/29/Linux-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Linux 系统管理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-03-29 11:03:21 / 修改时间：11:08:13" itemprop="dateCreated datePublished" datetime="2020-03-29T11:03:21+08:00">2020-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一-Systemd"><a href="#一-Systemd" class="headerlink" title="一 Systemd"></a>一 Systemd</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><ol>
+<li>Systemd 是一系列工具的集合，用于取代System V初始进程</li>
+<li>Systemd 可以管理所有系统资源，不同的资源统称为 Unit（单位）</li>
+<li>Systemd 取代 init 成为系统中 PID 值为 1 的进程</li>
+</ol>
+<h2 id="1-2-命令"><a href="#1-2-命令" class="headerlink" title="1.2 命令"></a>1.2 命令</h2><h3 id="1-systemctl"><a href="#1-systemctl" class="headerlink" title="1 systemctl"></a>1 systemctl</h3><ul>
+<li>Systemd 的主命令，用于管理系统</li>
+</ul>
+<h3 id="2-systemd-analyze"><a href="#2-systemd-analyze" class="headerlink" title="2 systemd-analyze"></a>2 systemd-analyze</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>systemd-analyze</code></td>
+<td>查看启动耗时</td>
+</tr>
+<tr>
+<td><code>systemd-analyze blame</code></td>
+<td>查看每个服务的启动耗时</td>
+</tr>
+</tbody></table>
+<h3 id="3-hostnamectl"><a href="#3-hostnamectl" class="headerlink" title="3 hostnamectl"></a>3 hostnamectl</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hostnamectl</code></td>
+<td>显示当前主机的信息</td>
+</tr>
+<tr>
+<td><code>hostnamectl set-hostname xxx</code></td>
+<td>设置主机名</td>
+</tr>
+</tbody></table>
+<h3 id="4-localectl"><a href="#4-localectl" class="headerlink" title="4 localectl"></a>4 localectl</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>localectl</code></td>
+<td>查看本地化设置</td>
+</tr>
+<tr>
+<td><code>localectl set-locale en_US.UTF-8</code></td>
+<td>设置字符集</td>
+</tr>
+<tr>
+<td><code>localectl set-keymap us</code></td>
+<td>设置键盘映射</td>
+</tr>
+<tr>
+<td><code>localectl set-layout us</code></td>
+<td>设置 x11 布局</td>
+</tr>
+</tbody></table>
+<h3 id="5-timedatectl"><a href="#5-timedatectl" class="headerlink" title="5 timedatectl"></a>5 timedatectl</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>timedatectl</code></td>
+<td>查看时间及时区信息</td>
+</tr>
+<tr>
+<td><code>timedatectl list-timezones</code></td>
+<td>显示所有可用的时区</td>
+</tr>
+<tr>
+<td><code>timedatectl set-timezone Asia/Shanghai</code></td>
+<td>设置时区</td>
+</tr>
+</tbody></table>
+<h3 id="6-loginctl"><a href="#6-loginctl" class="headerlink" title="6 loginctl"></a>6 loginctl</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>loginctl list-sessions</code></td>
+<td>显示当前所有连接会话</td>
+</tr>
+<tr>
+<td><code>loginctl list-users</code></td>
+<td>列出当前所有登录用户</td>
+</tr>
+<tr>
+<td><code>loginctl show-user root</code></td>
+<td>显示指定用户的信息</td>
+</tr>
+</tbody></table>
+<h3 id="7-journalctl"><a href="#7-journalctl" class="headerlink" title="7 journalctl"></a>7 journalctl</h3><ol>
+<li>管理所有 Unit 的启动日志</li>
+<li>日志的配置文件是 <code>/etc/systemd/journald.conf</code></li>
+</ol>
+<h2 id="1-3-Unit"><a href="#1-3-Unit" class="headerlink" title="1.3 Unit"></a>1.3 Unit</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ul>
+<li>Unit 是 Systemd 管理系统资源的基本单元，可以认为每个系统资源就是一个 Unit</li>
+</ul>
+<ol start="2">
+<li>每一个 Unit 都有一个配置文件，告诉 Systemd 怎么启动这个 Unit </li>
+<li>Systemd 默认从目录 <code>/etc/systemd/system/</code> 读取配置文件。但里面存放的大部分文件都是符号链接，指向目录 <code>/usr/lib/systemd/system/</code>，真正的配置文件存放在那个目录</li>
+</ol>
+<h3 id="2-分类"><a href="#2-分类" class="headerlink" title="2 分类"></a>2 分类</h3><p>类型|扩展名|说明<br>-|-<br><code>Service unit</code>|<code>.service</code>|系统服务<br><code>Target  unit</code>|<code>.target</code>|对 Unit 文件进行逻辑分组，多个 Unit 构成的一个 Target<br><code>Device unit</code>|<code>.device</code>|硬件设备<br><code>Mount unit</code>|<code>.mount</code>|文件系统挂载点，可代替<code>/etc/fstab</code><br><code>Automount  unit</code>|<code>.automount</code>|自动挂载点<br><code>Socket unit</code>|<code>.socket</code>|进程间通信的socket<br><code>Path unit</code>|<code>.path</code>|文件或路径<br><code>Scope unit</code>|<code>.scope</code>|不是由Systemd启动的外部进程<br><code>Slice unit</code>|<code>.slice</code>|进程组<br><code>Snapshot unit</code>|<code>.snapshot</code>|Systemd快照，可以切回某个快照<br><code>Swap unit</code>|<code>.swap</code>|swap 文件<br><code>Timer unit</code>|<code>.timer</code>|定时器</p>
+<h3 id="3-Unit-状态"><a href="#3-Unit-状态" class="headerlink" title="3 Unit 状态"></a>3 Unit 状态</h3><h4 id="1-Loaded（下次开机启动状态）"><a href="#1-Loaded（下次开机启动状态）" class="headerlink" title="1 Loaded（下次开机启动状态）"></a>1 Loaded（下次开机启动状态）</h4><table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enabled</code></td>
+<td>开机启动</td>
+</tr>
+<tr>
+<td><code>disabled</code></td>
+<td>开机不启动</td>
+</tr>
+<tr>
+<td><code>static</code></td>
+<td>不能自己启动，但有可能作为依赖被其它 <code>enabled</code> 服务启动</td>
+</tr>
+<tr>
+<td><code>mask</code></td>
+<td>禁止启动</td>
+</tr>
+</tbody></table>
+<h4 id="2-Active（当前状态）"><a href="#2-Active（当前状态）" class="headerlink" title="2 Active（当前状态）"></a>2 Active（当前状态）</h4><table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>active（running）</code></td>
+<td>持续运行</td>
+</tr>
+<tr>
+<td><code>active（exited）</code></td>
+<td>仅执行一次就正常结束的服务</td>
+</tr>
+<tr>
+<td><code>active（waiting）</code></td>
+<td>运行中，但要等待其它事件</td>
+</tr>
+<tr>
+<td><code>inactive</code></td>
+<td>没有运行</td>
+</tr>
+</tbody></table>
+<h3 id="4-Unit-管理"><a href="#4-Unit-管理" class="headerlink" title="4 Unit 管理"></a>4 Unit 管理</h3><h4 id="1-查"><a href="#1-查" class="headerlink" title="1 查"></a>1 查</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>systemctl list-units</code></td>
+<td>显示所有正在运行的 Unit</td>
+</tr>
+<tr>
+<td><code>systemctl list-units --all</code></td>
+<td>显示所有Unit，包括没有找到配置文件的或者启动失败的</td>
+</tr>
+<tr>
+<td><code>systemctl list-units --all --state=inactive</code></td>
+<td>显示所有没有运行的 Unit</td>
+</tr>
+<tr>
+<td><code>systemctl list-units --failed</code></td>
+<td>显示所有加载失败的 Unit</td>
+</tr>
+<tr>
+<td><code>systemctl list-units --type=service</code></td>
+<td>显示所有正在运行的、类型为 service 的 Unit</td>
+</tr>
+<tr>
+<td><code>systemctl list-unit-files</code></td>
+<td>显示所有配置文件</td>
+</tr>
+<tr>
+<td><code>systemctl list-unit-files --type=service</code></td>
+<td>显示指定类型的配置文件</td>
+</tr>
+</tbody></table>
+<h4 id="2-依赖关系"><a href="#2-依赖关系" class="headerlink" title="2 依赖关系"></a>2 依赖关系</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>systemctl list-dependencies name.service</code></td>
+<td>显示某个 Unit 的所有依赖</td>
+</tr>
+<tr>
+<td><code>systemctl list-dependencies -all name.service</code></td>
+<td>展开显示某个 Unit 的所有依赖</td>
+</tr>
+</tbody></table>
+<h4 id="3-常用操作（以-service-为例）"><a href="#3-常用操作（以-service-为例）" class="headerlink" title="3 常用操作（以 service 为例）"></a>3 常用操作（以 service 为例）</h4><table>
+<thead>
+<tr>
+<th>操作\版本</th>
+<th>CentOS 7</th>
+<th>CentOS 6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>启动服务</td>
+<td><code>systemctl start name.service</code></td>
+<td><code>service name start</code></td>
+</tr>
+<tr>
+<td>关闭服务</td>
+<td><code>systemctl stop name.service</code></td>
+<td><code>service name stop</code></td>
+</tr>
+<tr>
+<td>重启服务</td>
+<td><code>systemctl restart name.service</code></td>
+<td><code>service name restart</code></td>
+</tr>
+<tr>
+<td>查看服务状态</td>
+<td><code>systemctl status name.service</code></td>
+<td><code>service name status</code></td>
+</tr>
+<tr>
+<td>开机启动</td>
+<td><code>systemctl enable name.service</code></td>
+<td><code>chkconfig name on</code></td>
+</tr>
+<tr>
+<td>开机不启动</td>
+<td><code>systemctl disable name.service</code></td>
+<td><code>chkconfig name off</code></td>
+</tr>
+<tr>
+<td>是否启动</td>
+<td><code>systemctl is-active name.service</code></td>
+<td></td>
+</tr>
+<tr>
+<td>是否开机启动</td>
+<td><code>systemctl is-enabled name.service</code></td>
+<td></td>
+</tr>
+<tr>
+<td>重载某个配置文件</td>
+<td><code>systemctl reload name.service</code></td>
+<td></td>
+</tr>
+<tr>
+<td>重载所有修改过的配置文件</td>
+<td><code>systemctl daemon-reload</code></td>
+<td></td>
+</tr>
+<tr>
+<td>杀死服务所有子进程</td>
+<td><code>systemctl kill name.service</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="1-4-Target"><a href="#1-4-Target" class="headerlink" title="1.4 Target"></a>1.4 Target</h2><h3 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>启动系统时，需要启动大量的 Unit，非常不方便</li>
+<li>Target 就是一个 Unit 组，包含许多相关的 Unit 。启动某个 Target 的时候，Systemd 就会启动里面所有的 Unit</li>
+<li>System V 启动模式的 Runlevel 与 Target 作用类似，不同的是，RunLevel 是互斥的，不可能多个 RunLevel 同时启动，但是多个 Target 可以同时启动</li>
+</ol>
+<h3 id="2-运行级别-amp-Target"><a href="#2-运行级别-amp-Target" class="headerlink" title="2 运行级别 &amp; Target"></a>2 运行级别 &amp; Target</h3><p>CentOS 6|CentOS 7| 说明<br>—|—<br><code>Runlevel 0</code> | <code>runlevel0.target  -&gt;  poweroff.target</code>|关机模式，系统默认运行级别不能设置为0，否则不能正常启动<br><code>Runlevel 1</code> | <code>runlevel1.target  -&gt;  rescue.target</code>|单用户模式，root权限，用于系统维护，修改root密码等等，禁止远程登陆<br><code>Runlevel 2</code> |<code>runlevel2.target  -&gt;  multi-user.target</code>|多用户模式（没有NFS），没有网络<br><code>Runlevel 3</code> |<code>runlevel3.target  -&gt;  multi-user.target</code>|完全的多用户模式(有NFS)，登陆后进入控制台命令行模式<br><code>Runlevel 4</code> |<code>runlevel4.target  -&gt;  multi-user.target</code>|系统未使用，保留<br><code>Runlevel 5</code> |<code>runlevel5.target  -&gt;  graphical.target</code>|X11控制台，登陆后进入图形GUI模式<br><code>Runlevel 6</code> |<code>runlevel6.target  -&gt;  reboot.target</code>|重启模式，默认运行级别不能设为6，否则不能正常启动<br><code>emergency</code>|<code>emergency.target</code>|急救模式</p>
+<h3 id="3-查看-修改默认运行级别"><a href="#3-查看-修改默认运行级别" class="headerlink" title="3 查看/修改默认运行级别"></a>3 查看/修改默认运行级别</h3><table>
+<thead>
+<tr>
+<th>操作/版本</th>
+<th>CentOS 6</th>
+<th>CentOS 7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看</td>
+<td><code>runlevel</code></td>
+<td><code>systemctl get-default</code></td>
+</tr>
+<tr>
+<td>修改</td>
+<td><code>/etc/inittab</code></td>
+<td><code>systemctl set-default name.target</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-切换运行级别"><a href="#4-切换运行级别" class="headerlink" title="4 切换运行级别"></a>4 切换运行级别</h3><table>
+<thead>
+<tr>
+<th>CentOS 6</th>
+<th>CentOS 7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>init 0</code></td>
+<td><code>systemctl poweroff</code></td>
+</tr>
+<tr>
+<td><code>init 1</code></td>
+<td><code>systemctl  isolate rescue.target</code></td>
+</tr>
+<tr>
+<td><code>init 2/3/4</code></td>
+<td><code>systemctl  isolate  multi-user.target</code></td>
+</tr>
+<tr>
+<td><code>init 5</code></td>
+<td><code>systemctl  isolate graphical.target</code></td>
+</tr>
+<tr>
+<td><code>init 6</code></td>
+<td><code>systemctl  reboot</code></td>
+</tr>
+<tr>
+<td>* <code>isolate</code></td>
+<td></td>
+</tr>
+<tr>
+<td>1. 切换 Target 时，默认不关闭前一个 Target 启动的进程</td>
+<td></td>
+</tr>
+<tr>
+<td>2. 加上 <code>isolate</code> 会关闭前一个 Target 里面所有不属于后一个 Target 的进程</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="二-启动流程"><a href="#二-启动流程" class="headerlink" title="二 启动流程"></a>二 启动流程</h1><h2 id="2-1-CentOS-6-启动流程"><a href="#2-1-CentOS-6-启动流程" class="headerlink" title="2.1 CentOS 6 启动流程"></a>2.1 CentOS 6 启动流程</h2><p>![](<a href="https://gitee.com/3noanswer/npics/raw/master/Linux/CentOS6" target="_blank" rel="noopener">https://gitee.com/3noanswer/npics/raw/master/Linux/CentOS6</a> 启动流程.png)</p>
+<h3 id="1-POST（Power-On-Self-Test）"><a href="#1-POST（Power-On-Self-Test）" class="headerlink" title="1 POST（Power-On-Self-Test）"></a>1 POST（Power-On-Self-Test）</h3><ol>
+<li>加电自检，是BIOS功能的一个主要部分，负责完成硬件情况的检测</li>
+<li>自检后根据设置获取第一个开机引导设备，如：光驱，硬盘，网络，USB</li>
+</ol>
+<ul>
+<li>BIOS（Basic Input Output System）<ul>
+<li>它是一组固化到计算机主板一个ROM芯片上的程序，它保存着计算机最重要的基本输入输出的程序、开机后自检程序和系统自启动程序，它可从CMOS中读写系统设置的具体信息。 其主要功能是为计算机提供最底层的、最直接的硬件设置和控制</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-MBR（Master-Boot-Record）"><a href="#2-MBR（Master-Boot-Record）" class="headerlink" title="2 MBR（Master Boot Record）"></a>2 MBR（Master Boot Record）</h3><ul>
+<li>主引导记录，存储于磁盘的 0 柱面 0 磁道 1 扇区，大小为 512 byte<ol>
+<li><code>446 byte</code><ul>
+<li>BootLoader（GRUB）</li>
+</ul>
+</li>
+<li><code>64 byte</code><ul>
+<li>分区表</li>
+</ul>
+</li>
+<li><code>2 byte</code><ul>
+<li>55AA（用于MBR的有效性检查）</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-GRUB（GRand-Unified-Bootloader）"><a href="#3-GRUB（GRand-Unified-Bootloader）" class="headerlink" title="3 GRUB（GRand Unified Bootloader）"></a>3 GRUB（GRand Unified Bootloader）</h3><ol>
+<li>是一个来自GNU项目的多操作系统启动程序，分为两个阶段<ol>
+<li>第一阶段，MBR的前446 byte</li>
+<li>1.5 阶段</li>
+<li>第二阶段 <code>/boot/grub</code></li>
+</ol>
+</li>
+<li><code>BootLoader</code><ul>
+<li>提供菜单，允许用户选择不同的内核版本，然后将内核装载到内存的特定空间中，解压，展开，并把系统控制权移交给内核</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-加载内核（Kernel）"><a href="#4-加载内核（Kernel）" class="headerlink" title="4 加载内核（Kernel）"></a>4 加载内核（Kernel）</h3><ul>
+<li>Kernel 会开始侦测硬件并加载驱动程序</li>
+</ul>
+<h3 id="5-启动系统第一个进程-init"><a href="#5-启动系统第一个进程-init" class="headerlink" title="5 启动系统第一个进程 init"></a>5 启动系统第一个进程 init</h3><ul>
+<li>init 进程控制后续各种服务的启动，init 是按照配置顺序启动服务（串行）<ul>
+<li><code># chkconfig: 2345 10 90</code><ul>
+<li>表示此服务可以在 Runlevel 2345 下启动，启动顺序为 10，关闭顺序为 90</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-获取系统运行级别"><a href="#6-获取系统运行级别" class="headerlink" title="6 获取系统运行级别"></a>6 获取系统运行级别</h3><ul>
+<li>init 读取<code>/etc/inittab</code>配置文件， 获取系统默认运行级别</li>
+</ul>
+<h3 id="7-系统初始化"><a href="#7-系统初始化" class="headerlink" title="7 系统初始化"></a>7 系统初始化</h3><ul>
+<li>init 执行 <code>/etc/rc.d/rc.sysinit</code> 脚本来进行系统初始化，准备软件执行的作业环境 (如网络、时区等)</li>
+</ul>
+<h3 id="8-启动服务"><a href="#8-启动服务" class="headerlink" title="8 启动服务"></a>8 启动服务</h3><ul>
+<li>init 执行系统运行级别对应的脚本，如 <code>/etc/rc.d/rc3.d</code>，及 <code>/etc/rc3.d/*</code> 下所有脚本</li>
+</ul>
+<h3 id="9-开机自启动程序"><a href="#9-开机自启动程序" class="headerlink" title="9 开机自启动程序"></a>9 开机自启动程序</h3><ul>
+<li>init 执行 <code>/etc/rc.d/rc.local</code> 脚本</li>
+</ul>
+<h3 id="10-登录界面"><a href="#10-登录界面" class="headerlink" title="10 登录界面"></a>10 登录界面</h3><ul>
+<li>运行 mingetty 进程，进入登录界面</li>
+</ul>
+<h2 id="2-2-CentOS-7-启动流程"><a href="#2-2-CentOS-7-启动流程" class="headerlink" title="2.2 CentOS 7 启动流程"></a>2.2 CentOS 7 启动流程</h2><p>![](<a href="https://gitee.com/3noanswer/npics/raw/master/Linux/CentOS7" target="_blank" rel="noopener">https://gitee.com/3noanswer/npics/raw/master/Linux/CentOS7</a> 启动流程.png)</p>
+<h1 id="三-进程"><a href="#三-进程" class="headerlink" title="三 进程"></a>三 进程</h1><h2 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h2><ul>
+<li>进程是已启动的可执行程序的运行实例，有以下组成部分：<ol>
+<li>已分配内存的地址空间；</li>
+<li>安全属性，包括所有权凭据和特权；</li>
+<li>程序代码的一个或多个执行线程；</li>
+<li>进程状态</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-2-守护进程（Daemon）"><a href="#3-2-守护进程（Daemon）" class="headerlink" title="3.2 守护进程（Daemon）"></a>3.2 守护进程（Daemon）</h2><ol>
+<li>Linux服务器的主要任务就是为本地或远程用户提供各种服务</li>
+<li>Linux系统上提供服务的程序通常是守护进程</li>
+<li>守护进程一直在系统后台运行，时刻地监听用户的服务请求，一旦用户发出了服务请求，守护进程便为它们提供服务</li>
+</ol>
+<h2 id="3-3-系统初始化进程"><a href="#3-3-系统初始化进程" class="headerlink" title="3.3 系统初始化进程"></a>3.3 系统初始化进程</h2><ol>
+<li>系统初始化进程是一个特殊的的守护进程，其PID为1</li>
+<li>是其他守护进程的父进程或者祖先进程，系统上所有的守护进程都是由系统初始化进程进行管理的（如启动、停止等）</li>
+<li>在Linux的发展历史过程中，使用过3种初始化进程<ol>
+<li><code>init</code></li>
+<li><code>upstart</code></li>
+<li><code>systemd</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="3-4-进程状态"><a href="#3-4-进程状态" class="headerlink" title="3.4 进程状态"></a>3.4 进程状态</h2><table>
+<thead>
+<tr>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>R（运行）</code></td>
+<td>进程正在运行或在运行队列中等待</td>
+</tr>
+<tr>
+<td><code>S（休眠）</code></td>
+<td>可中断睡眠状态，可以被唤醒</td>
+</tr>
+<tr>
+<td><code>D（不可中断）</code></td>
+<td>不可中断睡眠状态，通常用于 I/O 情况</td>
+</tr>
+<tr>
+<td><code>Z（僵死）</code></td>
+<td>子进程退出，父进程还在运行，但是父进程没有读到子进程的退出状态，子进程进入僵死状态</td>
+</tr>
+<tr>
+<td><code>T（暂停）</code></td>
+<td>进程收到停止信号SIGSTOP后停止运行，可以发送SIGCONT信号让进程继续运行</td>
+</tr>
+<tr>
+<td><code>X（死亡）</code></td>
+<td>该状态是返回状态，在任务列表中看不到</td>
+</tr>
+<tr>
+<td><code>t（追踪）</code></td>
+<td>当利用gdb调试某个程序，程序停留在某个断点处时，就处于跟踪状态</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>状态组合符号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>s</code></td>
+<td>表示进程是控制进程</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>表示进程运行在高优先级上</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>表示进程运行在低优先级上</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>表示进程有页面锁定在内存中</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>表示进程是多线程的</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>表示进程运行在前台</td>
+</tr>
+</tbody></table>
+<h2 id="3-5-查看进程"><a href="#3-5-查看进程" class="headerlink" title="3.5 查看进程"></a>3.5 查看进程</h2><h3 id="1-ps"><a href="#1-ps" class="headerlink" title="1 ps"></a>1 ps</h3><h4 id="1-ps-aux"><a href="#1-ps-aux" class="headerlink" title="1 ps -aux"></a>1 ps -aux</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>user</code></td>
+<td>启动进程的用户</td>
+</tr>
+<tr>
+<td><code>PID</code></td>
+<td>进程ID</td>
+</tr>
+<tr>
+<td><code>%CPU</code></td>
+<td>进程占用cpu百分比</td>
+</tr>
+<tr>
+<td><code>%MEM</code></td>
+<td>进程占用内存百分比</td>
+</tr>
+<tr>
+<td><code>VSZ</code></td>
+<td>进程占用虚拟内存大小（KB）</td>
+</tr>
+<tr>
+<td><code>RSS</code></td>
+<td>进程占用物理内存大小（KB）</td>
+</tr>
+<tr>
+<td><code>TTY</code></td>
+<td>进程启动终端</td>
+</tr>
+<tr>
+<td><code>STAT</code></td>
+<td>进程状态</td>
+</tr>
+<tr>
+<td><code>START</code></td>
+<td>进程启动时间</td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td>进程执行起到现在总的CPU占用时间</td>
+</tr>
+<tr>
+<td><code>COMMAND</code></td>
+<td>启动进程的命令</td>
+</tr>
+</tbody></table>
+<h4 id="2-ps-ef"><a href="#2-ps-ef" class="headerlink" title="2 ps -ef"></a>2 ps -ef</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>UID</code></td>
+<td>启动进程的用户</td>
+</tr>
+<tr>
+<td><code>PID</code></td>
+<td>进程 ID</td>
+</tr>
+<tr>
+<td><code>PPID</code></td>
+<td>父进程 ID</td>
+</tr>
+<tr>
+<td><code>C</code></td>
+<td>进程生命周期中的CPU利用率</td>
+</tr>
+<tr>
+<td><code>STIME</code></td>
+<td>进程启动时间</td>
+</tr>
+<tr>
+<td><code>TTY</code></td>
+<td>进程启动终端</td>
+</tr>
+<tr>
+<td><code>TIME</code></td>
+<td>进程执行起到现在总的CPU占用时间</td>
+</tr>
+<tr>
+<td><code>CMD</code></td>
+<td>启动进程的命令</td>
+</tr>
+<tr>
+<td>* <code>TTY</code></td>
+<td></td>
+</tr>
+<tr>
+<td>1. <code>?</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 表示与终端无关，这种进程一般是内核态进程</td>
+<td></td>
+</tr>
+<tr>
+<td>2. <code>tty1~7</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 本地终端</td>
+<td></td>
+</tr>
+<tr>
+<td>3. <code>pts/0+</code></td>
+<td></td>
+</tr>
+<tr>
+<td>* 远程终端</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="3-ps-le"><a href="#3-ps-le" class="headerlink" title="3 ps -le"></a>3 ps -le</h4><ul>
+<li>信息更详细</li>
+</ul>
+<h3 id="2-pstree"><a href="#2-pstree" class="headerlink" title="2 pstree"></a>2 pstree</h3><ul>
+<li><code>pstree [OPTION] [PID | USER]</code><ul>
+<li>以树形结构显示程序和进程之间的关系</li>
+<li><code>OPTION</code><ul>
+<li><code>-a</code><ul>
+<li>显示启动每个进程对应的完整指令，包括启动进程的路径、参数等</li>
+</ul>
+</li>
+<li><code>-c</code><ul>
+<li>不使用精简法显示进程信息，即显示的进程中包含子进程和父进程</li>
+</ul>
+</li>
+<li><code>-n</code><ul>
+<li>根据进程 PID 号来排序输出，默认是以程序名排序输出的</li>
+</ul>
+</li>
+<li><code>-p</code><ul>
+<li>显示进程的 PID</li>
+</ul>
+</li>
+<li><code>-u</code><ul>
+<li>显示进程对应的用户名称</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-lsof（list-opened-files）"><a href="#3-lsof（list-opened-files）" class="headerlink" title="3 lsof（list opened files）"></a>3 lsof（list opened files）</h3><ul>
+<li><code>lsof [OPTION]</code><ul>
+<li>列出进程调用或打开的文件的信息</li>
+<li><code>OPTION</code><ul>
+<li><code>-u 用户名</code><ul>
+<li>列出某个用户的进程打开的文件</li>
+</ul>
+</li>
+<li><code>-p pid</code><ul>
+<li>列出指定进程号所打开的文件</li>
+</ul>
+</li>
+<li><code>-c 字符串</code><ul>
+<li>列出以字符串开头的进程打开的文件</li>
+</ul>
+</li>
+<li><code>-i 条件</code><ul>
+<li>列出符合条件的进程</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-6-监听进程"><a href="#3-6-监听进程" class="headerlink" title="3.6 监听进程"></a>3.6 监听进程</h2><h3 id="1-top"><a href="#1-top" class="headerlink" title="1 top"></a>1 top</h3><ul>
+<li><code>top [OPTION]</code><ul>
+<li><code>OPTION</code><ul>
+<li><code>-d 秒数</code><ul>
+<li>指定每隔几秒刷新，默认3秒</li>
+</ul>
+</li>
+<li><code>-n 次数</code><ul>
+<li>指定 top 抿了执行次数</li>
+</ul>
+</li>
+<li><code>-b</code><ul>
+<li>使用批处理模式输出。</li>
+<li>一般和 <code>-n</code> 选项合用，用于把 top 命令重定向到文件中</li>
+</ul>
+</li>
+<li><code>-p PID</code><ul>
+<li>仅查看的进程</li>
+</ul>
+</li>
+<li><code>-u USER</code><ul>
+<li>只监听某个用户的进程</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-top-输出窗口交互命令"><a href="#2-top-输出窗口交互命令" class="headerlink" title="2 top 输出窗口交互命令"></a>2 top 输出窗口交互命令</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>?, h</code></td>
+<td>显示交互模式的帮助</td>
+</tr>
+<tr>
+<td><code>空格</code></td>
+<td>默认 3s 刷新一次，按空格立即刷新</td>
+</tr>
+<tr>
+<td><code>P</code></td>
+<td>按照 CPU 的使用率排序（默认）</td>
+</tr>
+<tr>
+<td><code>M</code></td>
+<td>按照内存的使用率排序</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>按照 PID 排序</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>按照 CPU 的累积运算时间排序，即按照 <code>TIME+</code> 项排序</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>退出 top 命令</td>
+</tr>
+</tbody></table>
+<h3 id="3-top-输出信息"><a href="#3-top-输出信息" class="headerlink" title="3 top 输出信息"></a>3 top 输出信息</h3><h4 id="第一行（任务队列信息）"><a href="#第一行（任务队列信息）" class="headerlink" title="第一行（任务队列信息）"></a>第一行（任务队列信息）</h4><ul>
+<li><code>系统当前时间，系统运行时间，登录用户数，CPU负载</code></li>
+</ul>
+<h4 id="第二行（进程信息）"><a href="#第二行（进程信息）" class="headerlink" title="第二行（进程信息）"></a>第二行（进程信息）</h4><ul>
+<li><code>系统进程总数，运行进程数，睡眠进程数，停止进程数，僵尸进程数</code></li>
+</ul>
+<h4 id="第三行（CPU-信息）"><a href="#第三行（CPU-信息）" class="headerlink" title="第三行（CPU 信息）"></a>第三行（CPU 信息）</h4><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>us</code></td>
+<td>用户模式占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>sy</code></td>
+<td>系统模式占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>ni</code></td>
+<td>改变过优先级的用户进程占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>空闲 CPU 占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>wa</code></td>
+<td>等待输入/输出的进程占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>hi</code></td>
+<td>硬中断请求服务占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>si</code></td>
+<td>软中断请求服务占用的 CPU 百分比</td>
+</tr>
+<tr>
+<td><code>st</code></td>
+<td>虚拟时间百分比，就是当有虚拟机时，虚拟 CPU 等待实际 CPU 的时间百分比</td>
+</tr>
+</tbody></table>
+<h4 id="第四行（物理内存信息-Mem）"><a href="#第四行（物理内存信息-Mem）" class="headerlink" title="第四行（物理内存信息 Mem）"></a>第四行（物理内存信息 Mem）</h4><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>total</code></td>
+<td>物理内存的总量</td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td>空闲的物理内存数量</td>
+</tr>
+<tr>
+<td><code>used</code></td>
+<td>己经使用的物理内存数量</td>
+</tr>
+<tr>
+<td><code>buff/cache</code></td>
+<td>作为缓冲/缓存的内存数量</td>
+</tr>
+</tbody></table>
+<h4 id="第五行（交互分区信息-Swap）"><a href="#第五行（交互分区信息-Swap）" class="headerlink" title="第五行（交互分区信息 Swap）"></a>第五行（交互分区信息 Swap）</h4><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>total</code></td>
+<td>交换分区（虚拟内存）的总大小</td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td>空闲交换分区的大小</td>
+</tr>
+<tr>
+<td><code>used</code></td>
+<td>已经使用的交换分区的大小</td>
+</tr>
+<tr>
+<td><code>avail Mem</code></td>
+<td>总的可利用内存是多少</td>
+</tr>
+</tbody></table>
+<h4 id="剩余部分（进程信息）"><a href="#剩余部分（进程信息）" class="headerlink" title="剩余部分（进程信息）"></a>剩余部分（进程信息）</h4><table>
+<thead>
+<tr>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PID</code></td>
+<td>进程的 ID</td>
+</tr>
+<tr>
+<td><code>USER</code></td>
+<td>进程所属的用户</td>
+</tr>
+<tr>
+<td><code>PR</code></td>
+<td>优先级，数值越小优先级越高（由内核动态调整，用户不能修改）</td>
+</tr>
+<tr>
+<td><code>NI</code></td>
+<td>优先级，数值越小优先级越高（用户可以自己调整）</td>
+</tr>
+<tr>
+<td><code>VIRT</code></td>
+<td>进程使用的虚拟内存的大小，单位为 KB</td>
+</tr>
+<tr>
+<td><code>RES</code></td>
+<td>进程使用的物理内存的大小，单位为 KB</td>
+</tr>
+<tr>
+<td><code>SHR</code></td>
+<td>共享内存大小，单位为 KB</td>
+</tr>
+<tr>
+<td><code>S</code></td>
+<td>进程状态</td>
+</tr>
+<tr>
+<td><code>%CPU</code></td>
+<td>进程占用 CPU 的百分比</td>
+</tr>
+<tr>
+<td><code>%MEM</code></td>
+<td>进程占用内存的百分比</td>
+</tr>
+<tr>
+<td><code>TIME+</code></td>
+<td>进程执行起到现在总的CPU占用时间</td>
+</tr>
+<tr>
+<td><code>COMMAND</code></td>
+<td>启动进程的命令</td>
+</tr>
+</tbody></table>
+<h2 id="3-6-结束进程"><a href="#3-6-结束进程" class="headerlink" title="3.6 结束进程"></a>3.6 结束进程</h2><h3 id="1-kill"><a href="#1-kill" class="headerlink" title="1 kill"></a>1 kill</h3><h4 id="1-原理"><a href="#1-原理" class="headerlink" title="1 原理"></a>1 原理</h4><ul>
+<li>kill 命令会向操作系统内核发送一个信号和目标进程的 PID，然后系统内核根据收到的信号类型，对指定进程进行相应的操作</li>
+</ul>
+<h4 id="2-语法"><a href="#2-语法" class="headerlink" title="2 语法"></a>2 语法</h4><ol>
+<li><code>kill -l</code><ul>
+<li>查看所有信号信息</li>
+</ul>
+</li>
+<li><code>kill [信号编号] PID</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>信号编号</th>
+<th>信号名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>SIGHUP</code></td>
+<td>重启进程</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>SIGINT</code></td>
+<td>非强制性结束进程，<code>ctrl + c</code> 发出的是 <code>kill -2</code> 的信号</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td><code>SIGKILL</code></td>
+<td>强制结束进程</td>
+</tr>
+<tr>
+<td><code>15</code></td>
+<td><code>SIGTERM</code></td>
+<td>正常结束进程，默认信号</td>
+</tr>
+<tr>
+<td><code>19</code></td>
+<td><code>SIGSTOP</code></td>
+<td>挂起一个进程，<code>ctrl + z</code> 发出的是 <code>kill -19</code> 信号</td>
+</tr>
+</tbody></table>
+<h3 id="2-killall"><a href="#2-killall" class="headerlink" title="2 killall"></a>2 killall</h3><ul>
+<li><code>killall [OPTION] [信号编号] 进程名</code><ul>
+<li><code>kill</code> 命令使用 PID 结束进程，而 <code>killall</code> 使用进程名称来结束进程</li>
+<li><code>OPTION</code><ul>
+<li><code>-i</code><ul>
+<li>交互式，询问是否要杀死某个进程</li>
+</ul>
+</li>
+<li><code>-I</code><ul>
+<li>忽略进程名的大小写</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-pkill"><a href="#4-pkill" class="headerlink" title="4 pkill"></a>4 pkill</h3><ol>
+<li><code>pkill [OPTION] [信号编号] 进程名</code><ul>
+<li>用来结束进程时，用法与 <code>killall</code> 一致</li>
+</ul>
+</li>
+<li><code>pkill [信号编号] -t 终端号</code><ul>
+<li>按照终端号踢出登陆用户</li>
+</ul>
+</li>
+</ol>
+<h1 id="四-硬件信息"><a href="#四-硬件信息" class="headerlink" title="四 硬件信息"></a>四 硬件信息</h1><h2 id="4-1-CPU"><a href="#4-1-CPU" class="headerlink" title="4.1 CPU"></a>4.1 CPU</h2><h3 id="1-CPU-信息"><a href="#1-CPU-信息" class="headerlink" title="1 CPU 信息"></a>1 CPU 信息</h3><ol>
+<li>cpu 路数<ul>
+<li>cpu 的物理个数</li>
+</ul>
+</li>
+<li>cpu 核数<ul>
+<li>cpu 的逻辑个数</li>
+</ul>
+</li>
+<li>core<ul>
+<li>一个物理 cpu 的核心数</li>
+</ul>
+</li>
+<li><code>核数 = 路数 * core</code></li>
+</ol>
+<h3 id="2-查看-CPU-信息"><a href="#2-查看-CPU-信息" class="headerlink" title="2 查看 CPU 信息"></a>2 查看 CPU 信息</h3><ol>
+<li><code>/proc/cpuinfo</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 每一核cpu信息以空行分隔</span><br><span class="line">model name:     # cpu型号</span><br><span class="line">physical id:    # cpu路数，从0开始编号</span><br><span class="line">cpu cores:      # 一路cpu的核数</span><br><span class="line">processor:      # cpu核数，从0开始编号</span><br></pre></td></tr></table></figure></li>
+<li><code>lscpu</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model name:            # cpu型号</span><br><span class="line">Socket(s):             # cpu路数，从0开始编号</span><br><span class="line">Core(s) per socket:    # 一路cpu的核数</span><br><span class="line">CPU(s):                # cpu核数，从0开始编号</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="3-CPU-负载"><a href="#3-CPU-负载" class="headerlink" title="3 CPU 负载"></a>3 CPU 负载</h3><ol>
+<li>负载简单说就是 cpu 的任务量，任务队列的平均长度</li>
+<li>负载值 与 cpu 核数有关，负载不应该超过核的数量</li>
+<li>负载信息<ul>
+<li><code>1分钟平均负载 5分钟平均负载 15分钟平均负载</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="4-查看-CPU-负载"><a href="#4-查看-CPU-负载" class="headerlink" title="4 查看 CPU 负载"></a>4 查看 CPU 负载</h3><ol>
+<li><code>/proc/loadavg</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0.00 0.01 0.05 1/104 1445</span><br></pre></td></tr></table></figure></li>
+<li><code>uptime</code><ul>
+<li>显示 cpu 负载信息 <code>当前时间 系统运行时间 登录用户数 系统负载</code></li>
+</ul>
+</li>
+<li><code>w</code><ul>
+<li>显示 cpu 负载 及 登录用户信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-2-内存"><a href="#4-2-内存" class="headerlink" title="4.2 内存"></a>4.2 内存</h2><h3 id="1-说明"><a href="#1-说明" class="headerlink" title="1 说明"></a>1 说明</h3><ol>
+<li>通常 <code>空闲内存 &gt; 可用内存</code>，因为有时缓冲或缓存会空出一些内存，但是无法使用，这部分内存算在空闲内存上而不算在可用内存上<ul>
+<li>空闲内存：没有使用的内存</li>
+<li>可用内存：没有使用的内存中可以使用的内存</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-查看内存信息"><a href="#2-查看内存信息" class="headerlink" title="2 查看内存信息"></a>2 查看内存信息</h3><ol>
+<li><code>/proc/meminfo</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MemTotal:         # 总内存</span><br><span class="line">MemFree:          # 空闲内存</span><br><span class="line">MemAvailable:     # 可用内存</span><br><span class="line">Buffers:          # 缓冲</span><br><span class="line">Cached:           # 缓存</span><br><span class="line">SwapCached:       # 交换分区使用情况</span><br></pre></td></tr></table></figure></li>
+<li><code>free [OPTION]</code><ul>
+<li>显示内存信息</li>
+<li><code>OPTION</code><ul>
+<li><code>-h</code>, <code>--human</code><ul>
+<li>以人类可读的方式显示信息</li>
+</ul>
+</li>
+<li><code>-b</code>, <code>--bytes</code><ul>
+<li>以 byte 为单位显示</li>
+</ul>
+</li>
+<li><code>-k</code>, <code>--kilo</code><ul>
+<li>以 kb 为单位显示，默认</li>
+</ul>
+</li>
+<li><code>-m</code>, <code>--mega</code><ul>
+<li>以 mb 为单位显示</li>
+</ul>
+</li>
+<li><code>-g</code>, <code>--giga</code><ul>
+<li>以 gb 为单位显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-3-磁盘"><a href="#4-3-磁盘" class="headerlink" title="4.3 磁盘"></a>4.3 磁盘</h2><h3 id="1-proc-mounts"><a href="#1-proc-mounts" class="headerlink" title="1 /proc/mounts"></a>1 <code>/proc/mounts</code></h3><ul>
+<li>磁盘挂载信息</li>
+</ul>
+<h3 id="2-df"><a href="#2-df" class="headerlink" title="2 df"></a>2 df</h3><ul>
+<li><code>df [OPTION] [file]</code><ul>
+<li>查看磁盘信息及挂载信息</li>
+<li><code>option</code><ul>
+<li><code>-h</code>, <code>--human</code><ul>
+<li>以人类可读的方式显示信息</li>
+</ul>
+</li>
+<li><code>-a</code>, <code>--all</code><ul>
+<li>显示所有文件系统信息</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="五-系统信息"><a href="#五-系统信息" class="headerlink" title="五 系统信息"></a>五 系统信息</h1><ol>
+<li><code>/etc/reedat-release</code><ul>
+<li>系统版本信息（简略）</li>
+</ul>
+</li>
+<li><code>/etc/os-release</code><ul>
+<li>系统版本信息（详细）</li>
+</ul>
+</li>
+<li><code>uname -a</code><ul>
+<li>查看系统与内核相关信息</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -4149,14 +5104,14 @@ export JAVA_HOME=解压路径<br>export PATH=$JAVA_HOME/bin:$PATH <figure class=
       <div class="site-state-item site-state-posts">
           <a href="/anyeansan.github.io/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">书斋</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/anyeansan.github.io/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">门派</span></a>
       </div>
   </nav>

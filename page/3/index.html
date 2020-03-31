@@ -206,810 +206,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/MySql-SQL%E8%AF%AD%E5%8F%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
-      <meta itemprop="name" content="安₃">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="安₃">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/anyeansan.github.io/2020/03/30/MySql-SQL%E8%AF%AD%E5%8F%A5/" class="post-title-link" itemprop="url">MySql SQL语句</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">✦</span>
-              
-
-              <time title="创建时间：2020-03-30 21:23:46 / 修改时间：21:30:16" itemprop="dateCreated datePublished" datetime="2020-03-30T21:23:46+08:00">2020-03-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">☛</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/DB/" itemprop="url" rel="index">
-                    <span itemprop="name">DB</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/anyeansan.github.io/categories/DB/MySql/" itemprop="url" rel="index">
-                    <span itemprop="name">MySql</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一-SQL（Structure-Query-Language）"><a href="#一-SQL（Structure-Query-Language）" class="headerlink" title="一 SQL（Structure Query Language）"></a>一 SQL（Structure Query Language）</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><ol>
-<li>结构化查询语言，关系型数据库通用命令</li>
-<li>遵循SQL92标准</li>
-</ol>
-<h2 id="1-2-严格模式（SQL-MODE）"><a href="#1-2-严格模式（SQL-MODE）" class="headerlink" title="1.2 严格模式（SQL_MODE）"></a>1.2 严格模式（SQL_MODE）</h2><ol>
-<li><code>set sql_mode = &#39;traditional&#39;</code><ul>
-<li>设置严格模式，默认</li>
-</ul>
-</li>
-<li><code>set sql_mode = &#39;&#39;</code><ul>
-<li>关闭严格模式</li>
-</ul>
-</li>
-</ol>
-<h2 id="1-3-SQL-规范"><a href="#1-3-SQL-规范" class="headerlink" title="1.3 SQL 规范"></a>1.3 SQL 规范</h2><h3 id="1-注释"><a href="#1-注释" class="headerlink" title="1 注释"></a>1 注释</h3><ul>
-<li><code>--</code><ul>
-<li>单行</li>
-</ul>
-</li>
-<li><code>/* */</code><ul>
-<li>多行</li>
-</ul>
-</li>
-<li><code>#</code><ul>
-<li>mysql 特有</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-编码规范"><a href="#2-编码规范" class="headerlink" title="2 编码规范"></a>2 编码规范</h3><h4 id="1-库"><a href="#1-库" class="headerlink" title="1 库"></a>1 库</h4><ol>
-<li>关键字 和 函数名 大写</li>
-<li>库名 小写，不能以数字开头，不能使用关键字和保留字</li>
-<li>必须设置字符集</li>
-</ol>
-<h4 id="2-表"><a href="#2-表" class="headerlink" title="2 表"></a>2 表</h4><ol>
-<li>关键字 和 函数名 大写</li>
-<li>表名 小写，不能以数字开头，不能使用关键字和保留字</li>
-<li>选择合适的数据类型及长度</li>
-<li>每个列设置 <code>NOT NULL + DEFAULT</code><ol>
-<li>数值默认为 <code>0</code> 或其它有效数字</li>
-<li>字符串默认为空格字符串 <code>&#39; &#39;</code> 或其它有效字符串</li>
-</ol>
-</li>
-<li>enum 类型不要用于数值，只能用于字符串</li>
-<li>每个列设置注释</li>
-<li>表必须设置存储引擎和字符集</li>
-<li>主键列最好是无关数值列，且自增长</li>
-</ol>
-<h2 id="1-4-SQL-常用分类"><a href="#1-4-SQL-常用分类" class="headerlink" title="1.4 SQL 常用分类"></a>1.4 SQL 常用分类</h2><ol>
-<li>DQL（Data Query Language）<ul>
-<li>数据查询语言，如 <code>select show</code></li>
-</ul>
-</li>
-<li>DDL（Data Definition Language）<ul>
-<li>数据定义语言，如 <code>create alter drop truncate</code></li>
-</ul>
-</li>
-<li>DML（Data Manipulation Language）<ul>
-<li>数据操作语言，如 <code>insert update delete</code></li>
-</ul>
-</li>
-<li>DCL（Data Control Language）<ul>
-<li>数据控制语言，如 <code>grant revoke</code></li>
-</ul>
-</li>
-</ol>
-<h1 id="二-库-操作"><a href="#二-库-操作" class="headerlink" title="二 库 操作"></a>二 库 操作</h1><h2 id="2-1-查"><a href="#2-1-查" class="headerlink" title="2.1 查"></a>2.1 查</h2><ol>
-<li><code>show databases</code><ul>
-<li>查看所有库</li>
-</ul>
-</li>
-<li><code>show create database db_name</code><ul>
-<li>查看建库语句</li>
-</ul>
-</li>
-<li><code>show variables like &#39;character_set_database&#39;</code><ul>
-<li>查看当前数据库字符集</li>
-</ul>
-</li>
-<li><code>show variables like &#39;collation_database&#39;</code><ul>
-<li>查看当前数据库校对集</li>
-</ul>
-</li>
-</ol>
-<h2 id="2-2-增"><a href="#2-2-增" class="headerlink" title="2.2 增"></a>2.2 增</h2><ul>
-<li><code>create database [if not exists] 库名 [charset 字符集 collate 校对集]</code></li>
-</ul>
-<h2 id="2-3-删"><a href="#2-3-删" class="headerlink" title="2.3 删"></a>2.3 删</h2><ul>
-<li><code>drop database [if exists] 库名</code></li>
-</ul>
-<h2 id="2-4-改"><a href="#2-4-改" class="headerlink" title="2.4 改"></a>2.4 改</h2><ul>
-<li><code>alter database 库名 [charset 字符集 collate 校对集]</code><ol>
-<li>库名不可修改</li>
-<li>字符集和校对集可修改</li>
-</ol>
-</li>
-</ul>
-<h1 id="三-表-操作"><a href="#三-表-操作" class="headerlink" title="三 表 操作"></a>三 表 操作</h1><h2 id="3-1-指定库"><a href="#3-1-指定库" class="headerlink" title="3.1 指定库"></a>3.1 指定库</h2><ol>
-<li><code>use 库名</code><ol>
-<li>指定当前使用的数据库</li>
-<li>表依赖于库，任何一个表都必须指定数据库<ul>
-<li><code>库名.表名</code><ul>
-<li>在 sql 语句中显式的指定</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><code>select database()</code><ul>
-<li>查看正在使用的数据库</li>
-</ul>
-</li>
-</ol>
-<h2 id="3-2-查"><a href="#3-2-查" class="headerlink" title="3.2 查"></a>3.2 查</h2><ol>
-<li><code>show tables [from 库名]</code><ul>
-<li>查看库（默认为当前库）中的所有表</li>
-</ul>
-</li>
-<li><code>show create table 表名</code><ul>
-<li>查看当前库中指定的表</li>
-</ul>
-</li>
-<li><code>desc 表名</code><ul>
-<li>查看表结构</li>
-</ul>
-</li>
-<li><code>show columns from 表名</code><ul>
-<li>查看表结构</li>
-</ul>
-</li>
-</ol>
-<h2 id="3-3-增"><a href="#3-3-增" class="headerlink" title="3.3 增"></a>3.3 增</h2><ol>
-<li>.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table [if not exists] 表名(</span><br><span class="line">	列名 列属性,</span><br><span class="line">	......</span><br><span class="line">	列名 列属性</span><br><span class="line">)[表属性]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>表属性<ol>
-<li><code>charset 字符集</code></li>
-<li><code>collate 校对集</code></li>
-<li><code>engine 存储引擎</code></li>
-</ol>
-</li>
-</ul>
-</li>
-<li><code>create table 新表名 like 旧表名</code><ul>
-<li>根据已有表结构创建新表</li>
-</ul>
-</li>
-</ol>
-<h2 id="3-4-删"><a href="#3-4-删" class="headerlink" title="3.4 删"></a>3.4 删</h2><ul>
-<li><code>drop table [if exists] 表名</code></li>
-</ul>
-<h2 id="3-5-改"><a href="#3-5-改" class="headerlink" title="3.5 改"></a>3.5 改</h2><h3 id="1-表名"><a href="#1-表名" class="headerlink" title="1 表名"></a>1 表名</h3><ol>
-<li><code>rename table 表名 to 新表名</code></li>
-<li><code>alter table 表名 rename 新表名</code></li>
-</ol>
-<h3 id="2-表属性"><a href="#2-表属性" class="headerlink" title="2 表属性"></a>2 表属性</h3><ol>
-<li><code>alter table 表名 表属性</code></li>
-</ol>
-<h3 id="3-表结构"><a href="#3-表结构" class="headerlink" title="3 表结构"></a>3 表结构</h3><ol>
-<li><code>alter table 表名 add [column] 列名 列属性 [位置]</code><ul>
-<li>默认在最后新增一列</li>
-<li>位置<ul>
-<li><code>first</code></li>
-<li><code>after 列名</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>alter table 表名 add [column] (列名 列属性, ...)</code><ul>
-<li>新增多列</li>
-</ul>
-</li>
-<li><code>alter table 表名 drop [column] 列名</code><ul>
-<li>删除列</li>
-</ul>
-</li>
-<li><code>alter table 表名 modify 列名 列属性</code><ul>
-<li>修改列属性</li>
-</ul>
-</li>
-<li><code>alter table 表名 change 列名 新列名 列属性</code><ul>
-<li>修改列名和列属性</li>
-</ul>
-</li>
-</ol>
-<h1 id="四-数据操作-DML"><a href="#四-数据操作-DML" class="headerlink" title="四 数据操作 DML"></a>四 数据操作 DML</h1><h2 id="4-1-insert"><a href="#4-1-insert" class="headerlink" title="4.1 insert"></a>4.1 insert</h2><ol>
-<li><code>insert [into] 表名(列1,列2,列3,...) values(值1,值2,值3,...)[,(值1,值2,值3,...),...]</code><ol>
-<li>列与值一一对应</li>
-<li>非数字值，要加引号（建议单引号）</li>
-<li>自增列可以用 <code>null / default</code> 占位，默认列可以用 <code>default</code> 占位</li>
-<li>如果为表的所有列插入数据，可以省略 <code>(列1,列2,列3,...)</code></li>
-</ol>
-</li>
-<li><code>insert [into] 表名 set 列=值,...</code><ul>
-<li>一次插入一条记录，值可以使用子查询</li>
-</ul>
-</li>
-</ol>
-<h2 id="4-2-update"><a href="#4-2-update" class="headerlink" title="4.2 update"></a>4.2 update</h2><ul>
-<li><code>update 表名 set 列 = 值 [where条件]</code><ul>
-<li>不加条件会更新所有行</li>
-</ul>
-</li>
-</ul>
-<h2 id="4-3-delete"><a href="#4-3-delete" class="headerlink" title="4.3 delete"></a>4.3 delete</h2><ol>
-<li><code>delete from 表名 [where条件]</code><ul>
-<li>若没有条件，表示删除所有行</li>
-</ul>
-</li>
-<li><code>truncate [table] 表名;</code><ul>
-<li>清空表</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>truncate 和 delete 区别<ul>
-<li>DELETE <ol>
-<li>DML 操作，是逻辑性质删除，逐行删除速度慢</li>
-<li>删除表中的数据，表结构还在，删除后的数据可以找回</li>
-<li>自增长主键不会重置</li>
-</ol>
-</li>
-<li>TRUNCATE <ol>
-<li>DDL 操作，对表段中的数据页进行清空，速度快</li>
-<li>相当于把表扔了又创建一个同样表结构的新表</li>
-<li>自增长主键会重置</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="五-数据操作-DQL"><a href="#五-数据操作-DQL" class="headerlink" title="五 数据操作 DQL"></a>五 数据操作 DQL</h1><h2 id="5-1-语法"><a href="#5-1-语法" class="headerlink" title="5.1 语法"></a>5.1 语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select [选项] 表达式[, [选项] 表达式, ...]</span><br><span class="line">[</span><br><span class="line">	from 数据源 </span><br><span class="line">	[where 子句]</span><br><span class="line">	[group by 子句]</span><br><span class="line">	[having 子句]</span><br><span class="line">	[order by 子句]</span><br><span class="line">	[limit 子句]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<h2 id="5-2-select-子句"><a href="#5-2-select-子句" class="headerlink" title="5.2 select 子句"></a>5.2 select 子句</h2><h3 id="1-选项"><a href="#1-选项" class="headerlink" title="1  选项"></a>1  选项</h3><ol>
-<li><code>all</code><ul>
-<li>保留所有结果（默认）</li>
-</ul>
-</li>
-<li><code>distinct</code><ul>
-<li>去除重复</li>
-</ul>
-</li>
-<li><code>distinct row</code></li>
-<li><code>top</code></li>
-</ol>
-<h3 id="2-表达式"><a href="#2-表达式" class="headerlink" title="2 表达式"></a>2 表达式</h3><ol>
-<li>每一个表达式代表一列，可以是列名，变量，函数 …</li>
-<li><code>*</code><ul>
-<li>代表所有列</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-别名"><a href="#3-别名" class="headerlink" title="3 别名"></a>3 别名</h3><ul>
-<li><code>[as] 别名</code> <ol>
-<li>表别名<ul>
-<li>可用于全局</li>
-</ul>
-</li>
-<li>列别名<ul>
-<li>别名可用于 <code>having</code>，<code>order by</code>  </li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="5-2-from-子句"><a href="#5-2-from-子句" class="headerlink" title="5.2 from 子句"></a>5.2 from 子句</h2><ul>
-<li>本质上只要数据类似二维表，都可以作为数据源<ol>
-<li>单表数据源</li>
-<li>多表数据源</li>
-<li>查询语句</li>
-</ol>
-</li>
-</ul>
-<h2 id="5-4-where-子句"><a href="#5-4-where-子句" class="headerlink" title="5.4 where 子句"></a>5.4 where 子句</h2><h3 id="1-比较运算符"><a href="#1-比较运算符" class="headerlink" title="1 比较运算符"></a>1 比较运算符</h3><ul>
-<li><code>&gt; &gt;= &lt; &lt;= = != ...</code></li>
-</ul>
-<h3 id="2-逻辑运算符"><a href="#2-逻辑运算符" class="headerlink" title="2 逻辑运算符"></a>2 逻辑运算符</h3><ul>
-<li><code>and or not</code></li>
-</ul>
-<h3 id="3-语句"><a href="#3-语句" class="headerlink" title="3 语句"></a>3 语句</h3><ol>
-<li><code>like pattern</code><ul>
-<li>模糊查询</li>
-<li><code>pattern</code><ul>
-<li><code>%</code>：匹配任意个任意字符</li>
-<li><code>_</code>：匹配一个任意字符</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>between ... and ...</code></li>
-<li><code>is null</code></li>
-<li><code>is not null</code></li>
-<li><code>is boolean_value</code><ul>
-<li>判断一个值的布尔值是否为 <code>boolean_value</code></li>
-<li><code>boolean_value</code><ul>
-<li><code>true</code></li>
-<li><code>false</code></li>
-<li><code>unknown</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>in()</code><ul>
-<li>匹配其中任意一个值，则为 true，类似逻辑或</li>
-</ul>
-</li>
-<li><code>any()</code><ul>
-<li>必须配合比较运算符使用，代表（大于, 小于, …）其中任意一个值，则为 true</li>
-</ul>
-</li>
-<li><code>some()</code><ul>
-<li>是 <code>any()</code> 的别名</li>
-</ul>
-</li>
-<li><code>all()</code><ul>
-<li>必须配合比较运算符使用，代表（大于, 小于, …）其中所有值，则为 true</li>
-</ul>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="center">运算符</th>
-<th align="center">any()</th>
-<th align="center">all()</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>&gt; &gt;=</code></td>
-<td align="center">最小值</td>
-<td align="center">最大值</td>
-</tr>
-<tr>
-<td align="center"><code>&lt; &lt;=</code></td>
-<td align="center">最大值</td>
-<td align="center">最小值</td>
-</tr>
-<tr>
-<td align="center"><code>=</code></td>
-<td align="center">任意值</td>
-<td align="center">-</td>
-</tr>
-<tr>
-<td align="center"><code>&lt;&gt; !=</code></td>
-<td align="center">-</td>
-<td align="center">任意值</td>
-</tr>
-</tbody></table>
-<h2 id="5-5-group-by-子句"><a href="#5-5-group-by-子句" class="headerlink" title="5.5 group by 子句"></a>5.5 group by 子句</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
-<li>通常配合聚合函数使用</li>
-<li>可以有多个分组列，以逗号分隔</li>
-<li>select 中查询的列只能有三种<ol>
-<li>分组的列</li>
-<li>聚合函数的列</li>
-<li>与分组列一对一的列</li>
-</ol>
-</li>
-</ol>
-<h3 id="2-group-by-原理"><a href="#2-group-by-原理" class="headerlink" title="2 group by 原理"></a>2 group by 原理</h3><ol>
-<li>先按照分组列 排序、去重，形成一张虚拟表</li>
-<li>虚拟表的结构：分组列与其它列的对应关系<ol>
-<li>分组列一对一的列可以直接查询（即与分组列对应的列只有一行记录）</li>
-<li>分组列一对多的列不能直接查询（即与分组列对应的列有多行记录）<ol>
-<li>使用聚合函数将多行记录统计为一行记录</li>
-<li>使用 <code>group_concat()</code> 将多行记录合并连接为一行记录</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="3-聚合函数"><a href="#3-聚合函数" class="headerlink" title="3 聚合函数"></a>3 聚合函数</h3><table>
-<thead>
-<tr>
-<th>函数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>max()</code></td>
-<td>列最大值</td>
-</tr>
-<tr>
-<td><code>min()</code></td>
-<td>列最小值</td>
-</tr>
-<tr>
-<td><code>count()</code></td>
-<td>列记录总数</td>
-</tr>
-<tr>
-<td><code>sum()</code></td>
-<td>列和</td>
-</tr>
-<tr>
-<td><code>avg()</code></td>
-<td>列平均值</td>
-</tr>
-<tr>
-<td><code>group_concat()</code></td>
-<td>将group by产生的同一个分组中的其它列的所有值连接成一个字符串（多行记录变一行）</td>
-</tr>
-<tr>
-<td>* <code>count()</code></td>
-<td></td>
-</tr>
-<tr>
-<td>1. <code>count(1) count(*) count(&#39;abc&#39;) ...</code></td>
-<td></td>
-</tr>
-<tr>
-<td>* 此类参数表示数数，有一行记录总数就+1，也就是说总数与记录内容无关</td>
-<td></td>
-</tr>
-<tr>
-<td>* 记录总数（包含空行）</td>
-<td></td>
-</tr>
-<tr>
-<td>2. <code>count(列名)</code></td>
-<td></td>
-</tr>
-<tr>
-<td>* 记录总数（不包含空行）</td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="5-6-having-子句"><a href="#5-6-having-子句" class="headerlink" title="5.6 having 子句"></a>5.6 having 子句</h2><ul>
-<li>having 是对其之前子句筛选出的数据进行条件过滤</li>
-</ul>
-<h2 id="5-7-order-by子句"><a href="#5-7-order-by子句" class="headerlink" title="5.7 order by子句"></a>5.7 order by子句</h2><table>
-<thead>
-<tr>
-<th>语句</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>asc</code></td>
-<td>升序（默认）</td>
-</tr>
-<tr>
-<td><code>desc</code></td>
-<td>降序</td>
-</tr>
-<tr>
-<td>1. 排序依赖校对集</td>
-<td></td>
-</tr>
-<tr>
-<td>2. <code>order by 列1 asc,列2 desc...</code></td>
-<td></td>
-</tr>
-<tr>
-<td>* 多个排序条件时，前一个排序结果相同才会按照下一个条件排序</td>
-<td></td>
-</tr>
-</tbody></table>
-<h2 id="5-8-limit-子句"><a href="#5-8-limit-子句" class="headerlink" title="5.8 limit 子句"></a>5.8 limit 子句</h2><ol>
-<li><code>limit [startIndex] length</code><ul>
-<li>从 <code>startIndex</code> 开始，取 <code>length</code> 条数据。</li>
-<li><code>startIndex</code><ul>
-<li>起始索引，若省略相当于 0。</li>
-<li>数据库索引从 0 开始</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><code>limit length offset startIndex</code></li>
-</ol>
-<h2 id="5-9-union-amp-union-all"><a href="#5-9-union-amp-union-all" class="headerlink" title="5.9 union &amp; union all"></a>5.9 union &amp; union all</h2><ul>
-<li>合并多个查询结果集</li>
-<li>一般情况下,会将 <code>in()</code> 或者 <code>OR</code> 语句 改写成 <code>UNION ALL</code> ,来提高性能</li>
-</ul>
-<ol>
-<li><code>union</code><ul>
-<li>去除重复</li>
-</ul>
-</li>
-<li><code>union all</code><ul>
-<li>保留所有</li>
-</ul>
-</li>
-</ol>
-<h2 id="5-10-查询过程"><a href="#5-10-查询过程" class="headerlink" title="5.10 查询过程"></a>5.10 查询过程</h2><ol>
-<li>from<ul>
-<li>确定数据源</li>
-</ul>
-</li>
-<li>where<ol>
-<li>where 是直接对表中数据进行判断，所以只能使用表中的列，且不能使用别名</li>
-<li>where 从表中查询出符合条件的数据形成一个概念中的临时结果集，存入内存</li>
-<li>where 保证进入内存的数据都是有效的</li>
-</ol>
-</li>
-<li>group by<ul>
-<li>按照指定列进行分组</li>
-</ul>
-</li>
-<li>select<ul>
-<li>处理表达式（函数, 别名, 运算 …），形成结果集</li>
-</ul>
-</li>
-<li>having<ul>
-<li>对结果集进行过滤</li>
-</ul>
-</li>
-<li>order by<ul>
-<li>对过滤后的结果集进行排序</li>
-</ul>
-</li>
-<li>limit<ul>
-<li>对排序后的结果集进行条目限制，形成最终结果集</li>
-</ul>
-</li>
-</ol>
-<h1 id="六-多表连接"><a href="#六-多表连接" class="headerlink" title="六 多表连接"></a>六 多表连接</h1><h2 id="6-1-语法"><a href="#6-1-语法" class="headerlink" title="6.1 语法"></a>6.1 语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">表1 </span><br><span class="line">&#123;[inner | cross] | &#123;left | right&#125; [outer]&#125;  join</span><br><span class="line">表2</span><br><span class="line">on 条件表达式</span><br><span class="line">[</span><br><span class="line">	&#123;[inner | cross] | &#123;left | right&#125; [outer]&#125;  join</span><br><span class="line">	表3</span><br><span class="line">	on 条件表达式</span><br><span class="line">	......</span><br><span class="line">]</span><br><span class="line">[where 子句]</span><br><span class="line">[group by 子句]</span><br><span class="line">[having 子句]</span><br><span class="line">[order by 子句]</span><br><span class="line">[limit 子句]</span><br></pre></td></tr></table></figure>
-<ol>
-<li>多表连接可以用在<ol>
-<li>多表查询</li>
-<li>多表更新</li>
-<li>多表删除</li>
-</ol>
-</li>
-<li><strong>自连接</strong><ul>
-<li>连接的表是同一张表。</li>
-</ul>
-</li>
-</ol>
-<h2 id="6-2-内连接"><a href="#6-2-内连接" class="headerlink" title="6.2 内连接"></a>6.2 内连接</h2><h3 id="1-语法"><a href="#1-语法" class="headerlink" title="1 语法"></a>1 语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 表1 [inner | cross] join 表2 on 条件</span><br><span class="line">2 from 表1,表2 where 条件</span><br></pre></td></tr></table></figure>
-<ol>
-<li>查出多表中符合条件的数据，即交集</li>
-<li>内连接为左外连接与右外连接的交集。</li>
-<li>内连接如果没有条件，结果会形成笛卡儿积</li>
-</ol>
-<h3 id="2-笛卡尔积"><a href="#2-笛卡尔积" class="headerlink" title="2 笛卡尔积"></a>2 笛卡尔积</h3><ol>
-<li>笛卡儿积是元素相组合，不是数学相乘</li>
-<li>数学中的笛卡儿积<ul>
-<li>集合A有m个元素，集合B有n个元素，则笛卡尔积共 <code>m * n</code>个元素</li>
-<li>例<ul>
-<li>集合 A = {a, b}，集合 B = {0, 1, 2}</li>
-<li>两个集合的笛卡尔积 = {(a, 0), (a, 1), (a, 2), (b, 0), (b, 1), (b, 2)}</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>数据库中的笛卡儿积<ul>
-<li>表 A 有 m 条数据，表 B 中有 n 条数据，则笛卡尔积结果：<ol>
-<li>行（记录数）= <code>m * n</code></li>
-<li>列 = <code>表A的列数 + 表B的列数</code></li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="6-3-外连接"><a href="#6-3-外连接" class="headerlink" title="6.3 外连接"></a>6.3 外连接</h2><h3 id="1-左外连接"><a href="#1-左外连接" class="headerlink" title="1 左外连接"></a>1 左外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表1 left [outer] join 表2 on 条件</span><br></pre></td></tr></table></figure>
-<ul>
-<li>以左表为主，查出左表的全部记录和右表符合条件的记录，不符合条件的字段置为 <code>null</code></li>
-</ul>
-<h3 id="2-右外连接"><a href="#2-右外连接" class="headerlink" title="2 右外连接"></a>2 右外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表1 right [outer] join 表2 on 条件</span><br></pre></td></tr></table></figure>
-<ul>
-<li>以右表为主，查出右表的全部记录和左表符合条件的记录，不符合条件的字段置为 <code>null</code></li>
-</ul>
-<h2 id="6-4-例"><a href="#6-4-例" class="headerlink" title="6.4 例"></a>6.4 例</h2><h3 id="1-原始表-t1-amp-t2"><a href="#1-原始表-t1-amp-t2" class="headerlink" title="1 原始表 t1 &amp; t2"></a>1 原始表 t1 &amp; t2</h3><table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>a</td>
-</tr>
-<tr>
-<td>2</td>
-<td>b</td>
-</tr>
-<tr>
-<td>3</td>
-<td>c</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2</td>
-<td>D</td>
-</tr>
-<tr>
-<td>3</td>
-<td>E</td>
-</tr>
-<tr>
-<td>4</td>
-<td>F</td>
-</tr>
-</tbody></table>
-<h3 id="2-内连接"><a href="#2-内连接" class="headerlink" title="2 内连接"></a>2 内连接</h3><ul>
-<li><code>select * from t1 inner join t2 on t1.id=t2.id;</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2</td>
-<td>a</td>
-<td>2</td>
-<td>D</td>
-</tr>
-<tr>
-<td>3</td>
-<td>c</td>
-<td>3</td>
-<td>E</td>
-</tr>
-</tbody></table>
-<h3 id="3-左外连接"><a href="#3-左外连接" class="headerlink" title="3 左外连接"></a>3 左外连接</h3><ul>
-<li><code>select * from t1 left join t2 on t1.id=t2.id;</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>a</td>
-<td>null</td>
-<td>null</td>
-</tr>
-<tr>
-<td>2</td>
-<td>b</td>
-<td>2</td>
-<td>D</td>
-</tr>
-<tr>
-<td>3</td>
-<td>c</td>
-<td>3</td>
-<td>E</td>
-</tr>
-</tbody></table>
-<h3 id="4-右外连接"><a href="#4-右外连接" class="headerlink" title="4 右外连接"></a>4 右外连接</h3><ul>
-<li><code>select * from t1 right join t2 on t1.id=t2.id;</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2</td>
-<td>b</td>
-<td>2</td>
-<td>D</td>
-</tr>
-<tr>
-<td>3</td>
-<td>c</td>
-<td>3</td>
-<td>E</td>
-</tr>
-<tr>
-<td>null</td>
-<td>null</td>
-<td>4</td>
-<td>F</td>
-</tr>
-</tbody></table>
-<h3 id="5-全连接（-full-join-mysql不支持）"><a href="#5-全连接（-full-join-mysql不支持）" class="headerlink" title="5 全连接（(full join) mysql不支持）"></a>5 全连接（(full join) mysql不支持）</h3><ul>
-<li><code>select * from t1 full join t2 on t1.id=t2.id;</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>name</th>
-<th>id</th>
-<th>age</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>a</td>
-<td>null</td>
-<td>null</td>
-</tr>
-<tr>
-<td>2</td>
-<td>b</td>
-<td>2</td>
-<td>D</td>
-</tr>
-<tr>
-<td>3</td>
-<td>c</td>
-<td>3</td>
-<td>E</td>
-</tr>
-<tr>
-<td>null</td>
-<td>null</td>
-<td>4</td>
-<td>F</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/MySql-%E5%B1%9E%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -5065,6 +4261,445 @@
   
   
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/03/30/CSS-%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/anyeansan.github.io/2020/03/30/CSS-%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80/" class="post-title-link" itemprop="url">CSS 弹性布局</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-03-30 20:58:23 / 修改时间：20:59:32" itemprop="dateCreated datePublished" datetime="2020-03-30T20:58:23+08:00">2020-03-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/UI/CSS/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li>Flex 是 Flexible Box 的缩写，意为”弹性布局”，可以轻松的控制元素排列、对齐和顺序的控制</li>
+<li>任何一个容器都可以指定为 Flex 布局</li>
+<li>设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效</li>
+<li>弹性元素均为块元素</li>
+<li>绝对定位的弹性元素不参与弹性布局</li>
+<li>文本节点也在弹性布局操作范围内</li>
+<li>在弹性布局中对元素使用<code>margin-right:auto</code> 等形式可以自动撑满空间</li>
+</ol>
+<h1 id="二-基本概念"><a href="#二-基本概念" class="headerlink" title="二 基本概念"></a>二 基本概念</h1><p><img src="https://gitee.com/3noanswer/npics/raw/master/UI/CSS/Flex%E6%A6%82%E5%BF%B5.png" alt=""></p>
+<ol>
+<li>Flex 容器（flex container）：采用 Flex 布局的元素</li>
+<li>Flex 项目（flex item）： Flex 容器中的子元素</li>
+<li>主轴（main axis）：默认是水平轴<ul>
+<li>主轴的开始位置（与边框的交叉点）叫做 main start</li>
+<li>主轴的结束位置叫做 main end</li>
+<li>单个项目占据的主轴空间叫做 main size</li>
+</ul>
+</li>
+<li>交叉轴（cross axis）：默认是垂直轴<ul>
+<li>交叉轴的开始位置叫做 cross start</li>
+<li>交叉轴的结束位置叫做 cross end</li>
+<li>单个项目占据的交叉轴空间叫做 cross size</li>
+</ul>
+</li>
+</ol>
+<h1 id="三-声明容器"><a href="#三-声明容器" class="headerlink" title="三 声明容器"></a>三 声明容器</h1><ol>
+<li><code>display:flex</code><ul>
+<li>块级弹性盒子</li>
+</ul>
+</li>
+<li><code>display:inline-flex</code> <ul>
+<li>内联级弹性盒子</li>
+</ul>
+</li>
+</ol>
+<h1 id="四-容器属性"><a href="#四-容器属性" class="headerlink" title="四 容器属性"></a>四 容器属性</h1><h2 id="4-1-flex-direction"><a href="#4-1-flex-direction" class="headerlink" title="4.1 flex-direction"></a>4.1 flex-direction</h2><ul>
+<li>决定主轴的方向</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>row</code>（默认）</td>
+<td>主轴为水平方向，起点在左端（从左到右）</td>
+</tr>
+<tr>
+<td><code>row-reverse</code></td>
+<td>主轴为水平方向，起点在右端（从右到左）</td>
+</tr>
+<tr>
+<td><code>column</code></td>
+<td>主轴为垂直方向，起点在上沿（从上到下）</td>
+</tr>
+<tr>
+<td><code>column-reverse</code></td>
+<td>主轴为垂直方向，起点在下沿（从下到上）</td>
+</tr>
+</tbody></table>
+<h2 id="4-2-flex-wrap"><a href="#4-2-flex-wrap" class="headerlink" title="4.2 flex-wrap"></a>4.2 flex-wrap</h2><ul>
+<li>默认情况下，项目都排在一条线（又称”轴线”）上</li>
+<li>flex-wrap属性定义，如果一条轴线排不下，如何换行</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>nowrap</code>（默认）</td>
+<td>不换行/列</td>
+</tr>
+<tr>
+<td><code>wrap</code></td>
+<td>换行/列，新行在下 / 新列在右</td>
+</tr>
+<tr>
+<td><code>wrap-reverse</code></td>
+<td>换行/列，新行在上 / 新列在左</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-flex-flow"><a href="#4-3-flex-flow" class="headerlink" title="4.3 flex-flow"></a>4.3 flex-flow</h2><ul>
+<li><code>flex-direction || flex-wrap</code><ul>
+<li><code>flex-flow</code> 是 <code>flex-direction</code> 与 <code>flex-wrap</code> 的组合简写模式，默认 <code>row nowrap</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-4-justify-content"><a href="#4-4-justify-content" class="headerlink" title="4.4 justify-content"></a>4.4 justify-content</h2><ul>
+<li>定义了项目在主轴上的对齐方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flex-start</code>（默认）</td>
+<td>元素紧靠主轴起点，左对齐</td>
+</tr>
+<tr>
+<td><code>flex-end</code></td>
+<td>元素紧靠主轴终点，右对齐</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>元素从弹性容器中心开始，居中</td>
+</tr>
+<tr>
+<td><code>space-between</code></td>
+<td>第一个元素靠起点，最后一个元素靠终点，余下元素平均分配剩余空间，两端对齐</td>
+</tr>
+<tr>
+<td><code>space-around</code></td>
+<td>每个元素两侧的间隔相等。所以，项目之间的间隔是项目与边框的间隔的2倍</td>
+</tr>
+<tr>
+<td><code>space-evenly</code></td>
+<td>元素间距离平均分配，所有间距都相等</td>
+</tr>
+</tbody></table>
+<h2 id="4-5-align-items"><a href="#4-5-align-items" class="headerlink" title="4.5 align-items"></a>4.5 align-items</h2><ul>
+<li>交叉轴上所有项目的对齐方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stretch</code>（默认）</td>
+<td>如果项目未设置高度或设为auto，将占满整个容器的高度</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>交叉轴的中点对齐</td>
+</tr>
+<tr>
+<td><code>flex-start</code></td>
+<td>交叉轴的起点对齐</td>
+</tr>
+<tr>
+<td><code>flex-end</code></td>
+<td>交叉轴的终点对齐</td>
+</tr>
+<tr>
+<td><code>baseline</code></td>
+<td>项目的第一行文字的基线对齐</td>
+</tr>
+</tbody></table>
+<h2 id="4-6-align-content"><a href="#4-6-align-content" class="headerlink" title="4.6 align-content"></a>4.6 align-content</h2><ul>
+<li>定义多行在交叉轴的对齐方式，如果只有一行则无效</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stretch</code>（默认）</td>
+<td>轴线占满整个交叉轴</td>
+</tr>
+<tr>
+<td><code>flex-start</code></td>
+<td>与交叉轴的起点对齐</td>
+</tr>
+<tr>
+<td><code>flex-end</code></td>
+<td>与交叉轴的终点对齐</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>与交叉轴的中点对齐</td>
+</tr>
+<tr>
+<td><code>space-between</code></td>
+<td>与交叉轴两端对齐，轴线之间的间隔平均分布</td>
+</tr>
+<tr>
+<td><code>space-around</code></td>
+<td>每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍</td>
+</tr>
+<tr>
+<td><code>space-evenly</code></td>
+<td>轴线间距离相等</td>
+</tr>
+</tbody></table>
+<h1 id="五-项目属性"><a href="#五-项目属性" class="headerlink" title="五 项目属性"></a>五 项目属性</h1><h2 id="5-1-order"><a href="#5-1-order" class="headerlink" title="5.1 order"></a>5.1 order</h2><ul>
+<li>定义项目的排列顺序。数值越小，排列越靠前</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;integer&gt;</code></td>
+<td>默认为 0，可以为负</td>
+</tr>
+</tbody></table>
+<h2 id="5-2-flex-grow"><a href="#5-2-flex-grow" class="headerlink" title="5.2 flex-grow"></a>5.2 flex-grow</h2><ul>
+<li>指定容器有剩余空间时（即项目宽度之和小于容器宽度）项目的分配规则<ul>
+<li><code>剩余空间 = 容器宽度 - 项目宽度之和</code></li>
+</ul>
+</li>
+<li>默认值是0，不分配多余空间</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;number&gt;</code></td>
+<td>默认为 0，数字为放大比例，不能为负</td>
+</tr>
+<tr>
+<td>* 计算规则</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://gitee.com/3noanswer/npics/raw/master/UI/CSS/flex-grow%E8%AE%A1%E7%AE%97%E8%A7%84%E5%88%99.jpg" alt=""></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="5-3-flex-shrink"><a href="#5-3-flex-shrink" class="headerlink" title="5.3 flex-shrink"></a>5.3 flex-shrink</h2><ul>
+<li>指定容器有溢出空间时（即项目宽度之和大于容器宽度）项目的分配规则<ul>
+<li><code>溢出空间 = 项目宽度之和 - 容器宽度</code></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;number&gt;</code></td>
+<td>默认为 1，数字为缩小比例，不能为负</td>
+</tr>
+<tr>
+<td>* 计算规则</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://gitee.com/3noanswer/npics/raw/master/UI/CSS/flex-shrink%E8%AE%A1%E7%AE%97%E8%A7%84%E5%88%99.jpg" alt=""></td>
+<td></td>
+</tr>
+<tr>
+<td>* 其实还要算padding border magin..总之很复杂</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="5-4-flex-basis"><a href="#5-4-flex-basis" class="headerlink" title="5.4 flex-basis"></a>5.4 flex-basis</h2><ul>
+<li>指定了 项目在主轴方向上的初始大小。如果不使用  box-sizing 改变盒模型的话，则flex-basis是作用在 content-box 上的</li>
+<li>flex-basis的优先级高于width / height属性，低于min-width max width / min-height max-height</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code>（默认）</td>
+<td>项目的本来大小（参照width和height属性）</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度单位</td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>相对于弹性容器主轴尺寸的百分比</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>基于项目的内容自动调整大小</td>
+</tr>
+</tbody></table>
+<h2 id="5-5-flex"><a href="#5-5-flex" class="headerlink" title="5.5 flex"></a>5.5 flex</h2><ul>
+<li><code>&lt;flex-grow&gt; &lt;flex-shrink&gt;? || &lt;flex-basis&gt;</code><ul>
+<li>是flex-grow, flex-shrink 和 flex-basis的简写</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0 1 auto</code>（默认）</td>
+<td>即三个属性分别的默认值</td>
+</tr>
+<tr>
+<td><code>auto</code></td>
+<td>相当于 <code>1 1 auto</code></td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>相当于 <code>0 0 auto</code></td>
+</tr>
+</tbody></table>
+<h2 id="5-6-align-self"><a href="#5-6-align-self" class="headerlink" title="5.6 align-self"></a>5.6 align-self</h2><ul>
+<li>交叉轴上单个项目对齐方式</li>
+<li>覆盖已有的 <code>align-items</code> 的值. 如果项目的交叉轴方向 margin 值设置为 auto，则会忽略<code>align-self</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code>（默认）</td>
+<td>设置为父元素的 <code>align-items</code> 值，如果该元素没有父元素的话，就设置为 <code>stretch</code></td>
+</tr>
+<tr>
+<td><code>strech</code></td>
+<td>如果项目未设置高度或设为auto，将占满整个容器的高度</td>
+</tr>
+<tr>
+<td><code>flex-start</code></td>
+<td>交叉轴的起点对齐</td>
+</tr>
+<tr>
+<td><code>flex-end</code></td>
+<td>交叉轴的终点对齐</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>交叉轴的中点对齐</td>
+</tr>
+<tr>
+<td><code>baseline</code></td>
+<td>项目的第一行文字的基线对齐</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+    </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
   </div>
 
   
@@ -5115,14 +4750,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/anyeansan.github.io/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">书斋</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/anyeansan.github.io/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">门派</span></a>
       </div>
   </nav>
