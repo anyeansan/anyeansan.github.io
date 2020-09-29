@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述 日志门面（接口）：  JCL（jakarta commons logging） slf4j（simple logging facade for java）    日志实现  JUL（Java util Logging） logback log4j log4j2    二 日志门面2.1 JCL1 概述 Jakarta Commons Logging 包： commons-looging.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-日志">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;09&#x2F;29&#x2F;Java&#x2F;Java-%E6%97%A5%E5%BF%97&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述 日志门面（接口）：  JCL（jakarta commons logging） slf4j（simple logging facade for java）    日志实现  JUL（Java util Logging） logback log4j log4j2    二 日志门面2.1 JCL1 概述 Jakarta Commons Logging 包： commons-looging.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-09-29T08:05:08.331Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/09/29/Java/Java-%E6%97%A5%E5%BF%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java-日志 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/09/29/Java/Java-%E6%97%A5%E5%BF%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-日志
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-09-29 16:04:53 / 修改时间：16:05:08" itemprop="dateCreated datePublished" datetime="2020-09-29T16:04:53+08:00">2020-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li><p>日志门面（接口）：</p>
+<ol>
+<li><code>JCL（jakarta commons logging）</code></li>
+<li><code>slf4j（simple logging facade for java）</code> </li>
+</ol>
+</li>
+<li><p>日志实现</p>
+<ol>
+<li><code>JUL（Java util Logging）</code></li>
+<li><code>logback</code></li>
+<li><code>log4j</code></li>
+<li><code>log4j2</code></li>
+</ol>
+</li>
+</ol>
+<h1 id="二-日志门面"><a href="#二-日志门面" class="headerlink" title="二 日志门面"></a>二 日志门面</h1><h2 id="2-1-JCL"><a href="#2-1-JCL" class="headerlink" title="2.1 JCL"></a>2.1 <code>JCL</code></h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li><code>Jakarta Commons Logging</code></li>
+<li>包： <code>commons-looging.jar</code></li>
+<li>Apache 提供的一个通用日志接口，它是为 “所有的 Java 日志实现”提供一个统一的接口，它自身也提供一个日志的实现 <code>SimpleLog</code>，但是功能非常弱</li>
+<li>通过动态查找的机制，在程序运行时自动找出真正使用的日志库，如果未提供任何第三方实现，则默认使用 <code>JUL</code></li>
+</ol>
+<h3 id="2-API"><a href="#2-API" class="headerlink" title="2 API"></a>2 API</h3><ol>
+<li><code>Log</code>：日志记录器</li>
+<li><code>LogFactory</code>：负责创建 <code>Log</code></li>
+</ol>
+<h2 id="2-2-slf4j"><a href="#2-2-slf4j" class="headerlink" title="2.2 slf4j"></a>2.2 <code>slf4j</code></h2><h3 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li><p><code>Simple Logging Facade For Java</code></p>
+</li>
+<li><p>SLF4J 主要是为了给 Java 日志访问提供一套标准、规范的 API 框架，其主要意义在于提供接口，具体的实现可以交由其他日志框架</p>
+</li>
+<li><p>slf4j 内置一个简单的日志实现 <code>slf4j-simple</code> ，不过很少使用</p>
+</li>
+<li><p>通常 slf4j 作为门面，配上具体的实现框架，中接使用桥接器完成桥接</p>
+</li>
+<li><p>主要功能：</p>
+<ol>
+<li>日志框架的绑定</li>
+<li>日志框架的桥接</li>
+</ol>
+</li>
+<li><p><code>slf4j-api.jar</code> 核心 API 包</p>
+</li>
+<li><p>日志级别</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OFF &gt; FATAL &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt; ALL</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="2-绑定日志实现"><a href="#2-绑定日志实现" class="headerlink" title="2 绑定日志实现"></a>2 绑定日志实现</h3><h4 id="1-步骤"><a href="#1-步骤" class="headerlink" title="1 步骤"></a>1 步骤</h4><ol>
+<li>添加 slf4j 的依赖包 <code>slf4j-api.jar</code></li>
+<li>绑定具体的日志实现框架<ol>
+<li>已经实现 slf4j 的日志框架，如 <code>logback</code>，直接添加其依赖即可</li>
+<li>没有实现 slf4j 的日志框架，如 <code>JUL log4j log4j2</code>，除了日志框架的依赖包外，还需要适配器（包）</li>
+</ol>
+</li>
+<li>如果绑定了多个实现，默认使用第一个</li>
+</ol>
+<h4 id="2-包"><a href="#2-包" class="headerlink" title="2 包"></a>2 包</h4><h5 id="1-slf4j-JUL"><a href="#1-slf4j-JUL" class="headerlink" title="1 slf4j + JUL"></a>1 slf4j + JUL</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slf4j-api.jar</span><br><span class="line">slf4j-jdk14.jar</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-slf4j-log4j"><a href="#2-slf4j-log4j" class="headerlink" title="2 slf4j + log4j"></a>2 slf4j + log4j</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">slf4j-api.jar</span><br><span class="line">log4j.jar</span><br><span class="line">slf4j-log4j12.jar</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-slf4j-log4j2"><a href="#3-slf4j-log4j2" class="headerlink" title="3 slf4j + log4j2"></a>3 slf4j + log4j2</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">slf4j-api.jar</span><br><span class="line">log4j-api.jar</span><br><span class="line">log4j-core.jar</span><br><span class="line">log4j-slf4j-impl.jar</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-slf4j-logback"><a href="#4-slf4j-logback" class="headerlink" title="4 slf4j + logback"></a>4 slf4j + logback</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">slf4j-api.jar</span><br><span class="line">logback-core.jar</span><br><span class="line">logback-classic.jar</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-桥接旧的日志框架"><a href="#3-桥接旧的日志框架" class="headerlink" title="3 桥接旧的日志框架"></a>3 桥接旧的日志框架</h3><h4 id="1-步骤-1"><a href="#1-步骤-1" class="headerlink" title="1 步骤"></a>1 步骤</h4><ol>
+<li>去除旧的日志依赖</li>
+<li>配置桥接器（包）</li>
+<li>绑定新的日志实现</li>
+</ol>
+<h4 id="2-桥接器"><a href="#2-桥接器" class="headerlink" title="2 桥接器"></a>2 桥接器</h4><ol>
+<li><code>jul-to-slf4j.jar</code><ul>
+<li>将 JUL 的日志桥接到 slf4j ，即不再使用 JUL，而使用新的日志实现</li>
+</ul>
+</li>
+<li><code>log4j-over-slf4j.jar</code><ul>
+<li>将 log4j 的日志桥接到 slf4j</li>
+</ul>
+</li>
+<li><code>jcl-over-slf4j.jar</code><ul>
+<li>将 JCL 的日志桥接到 slf4j</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-API"><a href="#4-API" class="headerlink" title="4 API"></a>4 API</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Logger LoggerFactory.getLogger(字节码文件)</span><br><span class="line">Logger LoggerFactory.getLogger(全限定类名)</span><br></pre></td></tr></table></figure>
+
+<h1 id="三-日志实现"><a href="#三-日志实现" class="headerlink" title="三 日志实现"></a>三 日志实现</h1><h2 id="3-1-log4j2"><a href="#3-1-log4j2" class="headerlink" title="3.1 log4j2"></a>3.1 <code>log4j2</code></h2><h3 id="1-配置"><a href="#1-配置" class="headerlink" title="1 配置"></a>1 配置</h3><ul>
+<li>默认加载类路径下 <code>log4j2.xml</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">	日志级别： </span></span><br><span class="line"><span class="comment">		OFF &gt; FATAL &gt; ERROR &gt; WARN &gt; INFO &gt; DEBUG &gt; TRACE &gt; ALL</span></span><br><span class="line"><span class="comment">    日期格式：</span></span><br><span class="line"><span class="comment">        %d 输出的时间</span></span><br><span class="line"><span class="comment">        %t 输出当前线程名称</span></span><br><span class="line"><span class="comment">        %F 输出所在的类文件名</span></span><br><span class="line"><span class="comment">        %L 输出行号</span></span><br><span class="line"><span class="comment">        %M 输出所在方法名</span></span><br><span class="line"><span class="comment">        %n 换行</span></span><br><span class="line"><span class="comment">        %-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0</span></span><br><span class="line"><span class="comment">        %logger 输出logger名称，Root Logger没有名称</span></span><br><span class="line"><span class="comment">        %l 输出语句所在的行数, 包括类名、方法名、文件名、行数</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">status：设置log4j2自身内部的信息输出，可以不设置</span></span><br><span class="line"><span class="comment">monitorInterval：指定每隔多久重新读取配置文件，可以不重启应用的情况下修改配置</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">status</span>=<span class="string">"WARN"</span> <span class="attr">monitorInterval</span>=<span class="string">"30"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 1 定义属性--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 2 配置 appender--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">appenders</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 2.1 console--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">console</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--输出日志格式--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"[%d&#123;HH:mm:ss:SSS&#125;] [%p] - %l - %m%n"</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">console</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">&lt;!-- 2.2 file--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">File</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">fileName</span>=<span class="string">"文件路径"</span> <span class="attr">append</span>=<span class="string">"是否追加"</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--输出日志格式--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">File</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">&lt;!-- 2.3 rollingFile--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">RollingFile</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">fileName</span>=<span class="string">""</span> <span class="attr">filePattern</span>=<span class="string">"指定当发生Rolling时，文件的转移和重命名规则"</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--输出日志格式--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- 过滤器--&gt;</span>      </span><br><span class="line">			<span class="tag">&lt;<span class="name">ThresholdFilter</span> <span class="attr">level</span>=<span class="string">""</span> <span class="attr">onMatch</span>=<span class="string">"ACCEPT"</span> <span class="attr">onMismatch</span>=<span class="string">"DENY"</span>/&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- 日志拆分规则--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">Policies</span>&gt;</span></span><br><span class="line">            	<span class="comment">&lt;!-- 系统启动就触发拆分规则，产生一个新的日志文件--&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">OnStartupTriggeringPolicy</span>/&gt;</span></span><br><span class="line">            	<span class="comment">&lt;!-- 按照时间节点拆分，根据 filePattern 的配置，如最小时间粒度是HH，则表示每小时产生一个新的日志文件--&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">TimeBasedTriggeringPolicy</span>/&gt;</span></span><br><span class="line">				<span class="comment">&lt;!-- 按照文件大小拆分，超过大小就产生一个新的--&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">SizeBasedTriggeringPolicy</span> <span class="attr">size</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">Policies</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!--同一目录最多保存的文件个数，超过则覆盖--&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">DefaultRolloverStrategy</span> <span class="attr">max</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">RollingFile</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">appenders</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!-- 3 logger 只有定义了logger并引入的appender，appender才会生效--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">loggers</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--3.1 root--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">&lt;!--3.2 自定义 logger--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">level</span>=<span class="string">""</span> <span class="attr">additivity</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-异步日志"><a href="#2-异步日志" class="headerlink" title="2 异步日志"></a>2 异步日志</h3><h4 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>异步日志需要添加依赖 <code>com.lmax.disruptor</code></li>
+<li>有两种实现方式<ol>
+<li><code>AsyncLogger</code>（官方推荐）：全局+混合</li>
+<li><code>AsyncAppender</code></li>
+</ol>
+</li>
+<li>注意三种方式不要同时使用</li>
+</ol>
+<h4 id="2-AsyncLogger"><a href="#2-AsyncLogger" class="headerlink" title="2 AsyncLogger"></a>2 <code>AsyncLogger</code></h4><h5 id="1-全局异步"><a href="#1-全局异步" class="headerlink" title="1 全局异步"></a>1 全局异步</h5><ol>
+<li><p>所有的日志都异步的记录，在配置文件上不用做任何改动，只需要添加一个 <code>log4j2.component.properties</code> 配置</p>
+</li>
+<li><p><code>log4j2.component.properties</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Log4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="2-混合异步"><a href="#2-混合异步" class="headerlink" title="2 混合异步"></a>2 混合异步</h5><ol>
+<li><p>同时使用同步日志和异步日志，通过配置指定哪些同步哪些异步</p>
+</li>
+<li><p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">		自定义异步 logger</span></span><br><span class="line"><span class="comment">		includeLocation：是否包含日志记录的行号信息，要关闭</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">AsyncLogger</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">level</span>=<span class="string">""</span> <span class="attr">includeLocation</span>=<span class="string">"false"</span> <span class="attr">additivity</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">AsyncLogger</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="3-AsyncAppender"><a href="#3-AsyncAppender" class="headerlink" title="3 AsyncAppender"></a>3 <code>AsyncAppender</code></h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 定义异步 appender ，之后引入 logger 即可</span><br><span class="line"><span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">Async</span> <span class="attr">name</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">Async</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-logback"><a href="#3-2-logback" class="headerlink" title="3.2 logback"></a>3.2 <code>logback</code></h2><h3 id="1-模块"><a href="#1-模块" class="headerlink" title="1 模块"></a>1 模块</h3><ol>
+<li><code>logback-core</code>：其它两个模块的基础模块</li>
+<li><code>logback-classic</code>：它是 log4j 的一个改良版本，同时它完整实现了slf4j API</li>
+<li><code>logback-access</code>：访问模块与 Servlet 容器集成提供通过 Http 来访问日志的功能</li>
+</ol>
+<h3 id="2-配置"><a href="#2-配置" class="headerlink" title="2 配置"></a>2 配置</h3><h4 id="1-依次读取"><a href="#1-依次读取" class="headerlink" title="1 依次读取"></a>1 依次读取</h4><ol>
+<li><code>logback.groovy</code></li>
+<li><code>logback-test.xml</code></li>
+<li><code>logback.xml</code></li>
+</ol>
+<h4 id="2-详解"><a href="#2-详解" class="headerlink" title="2 详解"></a>2 详解</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 1 配置集中管理属性，获取value语法 $&#123;name&#125; --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">value</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!-- 2 Appdender 配置 --&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 2.1 console --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--输出流对象 默认 System.out--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">target</span>&gt;</span><span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--日志输出格式--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.encoder.PatternLayoutEncoder"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">pattern</span>&gt;</span><span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">appender</span>&gt;</span>	</span><br><span class="line">	<span class="comment">&lt;!-- 2.2 file --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.FileAppender"</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志输出路径--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">file</span>&gt;</span><span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!--日志输出格式--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.encoder.PatternLayoutEncoder"</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">pattern</span>&gt;</span><span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">    <span class="comment">&lt;!-- 2.3 htmlFile --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.FileAppender"</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志输出路径--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">file</span>&gt;</span><span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志输出格式--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.encoder.LayoutWrappingEncoder"</span>&gt;</span></span><br><span class="line">    		<span class="tag">&lt;<span class="name">layout</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.html.HTMLLayout"</span>&gt;</span></span><br><span class="line">    			<span class="tag">&lt;<span class="name">pattern</span>&gt;</span><span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">    		<span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line">  </span><br><span class="line">	<span class="comment">&lt;!-- 2.4 rollingFile --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.RollingFileAppender"</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志输出路径--&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">file</span>&gt;</span><span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志输出格式--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">encoder</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.encoder.PatternLayoutEncoder"</span>&gt;</span></span><br><span class="line">    		<span class="tag">&lt;<span class="name">pattern</span>&gt;</span><span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--指定日志文件拆分和压缩规则--&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">rollingPolicy</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"</span>&gt;</span></span><br><span class="line">    		<span class="comment">&lt;!--按照时间和压缩格式声明拆分的文件名--&gt;</span></span><br><span class="line">   		 	<span class="tag">&lt;<span class="name">fileNamePattern</span>&gt;</span><span class="tag">&lt;/<span class="name">fileNamePattern</span>&gt;</span></span><br><span class="line">    		<span class="comment">&lt;!--按照文件大小拆分--&gt;</span></span><br><span class="line">    		<span class="tag">&lt;<span class="name">maxFileSize</span>&gt;</span><span class="tag">&lt;/<span class="name">maxFileSize</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">rollingPolicy</span>&gt;</span></span><br><span class="line">    	<span class="comment">&lt;!--日志级别过滤器--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.filter.LevelFilter"</span>&gt;</span></span><br><span class="line">      		<span class="comment">&lt;!--过滤规则--&gt;</span></span><br><span class="line">      		<span class="tag">&lt;<span class="name">level</span>&gt;</span><span class="tag">&lt;/<span class="name">level</span>&gt;</span></span><br><span class="line">      		// 超过指定级别放行还是拦截</span><br><span class="line">      		<span class="tag">&lt;<span class="name">onMatch</span>&gt;</span>ACCEPT<span class="tag">&lt;/<span class="name">onMatch</span>&gt;</span></span><br><span class="line">      		// 低于指定级别放行还是拦截</span><br><span class="line">      		<span class="tag">&lt;<span class="name">onMismatch</span>&gt;</span>DENY<span class="tag">&lt;/<span class="name">onMismatch</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!-- 2.5 异步 async --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.AsyncAppender"</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!-- 3 root Logger 配置--&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"默认debug"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"console"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">&lt;!--4 自定义 logger --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"com.itheima"</span> <span class="attr">level</span>=<span class="string">"debug"</span> <span class="attr">additivity</span>=<span class="string">"是否继承rootLogger，默认true"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">logger</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-JUL"><a href="#3-3-JUL" class="headerlink" title="3.3 JUL"></a>3.3 <code>JUL</code></h2><h3 id="1-概述-3"><a href="#1-概述-3" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li><code>Java util Logging</code></li>
+<li>是 Java 原生的日志框架，使用时不需要另外引用第三方类库</li>
+<li>配置文件：<code>$JAVA_HOME\conf\logging.properties</code></li>
+<li>所在包：<code>java.util.logging</code> </li>
+</ol>
+<h3 id="2-架构"><a href="#2-架构" class="headerlink" title="2 架构"></a>2 架构</h3><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Logger</code></td>
+<td>日志记录器，程序通过此对象的 API 来发布日志，每个 <code>Logger</code> 可以关联多个 <code>Appender / Handler</code></td>
+</tr>
+<tr>
+<td><code>Appender / Handler</code></td>
+<td>日志处理器，决定日志记录的位置，如 控制台、文件…</td>
+</tr>
+<tr>
+<td><code>Layout / Formatter</code></td>
+<td>负责日志记录的数据转换和格式化</td>
+</tr>
+<tr>
+<td><code>Level</code></td>
+<td>日志级别</td>
+</tr>
+</tbody></table>
+<h3 id="2-API-1"><a href="#2-API-1" class="headerlink" title="2 API"></a>2 API</h3><h4 id="1-Logger"><a href="#1-Logger" class="headerlink" title="1 Logger"></a>1 Logger</h4><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static Logger</code></td>
+<td><code>getLogger(String name)</code></td>
+<td>获取或创建 <code>Logger</code> 对象</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>log(Level, String msg)</code></td>
+<td>输出指定级别的信息</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>info(String msg)</code></td>
+<td>输出指定级别的信息，还有其它级别方法</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>addHandler(Handler handler)</code></td>
+<td>关联 <code>Handler</code></td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>setUseParentHandlers(Boolean useParentHandlers)</code></td>
+<td>是否会输出到父 <code>Logger</code></td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>setLevel(Level newLevel)</code></td>
+<td>设置日志级别</td>
+</tr>
+</tbody></table>
+<ol>
+<li><code>Logger</code> 之间存在父子关系，根据名称会自动继承，如 <code>com.cn.an 和 com.cn 和 com</code></li>
+<li>最顶层是一个 <code>RootLogger</code></li>
+<li>子 <code>Logger</code> 输出会同时传递给父 <code>Logger</code> 输出</li>
+</ol>
+<h4 id="2-Lever"><a href="#2-Lever" class="headerlink" title="2 Lever"></a>2 Lever</h4><table>
+<thead>
+<tr>
+<th>静态属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ALL</code></td>
+<td>启用所有级别信息</td>
+</tr>
+<tr>
+<td><code>OFF</code></td>
+<td>关闭日志</td>
+</tr>
+<tr>
+<td><code>SEVERE</code></td>
+<td>错误</td>
+</tr>
+<tr>
+<td><code>WARNING</code></td>
+<td>警告</td>
+</tr>
+<tr>
+<td><code>INFO</code>（默认）</td>
+<td>信息</td>
+</tr>
+<tr>
+<td><code>CONFIG</code></td>
+<td>配置</td>
+</tr>
+<tr>
+<td><code>FINE FINER FINEST</code></td>
+<td>debug <code>详细 较详细 非常详细</code></td>
+</tr>
+</tbody></table>
+<h4 id="3-Handler"><a href="#3-Handler" class="headerlink" title="3 Handler"></a>3 Handler</h4><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>setLevel(Level newLevel)</code></td>
+<td>设置日志级别</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>setForMatter(Formater newFormatter)</code></td>
+<td>关联  <code>Formatter</code></td>
+</tr>
+</tbody></table>
+<h2 id="3-4-Log4j"><a href="#3-4-Log4j" class="headerlink" title="3.4 Log4j"></a>3.4 <code>Log4j</code></h2><h3 id="1-配置文件"><a href="#1-配置文件" class="headerlink" title="1 配置文件"></a>1 配置文件</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定日志级别和使用的输出端appender：console为自定义名称</span></span><br><span class="line"><span class="meta">log4j.rootLogger</span>=<span class="string">INFO,console</span></span><br><span class="line"><span class="comment"># 控制台输出配置</span></span><br><span class="line"><span class="meta">log4j.appender.console</span>=<span class="string">org.apache.log4j.ConsoleAppender</span></span><br><span class="line"><span class="meta">log4j.appender.console.layout</span>=<span class="string">org.apache.log4j.PatternLayout</span></span><br><span class="line"><span class="meta">log4j.appender.console.layout.ConversionPattern</span>=<span class="string">%d [%t] %-5p [%c] - %m%n</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>名称：<code>log4j.properties</code></li>
+<li>将配置文件放在类路径下，会自动读取</li>
+</ol>
+<h3 id="2-组件"><a href="#2-组件" class="headerlink" title="2 组件"></a>2 组件</h3><h4 id="1-Looger"><a href="#1-Looger" class="headerlink" title="1 Looger"></a>1 Looger</h4><ol>
+<li>Log4j 有一个根 <code>Logger</code>：<code>root</code></li>
+<li>其它所有的 <code>Logger</code> 都会直接或间接继承 <code>root</code></li>
+</ol>
+<h4 id="2-Appender"><a href="#2-Appender" class="headerlink" title="2 Appender"></a>2 Appender</h4><ol>
+<li><code>ConsoleAppender</code></li>
+<li><code>FileAppender</code></li>
+<li><code>DailyRollingFileAppender</code></li>
+<li><code>RollingFileAppender</code></li>
+<li><code>JDBCAppender</code></li>
+</ol>
+<h4 id="3-Layout"><a href="#3-Layout" class="headerlink" title="3 Layout"></a>3 Layout</h4><ol>
+<li><code>HTMLLayout</code></li>
+<li><code>SimpleLayout</code></li>
+<li><code>PatternLayout</code></li>
+</ol>
+<ul>
+<li><h1 id="配置文件log4j2-xml"><a href="#配置文件log4j2-xml" class="headerlink" title="配置文件log4j2.xml"></a><strong>配置文件<code>log4j2.xml</code></strong></h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">Configuration</span> <span class="attr">status</span>=<span class="string">"WARN"</span> <span class="attr">monitorInterval</span>=<span class="string">"100"</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">Appenders</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">Console</span> <span class="attr">name</span>=<span class="string">"Console"</span> <span class="attr">target</span>=<span class="string">"SYSTEM_OUT"</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">PatternLayout</span> <span class="attr">pattern</span>=<span class="string">"%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n"</span> /&gt;</span></span><br><span class="line">        	<span class="tag">&lt;/<span class="name">Console</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">Appenders</span>&gt;</span></span><br><span class="line">   	 <span class="tag">&lt;<span class="name">Loggers</span>&gt;</span></span><br><span class="line">        	<span class="tag">&lt;<span class="name">Root</span> <span class="attr">level</span>=<span class="string">"info"</span>&gt;</span></span><br><span class="line">            	<span class="tag">&lt;<span class="name">AppenderRef</span> <span class="attr">ref</span>=<span class="string">"Console"</span> /&gt;</span></span><br><span class="line">        	<span class="tag">&lt;/<span class="name">Root</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">Loggers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>log4j2默认会在classpath目录下寻找log4j.json、log4j.jsn、log4j2.xml等名称的文件，如果都没有找到，则会按默认配置输出，也就是输出到控制台。</li>
+<li><code>status</code><ul>
+<li>表示log4j2本身的日志信息打印级别</li>
+<li>用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,会看到log4j2内部各种详细输出</li>
+</ul>
+</li>
+<li><code>monitorInterval</code><ul>
+<li>Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。</li>
+</ul>
+</li>
+<li><code>Appender</code><ul>
+<li>定义日志的输出目的地</li>
+<li><code>Console</code><ul>
+<li>定义输出到控制台的Appender</li>
+<li><code>name</code><ul>
+<li>指定Appender的名字</li>
+</ul>
+</li>
+<li><code>target</code><ul>
+<li>SYSTEM_OUT 或 SYSTEM_ERR,一般只设置默认:SYSTEM_OUT.</li>
+</ul>
+</li>
+<li><code>PatternLayout</code><ul>
+<li>输出格式，不设置默认为:%m%n.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>File</code><ul>
+<li>定义输出到指定位置的文件的Appender</li>
+<li><code>name</code><ul>
+<li>指定Appender的名字</li>
+</ul>
+</li>
+<li><code>fileName</code><ul>
+<li>指定输出日志的目的文件带全路径的文件名</li>
+</ul>
+</li>
+<li><code>PatternLayout</code><ul>
+<li>输出格式，不设置默认为:%m%n.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>RollingFile</code><ul>
+<li>定义超过指定大小自动删除旧的创建新的的Appender.</li>
+<li><code>name</code><ul>
+<li>指定Appender的名字</li>
+</ul>
+</li>
+<li><code>fileName</code><ul>
+<li>指定输出日志的目的文件带全路径的文件名</li>
+</ul>
+</li>
+<li><code>PatternLayout</code><ul>
+<li>输出格式，不设置默认为:%m%n.</li>
+</ul>
+</li>
+<li><code>filePattern</code><ul>
+<li>指定新建日志文件的名称格式.</li>
+</ul>
+</li>
+<li><code>Policies</code><ul>
+<li>指定滚动日志的策略，就是什么时候进行新建日志文件输出日志</li>
+<li><code>TimeBasedTriggeringPolicy</code><ul>
+<li>基于时间的滚动策略</li>
+<li><code>interval</code><ul>
+<li>指定多久滚动一次，默认是1 hour</li>
+</ul>
+</li>
+<li><code>modulate</code><ul>
+<li>=true用来调整时间</li>
+<li>比如现在是早上3am，interval是4，那么第一次滚动是在4am，接着是8am，12am…而不是7am</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>SizeBasedTriggeringPolicy</code><ul>
+<li>基于指定文件大小的滚动策略</li>
+<li><code>size</code><ul>
+<li>定义每个日志文件的大小</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>DefaultRolloverStrategy</code><ul>
+<li>指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的</li>
+<li><code>max</code><ul>
+<li>配置最多日志文件数</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Loggers</code><ul>
+<li><code>Root</code><ul>
+<li>指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出</li>
+<li><code>level</code><ul>
+<li>日志输出级别，共有8个级别，按照从低到高为：All &lt; Trace &lt; Debug &lt; Info &lt; Warn &lt; Error &lt; Fatal &lt; OFF</li>
+</ul>
+</li>
+<li><code>AppenderRef</code><ul>
+<li>指定该日志输出到哪个Appender</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Logger</code><ul>
+<li>单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等</li>
+<li><code>level</code></li>
+<li><code>name</code><ul>
+<li>指定该Logger所适用的类或者类所在的包全路径,继承自Root节点</li>
+</ul>
+</li>
+<li><code>AppenderRef</code><ul>
+<li>指定该日志输出到哪个Appender,如果没有指定，就会默认继承自Root.如果指定了，那么会在指定的这个Appender和Root的Appender中都会输出。<ul>
+<li>若设置Logger的additivity=”false”只在自定义的Appender中进行输出。        </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F/" rel="next" title="Java-时间日期">
+                  <i class="fa fa-chevron-left"></i> Java-时间日期
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-日志门面"><span class="nav-text">二 日志门面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JCL"><span class="nav-text">2.1 JCL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-API"><span class="nav-text">2 API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-slf4j"><span class="nav-text">2.2 slf4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-绑定日志实现"><span class="nav-text">2 绑定日志实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-步骤"><span class="nav-text">1 步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-包"><span class="nav-text">2 包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-slf4j-JUL"><span class="nav-text">1 slf4j + JUL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-slf4j-log4j"><span class="nav-text">2 slf4j + log4j</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-slf4j-log4j2"><span class="nav-text">3 slf4j + log4j2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-slf4j-logback"><span class="nav-text">4 slf4j + logback</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-桥接旧的日志框架"><span class="nav-text">3 桥接旧的日志框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-步骤-1"><span class="nav-text">1 步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-桥接器"><span class="nav-text">2 桥接器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-API"><span class="nav-text">4 API</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-日志实现"><span class="nav-text">三 日志实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-log4j2"><span class="nav-text">3.1 log4j2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置"><span class="nav-text">1 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-异步日志"><span class="nav-text">2 异步日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-AsyncLogger"><span class="nav-text">2 AsyncLogger</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-全局异步"><span class="nav-text">1 全局异步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-混合异步"><span class="nav-text">2 混合异步</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-AsyncAppender"><span class="nav-text">3 AsyncAppender</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-logback"><span class="nav-text">3.2 logback</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-模块"><span class="nav-text">1 模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置"><span class="nav-text">2 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-依次读取"><span class="nav-text">1 依次读取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-详解"><span class="nav-text">2 详解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-JUL"><span class="nav-text">3.3 JUL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-3"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-架构"><span class="nav-text">2 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-API-1"><span class="nav-text">2 API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Logger"><span class="nav-text">1 Logger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Lever"><span class="nav-text">2 Lever</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Handler"><span class="nav-text">3 Handler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Log4j"><span class="nav-text">3.4 Log4j</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置文件"><span class="nav-text">1 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-组件"><span class="nav-text">2 组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Looger"><span class="nav-text">1 Looger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Appender"><span class="nav-text">2 Appender</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Layout"><span class="nav-text">3 Layout</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件log4j2-xml"><span class="nav-text">配置文件log4j2.xml</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

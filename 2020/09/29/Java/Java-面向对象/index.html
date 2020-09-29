@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述1.1 编程范式 programming paradigm   术语 说明    Procedural programming 面向过程   Object-Oriented Programming 面向对象   Functional Programming 函数式   Event-driven Programming 事件驱动   Aspect-oriented Programming 面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-面向对象">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;09&#x2F;29&#x2F;Java&#x2F;Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述1.1 编程范式 programming paradigm   术语 说明    Procedural programming 面向过程   Object-Oriented Programming 面向对象   Functional Programming 函数式   Event-driven Programming 事件驱动   Aspect-oriented Programming 面">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92.png">
+<meta property="og:updated_time" content="2020-09-29T07:52:50.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/09/29/Java/Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java-面向对象 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/09/29/Java/Java-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-面向对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-09-29 15:45:40 / 修改时间：15:52:50" itemprop="dateCreated datePublished" datetime="2020-09-29T15:45:40+08:00">2020-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><h2 id="1-1-编程范式-programming-paradigm"><a href="#1-1-编程范式-programming-paradigm" class="headerlink" title="1.1 编程范式 programming paradigm"></a>1.1 编程范式 <code>programming paradigm</code></h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Procedural programming</code></td>
+<td>面向过程</td>
+</tr>
+<tr>
+<td><code>Object-Oriented Programming</code></td>
+<td>面向对象</td>
+</tr>
+<tr>
+<td><code>Functional Programming</code></td>
+<td>函数式</td>
+</tr>
+<tr>
+<td><code>Event-driven Programming</code></td>
+<td>事件驱动</td>
+</tr>
+<tr>
+<td><code>Aspect-oriented Programming</code></td>
+<td>面向切面</td>
+</tr>
+<tr>
+<td><code>Logic Programming</code></td>
+<td>逻辑</td>
+</tr>
+</tbody></table>
+<h2 id="1-2-面向对象和面向过程"><a href="#1-2-面向对象和面向过程" class="headerlink" title="1.2 面向对象和面向过程"></a>1.2 面向对象和面向过程</h2><ol>
+<li>把大象装进冰箱<ul>
+<li>面向过程 POP（<code>Process Oriented Programming</code>）<ol>
+<li>打开冰箱门</li>
+<li>把大象放进去</li>
+<li>关上冰箱门</li>
+</ol>
+</li>
+<li>面向对象 OOP（<code>Object Oriented Programming</code>）<ol>
+<li>冰箱（开门，关门）</li>
+<li>大象（进冰箱）</li>
+<li>人（指挥冰箱开门，指挥大象进去，指挥冰箱关门）</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>区别<ol>
+<li>面向过程<ul>
+<li>强调的是功能行为，以函数为最小单位，考虑怎么做</li>
+<li>性能相对较好，但耦合性搞，不易维护、复用和扩展</li>
+</ul>
+</li>
+<li>面向对象<ul>
+<li>强调具备了功能的对象，以类/对象为最小单位，考虑谁来做</li>
+<li>耦合度低，易维护、易复用、易扩展</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="二-类"><a href="#二-类" class="headerlink" title="二 类"></a>二 类</h1><h2 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>类 class</code></td>
+<td>对一类事物的描述，模板</td>
+</tr>
+<tr>
+<td><code>对象 object</code></td>
+<td>某类事物的个体，也叫实例（<code>instance</code>）</td>
+</tr>
+<tr>
+<td><code>属性 field</code></td>
+<td>类的成员变量，也叫字段，域</td>
+</tr>
+<tr>
+<td><code>方法 method</code></td>
+<td>类的成员函数，也叫行为</td>
+</tr>
+</tbody></table>
+<h2 id="2-2-类成员"><a href="#2-2-类成员" class="headerlink" title="2.2 类成员"></a>2.2 类成员</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">修饰符 <span class="class"><span class="keyword">class</span> 类名 </span>&#123;</span><br><span class="line">	属性列表</span><br><span class="line">	代码块</span><br><span class="line">	构造器列表</span><br><span class="line">	方法列表</span><br><span class="line">	内部类</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-构造器"><a href="#1-构造器" class="headerlink" title="1 构造器"></a>1 构造器</h3><ol>
+<li>构造函数的名称必须与类名相同</li>
+<li>一个类可以有多个构造器，彼此构成重载</li>
+<li>若类中没有显式定义构造函数，则会有一个默认空参构造函数（修饰符与类一致 <code>public</code> 或 <code>default</code>）</li>
+<li>构造函数第一行一定直接或间接调用父类构造函数，即如果在构造器首行没有显式的使用 <code>this(形参列表)</code> 或 <code>super(形参列表)</code> ，则默认调用了 <code>super()</code></li>
+</ol>
+<h3 id="2-属性"><a href="#2-属性" class="headerlink" title="2 属性"></a>2 属性</h3><h4 id="1-语法"><a href="#1-语法" class="headerlink" title="1 语法"></a>1 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">修饰符 数据类型 属性名; // 默认初始值</span><br><span class="line">修饰符 数据类型 属性名 = 值; // 显式初始值</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-成员变量（实例变量-静态变量）和局部变量"><a href="#2-成员变量（实例变量-静态变量）和局部变量" class="headerlink" title="2 成员变量（实例变量/静态变量）和局部变量"></a>2 成员变量（实例变量/静态变量）和局部变量</h4><table>
+<thead>
+<tr>
+<th>变量</th>
+<th>声明位置</th>
+<th>初始值</th>
+<th>存储位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实例变量</td>
+<td>类中</td>
+<td>有</td>
+<td>堆</td>
+</tr>
+<tr>
+<td>静态变量</td>
+<td>类中</td>
+<td>有</td>
+<td>方法区</td>
+</tr>
+<tr>
+<td>局部变量</td>
+<td>方法形参、方法内、代码块内、构造形参、构造内</td>
+<td>无</td>
+<td>栈</td>
+</tr>
+</tbody></table>
+<h3 id="3-方法"><a href="#3-方法" class="headerlink" title="3 方法"></a>3 方法</h3><h4 id="1-语法-1"><a href="#1-语法-1" class="headerlink" title="1 语法"></a>1 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修饰符 返回值 方法名(形参列表) &#123;</span><br><span class="line">	方法体;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-形参列表"><a href="#2-形参列表" class="headerlink" title="2 形参列表"></a>2 形参列表</h4><ol>
+<li><code>参数1, 参数2, ...</code></li>
+<li><code>参数类型 ... 参数名</code> （可变参数）<ul>
+<li>可以传递 0 到 多个参数</li>
+<li>可变参数必须在形参的最后声明</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-参数传递"><a href="#3-参数传递" class="headerlink" title="3 参数传递"></a>3 参数传递</h4><ol>
+<li><p>Java 参数传递是<strong>值传递</strong></p>
+<ul>
+<li>基本数据类型实参赋值给形参的是实参真实存储的数据值</li>
+<li>引用数据类型实参赋值给形参的是实参存储数据的地址值</li>
+</ul>
+</li>
+<li><p><strong>java 在传递参数时，将实际参数的副本（拷贝一份）传入方法内，而参数本身不受影响</strong></p>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92.png" alt=""></p>
+</li>
+</ol>
+<h4 id="4-方法的重载（Overload）"><a href="#4-方法的重载（Overload）" class="headerlink" title="4 方法的重载（Overload）"></a>4 方法的重载（Overload）</h4><ul>
+<li>同一个类中，方法名相同，形参列表不同（个数、顺序或类型）即为重载</li>
+</ul>
+<h3 id="4-代码块"><a href="#4-代码块" class="headerlink" title="4 代码块"></a>4 代码块</h3><h4 id="1-构造代码块"><a href="#1-构造代码块" class="headerlink" title="1 构造代码块"></a>1 构造代码块</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	构造代码块：</span><br><span class="line">        <span class="number">1</span> 每次创建类实例都会在构造器之前执行</span><br><span class="line">        <span class="number">2</span> 如果有多个，按照声明顺序执行</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-静态代码块"><a href="#2-静态代码块" class="headerlink" title="2 静态代码块"></a>2 静态代码块</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	静态代码块：</span><br><span class="line">        <span class="number">1</span> 随着类的加载而执行，且仅在加载类字节码文件时执行一次</span><br><span class="line">        <span class="number">2</span> 如果有多个，按照声明顺序执行   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-内部类"><a href="#5-内部类" class="headerlink" title="5 内部类"></a>5 内部类</h3><h4 id="1-分类"><a href="#1-分类" class="headerlink" title="1 分类"></a>1 分类</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>分类</th>
+<th>声明位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成员内部类</td>
+<td>非静态成员内部类（成员内部类）<br>静态成员内部类（静态内部类）</td>
+<td>类中</td>
+</tr>
+<tr>
+<td>局部内部类</td>
+<td>非匿名局部内部类（局部内部类）<br/>匿名局部内部类（匿名内部类）</td>
+<td>方法中，代码块中，构造器中</td>
+</tr>
+</tbody></table>
+<h4 id="2-成员内部类"><a href="#2-成员内部类" class="headerlink" title="2 成员内部类"></a>2 成员内部类</h4><h5 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h5><ol>
+<li>当描述一个事物时，发现内部还有一个完整的结构需要一个类来描述，且此内部结构独立存在没有意义，必须依附外部类。就可以定义内部类。如身体和心脏。</li>
+<li>内部类作为外部类的成员<ol>
+<li>访问外部类<ul>
+<li>内部类可以直接访问外部类的成员（包括私有），内部类持有一个外部类的引用 <code>外部类名.this</code></li>
+<li>外部类要访问内部类的成员，必须创建对象</li>
+</ul>
+</li>
+<li>可以被 4 种权限修饰符修饰</li>
+<li>可以被 <code>static</code> 修饰：只要内部类不需要访问外部类对象，就应该使用静态内部类</li>
+</ol>
+</li>
+<li>内部类作为一个类<ol>
+<li>可以定义属性、方法、构造器等等</li>
+<li>可以被 <code>abstract final</code> 修饰 </li>
+</ol>
+</li>
+</ol>
+<h5 id="2-非静态成员内部类（成员内部类）"><a href="#2-非静态成员内部类（成员内部类）" class="headerlink" title="2 非静态成员内部类（成员内部类）"></a>2 非静态成员内部类（成员内部类）</h5><ol>
+<li><p>成员内部类中不能有任何 <code>static</code> 的定义</p>
+</li>
+<li><p>成员内部类的访问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 首先要创建外部类对象</span></span><br><span class="line">Outer out = <span class="keyword">new</span> Outer();</span><br><span class="line"><span class="comment">// 2 使用外部对象创建内部类对象</span></span><br><span class="line">Out.inner in = out.<span class="keyword">new</span> Inner()</span><br><span class="line"><span class="comment">// 简写</span></span><br><span class="line">Outer.Inner in=<span class="keyword">new</span> Outer().<span class="keyword">new</span> Inner();</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="3-静态成员内部类（静态内部类）"><a href="#3-静态成员内部类（静态内部类）" class="headerlink" title="3 静态成员内部类（静态内部类）"></a>3 静态成员内部类（静态内部类）</h5><ol>
+<li><p>静态内部类可以定义所有普通类可以定义的内容</p>
+</li>
+<li><p>静态内部类不会随着外部类的加载而加载，只有使用时才会加载</p>
+</li>
+<li><p>静态内部类的访问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建静态内部类对象</span></span><br><span class="line">Outer.Inner in=<span class="keyword">new</span> Outer.Inner()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="3-局部内部类"><a href="#3-局部内部类" class="headerlink" title="3 局部内部类"></a>3 局部内部类</h4><h5 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h5><ol>
+<li>局部内部类修饰符只能有 <code>final</code> 和 <code>abstract</code></li>
+<li>局部内部类访问其所在方法的局部变量时，要求此局部变量必须是 <code>final</code><ol>
+<li>因为当调用这个方法时，如果方法中的局部变量不是 <code>final</code> 的，那么方法弹栈此局部变量也就消失了，而此时局部内部类对象可能还存在，就会访问不到此局部变量</li>
+<li>JDK 8 可以不加 <code>final</code>，但实际还是 <code>final</code> 的</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-非匿名局部内部类（局部内部类）"><a href="#2-非匿名局部内部类（局部内部类）" class="headerlink" title="2 非匿名局部内部类（局部内部类）"></a>2 非匿名局部内部类（局部内部类）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-匿名局部内部类（匿名内部类）"><a href="#3-匿名局部内部类（匿名内部类）" class="headerlink" title="3 匿名局部内部类（匿名内部类）"></a>3 匿名局部内部类（匿名内部类）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> 父类/父接口() &#123;</span><br><span class="line">        重写方法;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-对象实例化过程"><a href="#2-3-对象实例化过程" class="headerlink" title="2.3 对象实例化过程"></a>2.3 对象实例化过程</h2><ol>
+<li>加载 class 文件（有父类先加载父类）</li>
+<li>静态变量和静态代码块（谁在前谁先执行，只执行一次）</li>
+<li>属性默认初始化</li>
+<li>构造函数第一行（调用父类构造）</li>
+<li>属性显式初始化和构造代码块（谁在前谁先执行，每次创建对象都会执行）</li>
+<li>构造函数剩余行</li>
+</ol>
+<h1 id="三-面向对象特征"><a href="#三-面向对象特征" class="headerlink" title="三 面向对象特征"></a>三 面向对象特征</h1><h2 id="3-1-权限修饰符"><a href="#3-1-权限修饰符" class="headerlink" title="3.1 权限修饰符"></a>3.1 权限修饰符</h2><table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>本类</th>
+<th>同一个包(子类+无关类)</th>
+<th>不同包(子类)</th>
+<th>不同包(无关类)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>private</code></td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>权限修饰符是用来限定该类实例对象对该类成员的访问权限</p>
+</li>
+<li><p>在不同包的类中严格来说我认为只能访问 <code>public</code> 修饰的成员，特殊情况是不同包的子类中能使用子类实例访问到父类 <code>protected</code> 修饰的成员（使用父类实例是访问不到的），是因为继承的关系，在自己类中访问自己继承的东西当然可以访问到。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在子类 A 中</span></span><br><span class="line"><span class="keyword">this</span>.clone() <span class="comment">// 正确</span></span><br><span class="line"><span class="keyword">new</span> A().clone() <span class="comment">// 正确</span></span><br><span class="line"><span class="keyword">new</span> Object().clone() <span class="comment">// 错误</span></span><br><span class="line"><span class="keyword">new</span> B().clone() <span class="comment">// 错误</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="3-2-封装（Encapsulation）"><a href="#3-2-封装（Encapsulation）" class="headerlink" title="3.2 封装（Encapsulation）"></a>3.2 封装（<code>Encapsulation</code>）</h2><ol>
+<li>封装即隐藏该隐藏的，暴露该暴露的</li>
+<li>隐藏对象内部的复杂性，之对外公开简单接口，便于外界调用，提高维护性和扩展性</li>
+<li>封装性的体现<ol>
+<li><code>private</code> 私有化属性而提供公共的 <code>getter/setter</code> 方法</li>
+<li>不对外暴漏的私有方法</li>
+<li>单例…</li>
+</ol>
+</li>
+</ol>
+<h2 id="3-3-继承（Inheritance）"><a href="#3-3-继承（Inheritance）" class="headerlink" title="3.3 继承（Inheritance）"></a>3.3 继承（<code>Inheritance</code>）</h2><h3 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1 概述"></a>1 概述</h3><ul>
+<li>好处<ul>
+<li>提高代码的复用性</li>
+<li>便于功能的扩展</li>
+<li>让类与类产生关系，是多态的前提</li>
+</ul>
+</li>
+<li>弊端<ul>
+<li>类的耦合性增强了</li>
+</ul>
+</li>
+<li>开发原则：高内聚，低耦合<ul>
+<li>耦合：类与类的关系</li>
+<li>内聚：自己完成某件事的能力    </li>
+</ul>
+</li>
+</ul>
+<h3 id="2-特点"><a href="#2-特点" class="headerlink" title="2 特点"></a>2 特点</h3><ol>
+<li>子类会继承父类所有的属性和方法，私有的也会继承，只是不能直接访问</li>
+<li>Java 是单继承，一个类只能有一个父类</li>
+</ol>
+<h3 id="3-重写（Override）"><a href="#3-重写（Override）" class="headerlink" title="3 重写（Override）"></a>3 重写（<code>Override</code>）</h3><ol>
+<li>方法名一致</li>
+<li>形参列表一致</li>
+<li>返回值<ol>
+<li>基本数据类型和 <code>void</code>，必须完全一致</li>
+<li>引用数据类型，一致或者其子类</li>
+</ol>
+</li>
+<li>权限修饰符<ul>
+<li>子类重写方法访问权限不能小于父类方法</li>
+</ul>
+</li>
+<li>异常<ol>
+<li>子类重写方法抛出的异常只能是父类方法抛出的异常或者其子类</li>
+<li>子类重写方法不能抛出父类方法没有抛出的异常</li>
+</ol>
+</li>
+<li>不能被重写的方法<ol>
+<li><code>final</code> 修饰的方法</li>
+<li><code>static</code> 修饰的方法</li>
+<li>子类不能访问的方法<ol>
+<li><code>private</code> 修饰的方法</li>
+<li>跨包时默认修饰权限的方法</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="4-类型转换"><a href="#4-类型转换" class="headerlink" title="4 类型转换"></a>4 类型转换</h3><ol>
+<li><p>只能在继承层次内进行类型转换</p>
+<ol>
+<li>向上转型（<code>upcasting</code>）：子类转父类，多态，自动转换</li>
+<li>向下转型（<code>downcasting</code>）：父类转子类，强制类型转换</li>
+</ol>
+</li>
+<li><p>强制类型转换前，应使用 <code>instanceof</code> 检查</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x <span class="keyword">instanceof</span> A</span><br><span class="line"><span class="comment">// 判断 x 对象所属类是否是 A 类或 A 类的子类</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="3-4-多态（Polymorphism）"><a href="#3-4-多态（Polymorphism）" class="headerlink" title="3.4 多态（Polymorphism）"></a>3.4 多态（<code>Polymorphism</code>）</h2><h3 id="1-概述-3"><a href="#1-概述-3" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>一个对象变量可以指向多种实际类型的现象称为多态</li>
+<li>编译时类型和运行时类型不一致，就出现了多态<ol>
+<li>编译时类型由声明时的类型决定</li>
+<li>运行时类型由实际对象类型决定</li>
+</ol>
+</li>
+<li>虚拟方法调用：子类中定义了与父类同名同参的方法（重写），多态情况下，将父类方法称为虚拟方法，父类根据赋给它的不同子类对象，动态调用属于子类的该方法，这样的方法调用编译器是无法确定的</li>
+<li>在运行时能自动的选择适当的方法称为动态绑定 <code>dynamic binding</code></li>
+<li>如果是 <code>private static final</code> 方法或构造器，编译器可以准确的知道调用哪个方法，称为静态绑定 <code>static binding</code></li>
+</ol>
+<h3 id="2-多态前提"><a href="#2-多态前提" class="headerlink" title="2 多态前提"></a>2 多态前提</h3><ol>
+<li>继承或实现</li>
+<li>重写</li>
+<li>父类引用指向了子类对象</li>
+</ol>
+<h3 id="3-多态性"><a href="#3-多态性" class="headerlink" title="3 多态性"></a>3 多态性</h3><table>
+<thead>
+<tr>
+<th>成员</th>
+<th>多态性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成员变量（属性）</td>
+<td>无</td>
+<td>编译运行都看左边</td>
+</tr>
+<tr>
+<td>非静态成员方法</td>
+<td>有</td>
+<td>编译看左边，运行看右边（动态绑定）</td>
+</tr>
+<tr>
+<td>静态成员方法</td>
+<td>无</td>
+<td>编译运行都看左边</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>对象的多态性只适用于方法，不适用于属性</p>
+</li>
+<li><p>非静态成员方法：虚拟方法调用</p>
+<ul>
+<li>编译时：查看声明类型所属类（父类）是否有此方法，有则编译通过，没有则报错</li>
+<li>运行时：查看对象实例所属类（子类）是否有父类中此方法对应的重写方法，有则执行，没有则向上查找</li>
+</ul>
+</li>
+<li><p>例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">eatFish</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"猫吃鱼"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Cat cat = <span class="keyword">new</span> SmallCat();</span><br><span class="line">        cat.eatFish(); <span class="comment">// 结果是 "猫吃鱼"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallCat</span> <span class="keyword">extends</span> <span class="title">Cat</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eatFish</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"小猫吃奶"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 因为父类是private，子类访问不到，所以并非是重写</span></span><br><span class="line"><span class="comment">// 成员方法运行时调用的是子类重写方法，没有则会调用父类方法，所以结果是调用的父类方法</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="四-关键字"><a href="#四-关键字" class="headerlink" title="四 关键字"></a>四 关键字</h1><h2 id="4-1-this"><a href="#4-1-this" class="headerlink" title="4.1 this"></a>4.1 this</h2><ol>
+<li>方法中：代表调用该方法的对象</li>
+<li>构造器中：代表正在初始化的对象</li>
+<li>构造器中：调用本类其它构造器</li>
+</ol>
+<h2 id="4-2-super"><a href="#4-2-super" class="headerlink" title="4.2 super"></a>4.2 super</h2><ol>
+<li>构造器或方法中：访问父类属性或方法</li>
+<li>构造器中：调用父类构造</li>
+</ol>
+<h2 id="4-3-static"><a href="#4-3-static" class="headerlink" title="4.3 static"></a>4.3 static</h2><ol>
+<li>随着类的加载而加载</li>
+<li>优先于对象存在</li>
+<li>被类的所有实例共享</li>
+<li>直接使用类名调用</li>
+<li>静态上下文只能访问静态，不能访问非静态，静态上下文中没有 <code>this super</code></li>
+<li>非静态上下文可以访问静态和非静态</li>
+</ol>
+<h2 id="4-4-final"><a href="#4-4-final" class="headerlink" title="4.4 final"></a>4.4 final</h2><table>
+<thead>
+<tr>
+<th>修饰对象</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>类</td>
+<td>类不能被继承，一个类被声明为 <code>final</code> 则其方法自动变为 <code>final</code></td>
+</tr>
+<tr>
+<td>变量</td>
+<td>变量就变成了常量，必须初始化且只能被赋值一次，大写</td>
+</tr>
+<tr>
+<td>方法</td>
+<td>方法不能被重写</td>
+</tr>
+</tbody></table>
+<h2 id="4-5-abstract"><a href="#4-5-abstract" class="headerlink" title="4.5 abstract"></a>4.5 abstract</h2><h4 id="1-只能修饰类和方法"><a href="#1-只能修饰类和方法" class="headerlink" title="1 只能修饰类和方法"></a>1 只能修饰类和方法</h4><ol>
+<li>抽象类有构造方法，但不能实例化</li>
+<li>抽象类可以有抽象方法也可以有一般方法（包括静态和非静态方法）</li>
+<li>有抽象方法的一定是抽象类，抽象类不一定有抽象方法</li>
+</ol>
+<h4 id="2-abstract-不共存的关键字（抽象是为了重写）"><a href="#2-abstract-不共存的关键字（抽象是为了重写）" class="headerlink" title="2 abstract 不共存的关键字（抽象是为了重写）"></a>2 abstract 不共存的关键字（抽象是为了重写）</h4><ol>
+<li><code>static</code><ul>
+<li>类直接调用一个抽象方法没有意义</li>
+</ul>
+</li>
+<li><code>private</code><ul>
+<li><code>private</code> 修饰的方法子类无法访问，也就无法重写，一个不能被重写的抽象方法没有意义</li>
+</ul>
+</li>
+<li><code>final</code><ul>
+<li><code>final</code> 修饰的类无法继承，一个不能被继承的抽象类没有意义</li>
+<li><code>final</code> 修饰方法无法重写，一个不能被重写的方法没有意义</li>
+</ul>
+</li>
+<li><code>native</code><ul>
+<li>因为 <code>native</code> 本身就没有方法体，不明确是什么情况</li>
+</ul>
+</li>
+</ol>
+<h2 id="4-6-native"><a href="#4-6-native" class="headerlink" title="4.6 native"></a>4.6 native</h2><ol>
+<li><code>native</code> 修饰的方法，看不到方法体，不是 Java 语言实现的，而是调用了底层 C/C++ 的实现，存储在本地方法栈</li>
+<li><code>native</code> 方法正常调用即可，且可以重写</li>
+</ol>
+<h2 id="4-7-包"><a href="#4-7-包" class="headerlink" title="4.7 包"></a>4.7 包</h2><h3 id="1-package"><a href="#1-package" class="headerlink" title="1 package"></a>1 package</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> x.x.x;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>同一个包下类/接口不能重名</li>
+<li>用于控制访问权限</li>
+<li>用于划分项目的结构层次，通常将功能相近的类划分到同一个包中</li>
+</ol>
+<h3 id="2-import"><a href="#2-import" class="headerlink" title="2 import"></a>2 import</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import java.util.*</span><br><span class="line">import static java.util.Math.*;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>如果在源文件中，使用了不同包下的同名的类，则只有一个可以导入，其它需要使用全类名的方式</li>
+<li><code>xxx.*</code> 表示可以使用 <code>xxx</code> 包下的所有结构，但其子包下还需要导入</li>
+</ol>
+<h3 id="3-JDK-主要包说明"><a href="#3-JDK-主要包说明" class="headerlink" title="3 JDK 主要包说明"></a>3 JDK 主要包说明</h3><table>
+<thead>
+<tr>
+<th>包</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>java.lang</code></td>
+<td>Java语言的核心类/接口</td>
+</tr>
+<tr>
+<td><code>java.io</code></td>
+<td>IO 功能相关类/接口</td>
+</tr>
+<tr>
+<td><code>java.net</code></td>
+<td>网络相关类/接口</td>
+</tr>
+<tr>
+<td><code>java.util</code></td>
+<td>实用工具类</td>
+</tr>
+<tr>
+<td><code>java.text</code></td>
+<td>格式化相关的类</td>
+</tr>
+<tr>
+<td><code>java.sql</code></td>
+<td>JDBC数据库编程的相关类/接口</td>
+</tr>
+<tr>
+<td><code>java.awt</code></td>
+<td>GUI 相关</td>
+</tr>
+<tr>
+<td><code>java.applet</code></td>
+<td>applet 运行所需的类</td>
+</tr>
+</tbody></table>
+<h1 id="五-main-方法说明"><a href="#五-main-方法说明" class="headerlink" title="五 main() 方法说明"></a>五 <code>main()</code> 方法说明</h1><ol>
+<li>作为程序的入口</li>
+<li>可以当作普通的静态方法</li>
+<li><code>String[] args</code> 可以用来接收控制台参数（以空格隔开）</li>
+</ol>
+<h1 id="六-接口-Interface"><a href="#六-接口-Interface" class="headerlink" title="六 接口 Interface"></a>六 接口 <code>Interface</code></h1><h2 id="6-1-语法"><a href="#6-1-语法" class="headerlink" title="6.1 语法"></a>6.1 语法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修饰符 <span class="class"><span class="keyword">interface</span> 接口名 </span>&#123;</span><br><span class="line">	接口属性列表;</span><br><span class="line">	接口方法列表;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>接口没有构造器，不能创建对象</li>
+<li>类可以多实现，接口可以继承接口</li>
+<li>接口实现类必须实现所有的接口方法，否则仍是抽象类</li>
+</ol>
+<h2 id="6-2-成员"><a href="#6-2-成员" class="headerlink" title="6.2 成员"></a>6.2 成员</h2><table>
+<thead>
+<tr>
+<th>接口成员</th>
+<th>修饰符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全局常量</td>
+<td><code>public static final</code></td>
+<td>修饰符可以省略</td>
+</tr>
+<tr>
+<td>抽象方法</td>
+<td><code>public abstract</code></td>
+<td>修饰符可以省略</td>
+</tr>
+<tr>
+<td>静态方法</td>
+<td><code>public static</code></td>
+<td><code>public</code> 可以省略</td>
+</tr>
+<tr>
+<td>默认方法</td>
+<td><code>public default</code></td>
+<td><code>public</code> 可以省略</td>
+</tr>
+<tr>
+<td>私有方法</td>
+<td><code>private</code></td>
+<td>修饰符不能省略</td>
+</tr>
+</tbody></table>
+<ol>
+<li>JDK 8 以后接口为何新增静态方法?<ol>
+<li>因为一般工具类中都是静态方法，而这些静态方法通常都是为某个接口服务的，如 <code>Collection Collections</code></li>
+<li>把静态方法直接定义在接口中，可以避免增加额外的工具类</li>
+</ol>
+</li>
+<li>JDK 8 以后接口为何新增默认方法?<ol>
+<li>因为有时候，一个接口的多数实现类对接口的抽象方法的实现是一样的</li>
+<li>把这样的抽象方法定义为默认方法，可以减少实现类的重复工作</li>
+<li>如果实现类实现多个接口，出现了默认方法冲突（会报错）<ol>
+<li>从其中选择一个，重写默认方法（去掉 <code>default</code>）</li>
+<li>都不用，重写默认方法（去掉 <code>default</code>）</li>
+</ol>
+</li>
+<li>如果实现类继承父类实现接口，出现了默认方法冲突（不会报错）<ol>
+<li>默认使用父类</li>
+<li>手动改选接口</li>
+<li>完全重写</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Java 9 中 接口中可以有 <code>private</code> 方法</li>
+</ol>
+<h1 id="七-枚举-Enum"><a href="#七-枚举-Enum" class="headerlink" title="七 枚举 Enum"></a>七 枚举 <code>Enum</code></h1><h2 id="7-1-概述"><a href="#7-1-概述" class="headerlink" title="7.1 概述"></a>7.1 概述</h2><ol>
+<li>类的对象只有确定的有限个</li>
+<li>枚举即将其所有可用对象直接在内部列出来</li>
+<li>枚举不需要创建对象，构造函数默认即为私有的</li>
+<li>当需要定义一组常量时，强烈建议使用枚举类</li>
+<li>枚举也可以实现接口</li>
+</ol>
+<h2 id="7-2-自定义枚举"><a href="#7-2-自定义枚举" class="headerlink" title="7.2 自定义枚举"></a>7.2 自定义枚举</h2><h3 id="1-手动实现枚举（JDK5-之前）"><a href="#1-手动实现枚举（JDK5-之前）" class="headerlink" title="1 手动实现枚举（JDK5 之前）"></a>1 手动实现枚举（<code>JDK5</code> 之前）</h3><ol>
+<li>私有化构造函数</li>
+<li>在类中创建所有可用的实例对象，定义为公有静态常量 <code>public static final</code></li>
+</ol>
+<h3 id="2-enum-关键字"><a href="#2-enum-关键字" class="headerlink" title="2 enum 关键字"></a>2 <code>enum</code> 关键字</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">修饰符 <span class="keyword">enum</span> 枚举类名 &#123;</span><br><span class="line">	枚举项列表;</span><br><span class="line">	其它成员列表;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>默认继承 <code>java.lang.Enum</code> </p>
+</li>
+<li><p>枚举项必须定义在首行，以逗号分隔，最后一个以分号结束</p>
+</li>
+<li><p>枚举项即为枚举类的实例</p>
+<ol>
+<li><p>构造函数有参数，枚举项也要有参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Week&#123;</span><br><span class="line">	MON(<span class="string">"星期一"</span>),TUS(<span class="string">"星期二"</span>),SUN(<span class="string">"星期日"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>枚举类有抽象方法，枚举项也要实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Week &#123;</span><br><span class="line">	Mon(<span class="string">"星期一"</span>)&#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="7-3-java-lang-Enum"><a href="#7-3-java-lang-Enum" class="headerlink" title="7.3 java.lang.Enum"></a>7.3 <code>java.lang.Enum</code></h2><h3 id="1-构造"><a href="#1-构造" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>protected Enum(String name, int ordinal)</code></td>
+</tr>
+</tbody></table>
+<ol>
+<li>此构造方法不是程序员调用的，而是由编译器调用的</li>
+<li>所以不能在枚举类中手动调用父类构造</li>
+</ol>
+<h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String</code></td>
+<td><code>toString()</code></td>
+<td>返回此枚举项的名称</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>ordinal()</code></td>
+<td>返回枚举项的编号</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>name()</code></td>
+<td>返回此枚举项的名称</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>compareTo(E o)</code></td>
+<td>比较枚举项的编号</td>
+</tr>
+<tr>
+<td><code>static &lt;T extends Enum&lt;T&gt;&gt;</code></td>
+<td><code>valueOf(Class&lt;T&gt; enumType, String name)</code></td>
+<td>返回指定类型中指定名称的枚举项</td>
+</tr>
+<tr>
+<td><code>static T[]</code></td>
+<td><code>values()</code></td>
+<td><code>Enum</code> 没有，所有枚举类都有，获取所有枚举项</td>
+</tr>
+<tr>
+<td><code>static T</code></td>
+<td><code>valueOf(String name)</code></td>
+<td><code>Enum</code> 没有，所有枚举类都有，返回指定名称的枚举项</td>
+</tr>
+</tbody></table>
+<h1 id="八-注解-Annotation"><a href="#八-注解-Annotation" class="headerlink" title="八 注解 Annotation"></a>八 注解 <code>Annotation</code></h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1 概述"></a>8.1 概述</h2><ol>
+<li>注解是针对程序的注释，是给程序看的，用于描述程序如何运行及在什么阶段来运行。</li>
+<li>注解在实际开发中，最大的功能是用于替换配置文件</li>
+<li>一个完整的注解由三部分组成<ol>
+<li>声明</li>
+<li>使用</li>
+<li>读取</li>
+</ol>
+</li>
+<li>Java 把枚举看作类，把注解看作接口</li>
+<li>所有注解都继承了 <code>java.lang.annotation.Annotation</code></li>
+</ol>
+<h2 id="8-2-JDK-中三个基本注解"><a href="#8-2-JDK-中三个基本注解" class="headerlink" title="8.2 JDK 中三个基本注解"></a>8.2 JDK 中三个基本注解</h2><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Override</code></td>
+<td>检查重写方法是否合法</td>
+</tr>
+<tr>
+<td><code>@Deprecated</code></td>
+<td>表示已过时</td>
+</tr>
+<tr>
+<td><code>@SuppressWarnings({警告类型列表/all})</code></td>
+<td>抑制警告</td>
+</tr>
+</tbody></table>
+<h2 id="8-3-文档注释相关注解"><a href="#8-3-文档注释相关注解" class="headerlink" title="8.3 文档注释相关注解"></a>8.3 文档注释相关注解</h2><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+<th>格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@author</code></td>
+<td>作者</td>
+<td><code>@author 作者名</code></td>
+</tr>
+<tr>
+<td><code>@version</code></td>
+<td>版本</td>
+<td><code>@version 1.0</code></td>
+</tr>
+<tr>
+<td><code>@see</code></td>
+<td>另请参阅</td>
+<td><code>@see 另请参阅信息</code></td>
+</tr>
+<tr>
+<td><code>@since</code></td>
+<td>从 xx 版本开始引入</td>
+<td><code>@since xx</code></td>
+</tr>
+<tr>
+<td><code>@param</code></td>
+<td>参数信息，一对一</td>
+<td><code>@param 形参名 形参类型 注释</code></td>
+</tr>
+<tr>
+<td><code>@return</code></td>
+<td>返回值信息</td>
+<td><code>@return 返回值类型 注释</code></td>
+</tr>
+<tr>
+<td><code>@throws</code></td>
+<td>抛出异常信息</td>
+<td><code>@throws 异常类型 注释</code></td>
+</tr>
+</tbody></table>
+<h2 id="8-4-自定义注解"><a href="#8-4-自定义注解" class="headerlink" title="8.4 自定义注解"></a>8.4 自定义注解</h2><h3 id="1-声明"><a href="#1-声明" class="headerlink" title="1 声明"></a>1 声明</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">修饰符 <span class="meta">@interface</span> 注解名&#123;</span><br><span class="line">	数据类型 属性名(); <span class="comment">// 注解的属性类似方法</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">age</span><span class="params">()</span></span>; </span><br><span class="line">	<span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "haha"</span>; <span class="comment">// 可以设置默认值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>注解数据类型<ol>
+<li>八种基本数据类型</li>
+<li><code>String</code> 类型</li>
+<li><code>enum</code> 枚举类型</li>
+<li><code>Annotation</code> 注解类型</li>
+<li><code>Class</code> 类型</li>
+<li>以上类型的一维数组类型</li>
+</ol>
+</li>
+<li>如果注解没有成员，通常是标识作用</li>
+<li>如果注解只有一个成员，建议属性名 <code>value</code></li>
+</ol>
+<h3 id="2-使用"><a href="#2-使用" class="headerlink" title="2 使用"></a>2 使用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Xxx</span>(name=<span class="string">""</span>) <span class="comment">//非数组类型注解赋值</span></span><br><span class="line"><span class="meta">@Xxx</span>(name=&#123;<span class="string">""</span>, <span class="string">""</span>, <span class="string">""</span>&#125;) <span class="comment">// 数组类型注解赋值</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用注解时注解中的所有属性都要赋值，有默认值的可以省略使用默认值</li>
+<li>如果使用注解时最终配置的属性只有一个 <code>value</code>，则可以省略属性名</li>
+</ol>
+<h3 id="3-读取"><a href="#3-读取" class="headerlink" title="3 读取"></a>3 读取</h3><ul>
+<li>使用<strong>反射</strong>读取注解</li>
+</ul>
+<h2 id="8-5-元注解（用在注解上的注解）"><a href="#8-5-元注解（用在注解上的注解）" class="headerlink" title="8.5 元注解（用在注解上的注解）"></a>8.5 元注解（用在注解上的注解）</h2><table>
+<thead>
+<tr>
+<th>元注解</th>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@target</code></td>
+<td><code>@target(ElementType.xxx)</code></td>
+<td>标记此注解的使用位置</td>
+</tr>
+<tr>
+<td><code>@Retention</code></td>
+<td><code>@Retention(RetentionPolicy.xxx)</code></td>
+<td>标记此注解的生命周期</td>
+</tr>
+<tr>
+<td><code>@Documented</code></td>
+<td><code>@Documented</code></td>
+<td>标记此注解可以被 <code>javadoc.exe</code> 读取到 API</td>
+</tr>
+<tr>
+<td><code>@Inherited</code></td>
+<td><code>@Inherited</code></td>
+<td>标记此注解可以被子类继承</td>
+</tr>
+</tbody></table>
+<h3 id="1-ElementType"><a href="#1-ElementType" class="headerlink" title="1 ElementType"></a>1 <code>ElementType</code></h3><ul>
+<li>是一个枚举类，用于枚举注解使用的位置</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>枚举项</th>
+<th>使用位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TYPE</code></td>
+<td>类，接口（包括注解）或枚举</td>
+</tr>
+<tr>
+<td><code>FIELD</code></td>
+<td>属性</td>
+</tr>
+<tr>
+<td><code>METHOD</code></td>
+<td>方法</td>
+</tr>
+<tr>
+<td><code>PARAMETER</code></td>
+<td>形参</td>
+</tr>
+<tr>
+<td><code>CONSTRUCTOR</code></td>
+<td>构造函数</td>
+</tr>
+<tr>
+<td><code>LOCAL_VARIABLE</code></td>
+<td>局部变量</td>
+</tr>
+<tr>
+<td><code>ANNOTATION_TYPE</code></td>
+<td>注解</td>
+</tr>
+<tr>
+<td><code>PACKAGE</code></td>
+<td>包</td>
+</tr>
+<tr>
+<td><code>TYPE_PARAMETER</code></td>
+<td>类型变量的声明语句（如泛型声明）</td>
+</tr>
+<tr>
+<td><code>TYPE_USE</code></td>
+<td>使用类型的任何语句</td>
+</tr>
+</tbody></table>
+<h3 id="2-RetentionPolicy"><a href="#2-RetentionPolicy" class="headerlink" title="2 RetentionPolicy"></a>2 <code>RetentionPolicy</code></h3><ul>
+<li>是一个枚举类，用于枚举注解的存活阶段</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>枚举项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SOURCE</code></td>
+<td>源代码阶段有效（即<code>.java</code>源文件保留），会被编译器舍弃，即编译后的字节码文件不保留</td>
+</tr>
+<tr>
+<td><code>CLASS</code>（默认）</td>
+<td>字节码阶段有效（即 <code>.class</code> 文件保留），运行时不会保留</td>
+</tr>
+<tr>
+<td><code>RUNTIME</code></td>
+<td>运行阶段有效（即运行时保留），可通过反射获取</td>
+</tr>
+</tbody></table>
+<h2 id="8-6-JDK8-新特新"><a href="#8-6-JDK8-新特新" class="headerlink" title="8.6 JDK8 新特新"></a>8.6 JDK8 新特新</h2><ol>
+<li>可重复注解 <code>@Repeatable</code></li>
+<li>类型注解</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E8%AF%AD%E6%B3%95/" rel="next" title="Java-语法">
+                  <i class="fa fa-chevron-left"></i> Java-语法
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E5%BC%82%E5%B8%B8/" rel="prev" title="Java-异常">
+                  Java-异常 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-编程范式-programming-paradigm"><span class="nav-text">1.1 编程范式 programming paradigm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-面向对象和面向过程"><span class="nav-text">1.2 面向对象和面向过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-类"><span class="nav-text">二 类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-概念"><span class="nav-text">2.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-类成员"><span class="nav-text">2.2 类成员</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造器"><span class="nav-text">1 构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-属性"><span class="nav-text">2 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-语法"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-成员变量（实例变量-静态变量）和局部变量"><span class="nav-text">2 成员变量（实例变量/静态变量）和局部变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-方法"><span class="nav-text">3 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-语法-1"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-形参列表"><span class="nav-text">2 形参列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-参数传递"><span class="nav-text">3 参数传递</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-方法的重载（Overload）"><span class="nav-text">4 方法的重载（Overload）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-代码块"><span class="nav-text">4 代码块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-构造代码块"><span class="nav-text">1 构造代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-静态代码块"><span class="nav-text">2 静态代码块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-内部类"><span class="nav-text">5 内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-分类"><span class="nav-text">1 分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-成员内部类"><span class="nav-text">2 成员内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-非静态成员内部类（成员内部类）"><span class="nav-text">2 非静态成员内部类（成员内部类）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-静态成员内部类（静态内部类）"><span class="nav-text">3 静态成员内部类（静态内部类）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-局部内部类"><span class="nav-text">3 局部内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-非匿名局部内部类（局部内部类）"><span class="nav-text">2 非匿名局部内部类（局部内部类）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-匿名局部内部类（匿名内部类）"><span class="nav-text">3 匿名局部内部类（匿名内部类）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-对象实例化过程"><span class="nav-text">2.3 对象实例化过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-面向对象特征"><span class="nav-text">三 面向对象特征</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-权限修饰符"><span class="nav-text">3.1 权限修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-封装（Encapsulation）"><span class="nav-text">3.2 封装（Encapsulation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-继承（Inheritance）"><span class="nav-text">3.3 继承（Inheritance）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-特点"><span class="nav-text">2 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-重写（Override）"><span class="nav-text">3 重写（Override）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-类型转换"><span class="nav-text">4 类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-多态（Polymorphism）"><span class="nav-text">3.4 多态（Polymorphism）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-3"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多态前提"><span class="nav-text">2 多态前提</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多态性"><span class="nav-text">3 多态性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-关键字"><span class="nav-text">四 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-this"><span class="nav-text">4.1 this</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-super"><span class="nav-text">4.2 super</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-static"><span class="nav-text">4.3 static</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-final"><span class="nav-text">4.4 final</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-abstract"><span class="nav-text">4.5 abstract</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-只能修饰类和方法"><span class="nav-text">1 只能修饰类和方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-abstract-不共存的关键字（抽象是为了重写）"><span class="nav-text">2 abstract 不共存的关键字（抽象是为了重写）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-native"><span class="nav-text">4.6 native</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-包"><span class="nav-text">4.7 包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-package"><span class="nav-text">1 package</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-import"><span class="nav-text">2 import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JDK-主要包说明"><span class="nav-text">3 JDK 主要包说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-main-方法说明"><span class="nav-text">五 main() 方法说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-接口-Interface"><span class="nav-text">六 接口 Interface</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-语法"><span class="nav-text">6.1 语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-成员"><span class="nav-text">6.2 成员</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-枚举-Enum"><span class="nav-text">七 枚举 Enum</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-概述"><span class="nav-text">7.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-自定义枚举"><span class="nav-text">7.2 自定义枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-手动实现枚举（JDK5-之前）"><span class="nav-text">1 手动实现枚举（JDK5 之前）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-enum-关键字"><span class="nav-text">2 enum 关键字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-java-lang-Enum"><span class="nav-text">7.3 java.lang.Enum</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text">2 方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-注解-Annotation"><span class="nav-text">八 注解 Annotation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-概述"><span class="nav-text">8.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-JDK-中三个基本注解"><span class="nav-text">8.2 JDK 中三个基本注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-文档注释相关注解"><span class="nav-text">8.3 文档注释相关注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-自定义注解"><span class="nav-text">8.4 自定义注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-声明"><span class="nav-text">1 声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用"><span class="nav-text">2 使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-读取"><span class="nav-text">3 读取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-5-元注解（用在注解上的注解）"><span class="nav-text">8.5 元注解（用在注解上的注解）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-ElementType"><span class="nav-text">1 ElementType</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RetentionPolicy"><span class="nav-text">2 RetentionPolicy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-6-JDK8-新特新"><span class="nav-text">8.6 JDK8 新特新</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

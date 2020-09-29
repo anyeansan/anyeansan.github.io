@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 反射1.1 概述 反射 Reflection 允许程序在运行期间： 获取任意类型的详细信息 创建任意类型的对象 读写任意对象的任意属性 调用任意对象的任意方法 读取某个注解信息 读取某个类的泛型信息 生成动态代理 。。。   加载完类之后，在方法区中旧产生了一个 Class 对象（一个类对应一个），此对象包含了类的完整结构信息  1.2 动态语言 &amp;amp; 静态语言 动态语言： 运行时可以根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-反射">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;09&#x2F;29&#x2F;Java&#x2F;Java-%E5%8F%8D%E5%B0%84&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 反射1.1 概述 反射 Reflection 允许程序在运行期间： 获取任意类型的详细信息 创建任意类型的对象 读写任意对象的任意属性 调用任意对象的任意方法 读取某个注解信息 读取某个类的泛型信息 生成动态代理 。。。   加载完类之后，在方法区中旧产生了一个 Class 对象（一个类对应一个），此对象包含了类的完整结构信息  1.2 动态语言 &amp;amp; 静态语言 动态语言： 运行时可以根">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;Java%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%8F%8D%E5%B0%84%E5%8C%85.png">
+<meta property="og:updated_time" content="2020-09-29T08:00:02.273Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;Java%E7%B1%BB%E5%9E%8B.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/09/29/Java/Java-%E5%8F%8D%E5%B0%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java-反射 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/09/29/Java/Java-%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-反射
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-09-29 15:59:44 / 修改时间：16:00:02" itemprop="dateCreated datePublished" datetime="2020-09-29T15:59:44+08:00">2020-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-反射"><a href="#一-反射" class="headerlink" title="一 反射"></a>一 反射</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><ol>
+<li>反射 <code>Reflection</code> 允许程序在运行期间：<ul>
+<li>获取任意类型的详细信息</li>
+<li>创建任意类型的对象</li>
+<li>读写任意对象的任意属性</li>
+<li>调用任意对象的任意方法</li>
+<li>读取某个注解信息</li>
+<li>读取某个类的泛型信息</li>
+<li>生成动态代理</li>
+<li>。。。</li>
+</ul>
+</li>
+<li>加载完类之后，在方法区中旧产生了一个 <code>Class</code> 对象（一个类对应一个），此对象包含了类的完整结构信息</li>
+</ol>
+<h2 id="1-2-动态语言-amp-静态语言"><a href="#1-2-动态语言-amp-静态语言" class="headerlink" title="1.2 动态语言 &amp; 静态语言"></a>1.2 动态语言 &amp; 静态语言</h2><ol>
+<li>动态语言：<ul>
+<li>运行时可以根据某些条件改变自身结构</li>
+<li><code>Object-C、C#、JavaScript、PHP、Python、Erlang</code></li>
+</ul>
+</li>
+<li>静态语言：<ul>
+<li>运行时结构不可变</li>
+<li><code>Java、C、C++</code></li>
+<li>Java 不是动态语言，但有一定的动态性（利用反射）</li>
+</ul>
+</li>
+</ol>
+<h1 id="二-Java-类型"><a href="#二-Java-类型" class="headerlink" title="二 Java 类型"></a>二 Java 类型</h1><h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/Java%E7%B1%BB%E5%9E%8B.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Type</code></td>
+<td>Java 中所有类型的公共高级接口</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Class</code></td>
+<td>普通类型（类，接口，数组，枚举，注解，基本数据类型，<code>void</code>），没有泛型信息</td>
+<td><code>Person</code></td>
+</tr>
+<tr>
+<td><code>ParameterizedType</code></td>
+<td>参数化类型（即泛型）</td>
+<td><code>Map&lt;String, Integer&gt;</code>，<code>List&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td><code>GenericArrayType</code></td>
+<td>泛型数组类型</td>
+<td><code>T[]</code>，<code>List&lt;T&gt;[]</code></td>
+</tr>
+<tr>
+<td><code>TypeVariable&lt;D&gt;</code></td>
+<td>类型变量（即泛型中的变量）</td>
+<td><code>T K V</code></td>
+</tr>
+<tr>
+<td><code>WildcardType</code></td>
+<td>带通配符 <code>?</code> 的类型</td>
+<td><code>List&lt;?&gt;</code>，<code>List&lt;? extends Object&gt;</code></td>
+</tr>
+</tbody></table>
+<h2 id="2-2-ParameterizedType"><a href="#2-2-ParameterizedType" class="headerlink" title="2.2 ParameterizedType"></a>2.2 <code>ParameterizedType</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Type[]</code></td>
+<td><code>getActualTypeArguments()</code></td>
+<td>获取泛型的实际类型，泛型可能有多个，所以返回数组（<strong>该方法只返回最外层的<code>&lt;&gt;</code>中的类型，无论该<code>&lt;&gt;</code>内有多少个<code>&lt;&gt;</code></strong>）</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td><code>getRawType()</code></td>
+<td>获取声明泛型的类或者接口，也就是泛型中<code>&lt;&gt;</code>前面的那个值</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td><code>getOwnerType()</code></td>
+<td>获取泛型的拥有者，例如： <code>Map</code> 就是 <code>Map.Entry&lt;String,String&gt;</code> 的拥有者</td>
+</tr>
+</tbody></table>
+<h1 id="三-java-lang-ClassLoader"><a href="#三-java-lang-ClassLoader" class="headerlink" title="三 java.lang.ClassLoader"></a>三 <code>java.lang.ClassLoader</code></h1><h2 id="3-1-获取-ClassLoader"><a href="#3-1-获取-ClassLoader" class="headerlink" title="3.1 获取 ClassLoader"></a>3.1 获取 ClassLoader</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 获取当前类的 ClassLoader</span></span><br><span class="line">clazz.getClassLoader()</span><br><span class="line"><span class="comment">// 2 获取当前线程上下文的 ClassLoader</span></span><br><span class="line">Thread.currentThread().getContextClassLoader()</span><br><span class="line"><span class="comment">// 3 获取系统的 ClassLoader</span></span><br><span class="line">ClassLoader.getSystemClassLoader()</span><br><span class="line"><span class="comment">// 4 获取调用者的 ClassLoader</span></span><br><span class="line">DriverManager.getCallClassLoader()</span><br><span class="line">Class&lt;?&gt; defineClass(String name, <span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-API"><a href="#3-2-API" class="headerlink" title="3.2 API"></a>3.2 API</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Class&lt;?&gt;</code></td>
+<td><code>loadClass​(String name)</code></td>
+<td>加载指定全限定名的类，返回 <code>Class</code> 对象</td>
+</tr>
+<tr>
+<td><code>protected Class&lt;?&gt;</code></td>
+<td><code>findClass(String name)</code></td>
+<td>查找指定全限定名的类，返回 <code>Class</code> 对象</td>
+</tr>
+<tr>
+<td><code>protected Class&lt;?&gt;</code></td>
+<td><code>defineClass(String name, byte[] b, int off, int len)</code></td>
+<td>将字节数组转为一个 <code>Class</code> 对象</td>
+</tr>
+<tr>
+<td><code>InputStream</code></td>
+<td><code>getResourceAsStream​(String name)</code></td>
+<td>获取指定资源文件的流</td>
+</tr>
+<tr>
+<td><code>URL</code></td>
+<td><code>getResource​(String name)</code></td>
+<td>获取指定资源文件的 URL 对象</td>
+</tr>
+<tr>
+<td><code>ClassLoader</code></td>
+<td><code>getParent()</code></td>
+<td>获取父加载器</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-Class-和-ClassLoader-获取资源"><a href="#3-3-Class-和-ClassLoader-获取资源" class="headerlink" title="3.3 Class 和 ClassLoader 获取资源"></a>3.3 <code>Class</code> 和 <code>ClassLoader</code> 获取资源</h2><h3 id="1-说明"><a href="#1-说明" class="headerlink" title="1 说明"></a>1 说明</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 编译前</span></span><br><span class="line">App</span><br><span class="line">	src</span><br><span class="line">		a</span><br><span class="line">			b</span><br><span class="line">				Test.java</span><br><span class="line">				hello.xml</span><br><span class="line"><span class="comment">// 编译后</span></span><br><span class="line">App</span><br><span class="line">	WEB-INF</span><br><span class="line">		classes</span><br><span class="line">			a</span><br><span class="line">				b</span><br><span class="line">					Test<span class="class">.<span class="keyword">class</span></span></span><br><span class="line"><span class="class">					<span class="title">hello</span>.<span class="title">xml</span></span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>Class</code> 和 <code>ClassLoader</code> 资源路径都是相对于编译后的工程结构来说</li>
+<li><code>getResource()</code> 和 <code>getResourceAsStream()</code> 两个方法路径用法是一样的</li>
+</ol>
+<h3 id="2-Class"><a href="#2-Class" class="headerlink" title="2 Class"></a>2 <code>Class</code></h3><ol>
+<li><p>相对路径：相对于当前类的 <code>.class</code> 文件路径</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class.getResouce("hello.xml")</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>绝对路径：<code>/</code> 代表 <code>classpath</code> 根路径，即 <code>classes</code> 目录</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class.getResource("/a/b/hello.xml")</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="3-ClassLoader"><a href="#3-ClassLoader" class="headerlink" title="3 ClassLoader"></a>3 <code>ClassLoader</code></h3><ul>
+<li><p>默认就是从 <code>classpath</code> 下寻找资源，所以不能写 <code>/</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classLoader.getResource(<span class="string">"a/b/hello.xml"</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-文件流"><a href="#4-文件流" class="headerlink" title="4 文件流"></a>4 文件流</h3><ul>
+<li>文件流是相对于当前工程</li>
+</ul>
+<h1 id="四-java-lang-Class"><a href="#四-java-lang-Class" class="headerlink" title="四 java.lang.Class"></a>四 <code>java.lang.Class</code></h1><h2 id="4-1-获取-Class-对象的方式"><a href="#4-1-获取-Class-对象的方式" class="headerlink" title="4.1 获取 Class 对象的方式"></a>4.1 获取 <code>Class</code> 对象的方式</h2><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>类.class</code></td>
+<td>编译期这个类型就要存在</td>
+</tr>
+<tr>
+<td><code>类对象.getClass()</code></td>
+<td>需要先创建对象</td>
+</tr>
+<tr>
+<td><code>Class.forName(&quot;全限定类名&quot;)</code></td>
+<td>类型可以在编译期未知，类名可以在代码中或配置文件中等等</td>
+</tr>
+<tr>
+<td><code>类加载器对象.loadClass(&quot;全限定类名&quot;)</code></td>
+<td>一般用在自定义类加载器去加载指定路径的类</td>
+</tr>
+</tbody></table>
+<h2 id="4-2-API"><a href="#4-2-API" class="headerlink" title="4.2 API"></a>4.2 API</h2><h3 id="1-获取-Class-和-ClassLoader"><a href="#1-获取-Class-和-ClassLoader" class="headerlink" title="1 获取 Class 和 ClassLoader"></a>1 获取 <code>Class</code> 和 <code>ClassLoader</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static Class&lt;?&gt;</code></td>
+<td><code>forName​(String className)</code></td>
+<td>根据全限定类名获取 <code>Class</code> 对象</td>
+</tr>
+<tr>
+<td><code>ClassLoader</code></td>
+<td><code>getClassLoader()</code></td>
+<td>获取类加载器对象</td>
+</tr>
+</tbody></table>
+<h3 id="2-获取类信息"><a href="#2-获取类信息" class="headerlink" title="2 获取类信息"></a>2 获取类信息</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Package</code></td>
+<td><code>getPackage()</code></td>
+<td>获取包</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getPackageName()</code></td>
+<td>获取包名</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getName()</code></td>
+<td>获取类名</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>getModifiers()</code></td>
+<td>获取类修饰符编号 <code>mod</code></td>
+</tr>
+<tr>
+<td><code>Class&lt;? super T&gt;</code></td>
+<td><code>getSuperclass()</code></td>
+<td>获取父类（不带泛型）</td>
+</tr>
+<tr>
+<td><code>Type</code></td>
+<td><code>getGenericSuperclass()</code></td>
+<td>获取带泛型的父类</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;[]</code></td>
+<td><code>getInterfaces()</code></td>
+<td>获取所有实现的接口（不带泛型）</td>
+</tr>
+<tr>
+<td><code>Type[]</code></td>
+<td><code>getGenericInterfaces()</code></td>
+<td>获取所有实现接口（带泛型）</td>
+</tr>
+</tbody></table>
+<h3 id="3-获取构造器-Constructor"><a href="#3-获取构造器-Constructor" class="headerlink" title="3 获取构造器  Constructor"></a>3 获取构造器  <code>Constructor</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Constructor&lt;?&gt;[]</code></td>
+<td><code>getConstructors()</code></td>
+<td>获取本类所有 <code>public</code> 构造器</td>
+</tr>
+<tr>
+<td><code>Constructor&lt;?&gt;[]</code></td>
+<td><code>getDeclaredConstructors()</code></td>
+<td>获取本类所有构造器</td>
+</tr>
+<tr>
+<td><code>Constructor&lt;T&gt;</code></td>
+<td><code>getConstructor(Class&lt;?&gt;... parameterTypes)</code></td>
+<td>获取本类指定参数类型的 <code>public</code> 构造器</td>
+</tr>
+<tr>
+<td><code>Constructor&lt;T&gt;</code></td>
+<td><code>getDeclaredConstructor(Class&lt;?&gt;... parameterTypes)</code></td>
+<td>获取本类指定参数类型的构造器</td>
+</tr>
+</tbody></table>
+<h3 id="4-获取属性-Field"><a href="#4-获取属性-Field" class="headerlink" title="4 获取属性 Field"></a>4 获取属性 <code>Field</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Field[]</code></td>
+<td><code>getFields()</code></td>
+<td>获取本类及父类的所有 <code>public</code> 属性</td>
+</tr>
+<tr>
+<td><code>Field[]</code></td>
+<td><code>getDeclaredFields()</code></td>
+<td>获取本类的所有属性</td>
+</tr>
+<tr>
+<td><code>Field</code></td>
+<td><code>getField​(String name)</code></td>
+<td>获取本类及父类中指定名称的 <code>public</code> 属性</td>
+</tr>
+<tr>
+<td><code>Field</code></td>
+<td><code>getDeclaredField​(String name)</code></td>
+<td>获取本类中指定名称的属性</td>
+</tr>
+</tbody></table>
+<h3 id="5-获取方法-Method"><a href="#5-获取方法-Method" class="headerlink" title="5 获取方法 Method"></a>5 获取方法 <code>Method</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Method[]</code></td>
+<td><code>getMethods()</code></td>
+<td>获取本类及父类的所有 <code>public</code> 方法</td>
+</tr>
+<tr>
+<td><code>Method[]</code></td>
+<td><code>getDeclaredMethods()</code></td>
+<td>获取本类的所有方法</td>
+</tr>
+<tr>
+<td><code>Method</code></td>
+<td><code>getMethod​(String name, Class&lt;?&gt;... parameterTypes)</code></td>
+<td>获取本类及父类中指定方法名和参数类型的 <code>public</code> 方法</td>
+</tr>
+<tr>
+<td><code>Method</code></td>
+<td><code>getDeclaredMethod​(String name, Class&lt;?&gt;... parameterTypes)</code></td>
+<td>获取本类中指定方法名和参数类型的方法</td>
+</tr>
+</tbody></table>
+<h3 id="6-获取注解-Annotation"><a href="#6-获取注解-Annotation" class="headerlink" title="6 获取注解 Annotation"></a>6 获取注解 <code>Annotation</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Annotation[]</code></td>
+<td><code>getAnnotations()</code></td>
+<td>获取类上的所有注解</td>
+</tr>
+<tr>
+<td><code>&lt;A extends Annotation&gt; A</code></td>
+<td><code>getAnnotation​(Class&lt;A&gt; annotationClass)</code></td>
+<td>获取类上指定注解类型的注解</td>
+</tr>
+</tbody></table>
+<h1 id="五-java-lang-reflect-包"><a href="#五-java-lang-reflect-包" class="headerlink" title="五 java.lang.reflect 包"></a>五 <code>java.lang.reflect</code> 包</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%8F%8D%E5%B0%84%E5%8C%85.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>AccessibleObject</code></td>
+<td>访问修饰符控制</td>
+</tr>
+<tr>
+<td><code>Modifier</code></td>
+<td>修饰符</td>
+</tr>
+<tr>
+<td><code>Constructor&lt;T&gt;</code></td>
+<td>构造器</td>
+</tr>
+<tr>
+<td><code>Field</code></td>
+<td>属性</td>
+</tr>
+<tr>
+<td><code>Method</code></td>
+<td>方法</td>
+</tr>
+<tr>
+<td><code>Proxy</code></td>
+<td>代理</td>
+</tr>
+</tbody></table>
+<h2 id="5-2-Modifier"><a href="#5-2-Modifier" class="headerlink" title="5.2 Modifier"></a>5.2 <code>Modifier</code></h2><h3 id="1-属性"><a href="#1-属性" class="headerlink" title="1 属性"></a>1 属性</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static int</code></td>
+<td><code>PUBLIC</code></td>
+</tr>
+<tr>
+<td><code>static int</code></td>
+<td><code>PRIVATE</code></td>
+</tr>
+<tr>
+<td><code>...</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>此类为修饰符定义了常量值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PUBLIC = <span class="number">0x00000001</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PRIVATE = <span class="number">0x00000002</span>;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static String</code></td>
+<td><code>toString(int mod)</code></td>
+<td>获取编号对应的修饰符</td>
+</tr>
+</tbody></table>
+<h2 id="5-3-AccessibleObject"><a href="#5-3-AccessibleObject" class="headerlink" title="5.3 AccessibleObject"></a>5.3 <code>AccessibleObject</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Annotation[]</code></td>
+<td><code>getAnnotations()</code></td>
+<td>获取当前元素（构造、属性、方法）上的所有注解</td>
+</tr>
+<tr>
+<td><code>&lt;T extends Annotation&gt; T</code></td>
+<td><code>getAnnotation(Class&lt;T&gt; annotationClass)</code></td>
+<td>获取当前元素上的指定类型的注解</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>setAccessible​(boolean flag)</code></td>
+<td><code>true</code> 表示不启用 Java 访问修饰符的检查，可以访问非 <code>public</code> 修饰的成员</td>
+</tr>
+</tbody></table>
+<h2 id="5-4-Constructor"><a href="#5-4-Constructor" class="headerlink" title="5.4 Constructor"></a>5.4 <code>Constructor</code></h2><h3 id="1-构造器信息"><a href="#1-构造器信息" class="headerlink" title="1 构造器信息"></a>1 构造器信息</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>getModifiers()</code></td>
+<td>获取构造方法修饰符</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getName()</code></td>
+<td>获取构造方法名</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;[]</code></td>
+<td><code>getParameterTypes()</code></td>
+<td>获取构造方法形参类型列表</td>
+</tr>
+</tbody></table>
+<h3 id="2-构造器操作"><a href="#2-构造器操作" class="headerlink" title="2 构造器操作"></a>2 构造器操作</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>T</code></td>
+<td><code>newInstance​(Object... initargs)</code></td>
+<td>使用构造器创建对象</td>
+</tr>
+</tbody></table>
+<h2 id="5-4-Field"><a href="#5-4-Field" class="headerlink" title="5.4 Field"></a>5.4 <code>Field</code></h2><h3 id="1-属性信息"><a href="#1-属性信息" class="headerlink" title="1 属性信息"></a>1 属性信息</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>getModifiers()</code></td>
+<td>获取属性修饰符</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;</code></td>
+<td><code>getType()</code></td>
+<td>获取属性类型</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getName()</code></td>
+<td>获取属性名</td>
+</tr>
+</tbody></table>
+<h3 id="2-属性操作"><a href="#2-属性操作" class="headerlink" title="2 属性操作"></a>2 属性操作</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object</code></td>
+<td><code>get​(Object obj)</code></td>
+<td>获取指定对象此属性的值</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>set​(Object obj, Object value)</code></td>
+<td>为指定对象设置此属性的值</td>
+</tr>
+</tbody></table>
+<h2 id="5-5-Method"><a href="#5-5-Method" class="headerlink" title="5.5 Method"></a>5.5 <code>Method</code></h2><h3 id="1-方法信息"><a href="#1-方法信息" class="headerlink" title="1 方法信息"></a>1 方法信息</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>getModifiers()</code></td>
+<td>获取方法修饰符</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;</code></td>
+<td><code>getReturnType()</code></td>
+<td>获取返回值类型</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getName()</code></td>
+<td>获取方法名</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;[]</code></td>
+<td><code>getParameterTypes()</code></td>
+<td>获取方法形参类型列表</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;[]</code></td>
+<td><code>getExceptionTypes()</code></td>
+<td>获取抛出异常类型列表</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法操作"><a href="#2-方法操作" class="headerlink" title="2 方法操作"></a>2 方法操作</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object</code></td>
+<td><code>invoke​(Object obj, Object... args)</code></td>
+<td>调用非静态方法传入指定对象，调用静态方法传入 <code>null</code> 或 <code>类.class</code></td>
+</tr>
+</tbody></table>
+<h2 id="5-6-Proxy"><a href="#5-6-Proxy" class="headerlink" title="5.6 Proxy"></a>5.6 <code>Proxy</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static Object</code></td>
+<td><code>newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</code></td>
+<td>创建代理对象</td>
+</tr>
+</tbody></table>
+<h1 id="六-应用"><a href="#六-应用" class="headerlink" title="六 应用"></a>六 应用</h1><ol>
+<li><p><code>List&lt;Integer&gt;</code> 中添加字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 泛型只在编译期，在运行期通过反射即可实现</span></span><br><span class="line">ArrayList&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">Class&lt;?&gt; clazz = Class.forName(<span class="string">"java.util.ArrayList"</span>);</span><br><span class="line">Method method = clazz.getMethod(<span class="string">"add"</span>, Object<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">method.invoke(list, <span class="string">"哈哈哈"</span>);</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="Java-多线程">
+                  <i class="fa fa-chevron-left"></i> Java-多线程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="prev" title="Java-网络编程">
+                  Java-网络编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-反射"><span class="nav-text">一 反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-概述"><span class="nav-text">1.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-动态语言-amp-静态语言"><span class="nav-text">1.2 动态语言 &amp; 静态语言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-Java-类型"><span class="nav-text">二 Java 类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-概述"><span class="nav-text">2.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-ParameterizedType"><span class="nav-text">2.2 ParameterizedType</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-java-lang-ClassLoader"><span class="nav-text">三 java.lang.ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-获取-ClassLoader"><span class="nav-text">3.1 获取 ClassLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-API"><span class="nav-text">3.2 API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Class-和-ClassLoader-获取资源"><span class="nav-text">3.3 Class 和 ClassLoader 获取资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-说明"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Class"><span class="nav-text">2 Class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ClassLoader"><span class="nav-text">3 ClassLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-文件流"><span class="nav-text">4 文件流</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-java-lang-Class"><span class="nav-text">四 java.lang.Class</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-获取-Class-对象的方式"><span class="nav-text">4.1 获取 Class 对象的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-API"><span class="nav-text">4.2 API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取-Class-和-ClassLoader"><span class="nav-text">1 获取 Class 和 ClassLoader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取类信息"><span class="nav-text">2 获取类信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-获取构造器-Constructor"><span class="nav-text">3 获取构造器  Constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-获取属性-Field"><span class="nav-text">4 获取属性 Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-获取方法-Method"><span class="nav-text">5 获取方法 Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-获取注解-Annotation"><span class="nav-text">6 获取注解 Annotation</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-java-lang-reflect-包"><span class="nav-text">五 java.lang.reflect 包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-概述"><span class="nav-text">5.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Modifier"><span class="nav-text">5.2 Modifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-属性"><span class="nav-text">1 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text">2 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-AccessibleObject"><span class="nav-text">5.3 AccessibleObject</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-Constructor"><span class="nav-text">5.4 Constructor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造器信息"><span class="nav-text">1 构造器信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-构造器操作"><span class="nav-text">2 构造器操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-Field"><span class="nav-text">5.4 Field</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-属性信息"><span class="nav-text">1 属性信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-属性操作"><span class="nav-text">2 属性操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-Method"><span class="nav-text">5.5 Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-方法信息"><span class="nav-text">1 方法信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法操作"><span class="nav-text">2 方法操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-Proxy"><span class="nav-text">5.6 Proxy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-应用"><span class="nav-text">六 应用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

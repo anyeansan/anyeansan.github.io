@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述 java.util.stream 包 流：从支持数据处理操作的源生成的元素序列 流不存储元素，只是对数据进行处理 流的操作不会修改数据源，而是返回一个持有结果的新流 惰性求值：流的中间操作形成一条流水线，但不会真正执行，只有在执行终端操作时才会一次性全部处理 流只能消费一次   集合关注的是数据存储，与内存打交道 流关注的是数据运算，与CPU打交道  二 流的操作2.1 特点 流水线 内">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-Stream">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;09&#x2F;29&#x2F;Java&#x2F;Java-Stream&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述 java.util.stream 包 流：从支持数据处理操作的源生成的元素序列 流不存储元素，只是对数据进行处理 流的操作不会修改数据源，而是返回一个持有结果的新流 惰性求值：流的中间操作形成一条流水线，但不会真正执行，只有在执行终端操作时才会一次性全部处理 流只能消费一次   集合关注的是数据存储，与内存打交道 流关注的是数据运算，与CPU打交道  二 流的操作2.1 特点 流水线 内">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%86%85%E9%83%A8-%E5%A4%96%E9%83%A8%E8%BF%AD%E4%BB%A3.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;spliterator.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;flatmap.png">
+<meta property="og:updated_time" content="2020-09-29T08:02:54.837Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%86%85%E9%83%A8-%E5%A4%96%E9%83%A8%E8%BF%AD%E4%BB%A3.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/09/29/Java/Java-Stream/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java-Stream | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/09/29/Java/Java-Stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-Stream
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-09-29 16:02:42 / 修改时间：16:02:54" itemprop="dateCreated datePublished" datetime="2020-09-29T16:02:42+08:00">2020-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li><code>java.util.stream</code> 包</li>
+<li>流：从支持数据处理操作的源生成的元素序列<ol>
+<li>流不存储元素，只是对数据进行处理</li>
+<li>流的操作不会修改数据源，而是返回一个持有结果的新流</li>
+<li>惰性求值：流的中间操作形成一条流水线，但不会真正执行，只有在执行终端操作时才会一次性全部处理</li>
+<li>流只能消费一次</li>
+</ol>
+</li>
+<li>集合关注的是数据存储，与内存打交道</li>
+<li>流关注的是数据运算，与CPU打交道</li>
+</ol>
+<h1 id="二-流的操作"><a href="#二-流的操作" class="headerlink" title="二 流的操作"></a>二 流的操作</h1><h2 id="2-1-特点"><a href="#2-1-特点" class="headerlink" title="2.1 特点"></a>2.1 特点</h2><ol>
+<li>流水线</li>
+<li>内部迭代<ul>
+<li>使用集合：需要用户去做迭代，这称为外部迭代</li>
+<li>使用流：数据处理完全是在库内部进行的，这称为内部迭代</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%86%85%E9%83%A8-%E5%A4%96%E9%83%A8%E8%BF%AD%E4%BB%A3.png" alt=""></p>
+<h2 id="2-2-流程"><a href="#2-2-流程" class="headerlink" title="2.2 流程"></a>2.2 流程</h2><table>
+<thead>
+<tr>
+<th>流程</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 创建流</td>
+<td>通过一个数据源（如：集合、数组），获取一个流</td>
+</tr>
+<tr>
+<td>2 中间操作</td>
+<td>对数据源的数据进行 n 次处理，多个中间操作形成操作链（在终端操作前，并不会真正执行中间操作链）</td>
+</tr>
+<tr>
+<td>3 终端操作</td>
+<td>一旦执行终端操作，就执行中间操作链，最终产生结果并结束流</td>
+</tr>
+</tbody></table>
+<h1 id="三-创建流"><a href="#三-创建流" class="headerlink" title="三 创建流"></a>三 创建流</h1><h2 id="3-1-由值创建流：java-util-stream-Stream"><a href="#3-1-由值创建流：java-util-stream-Stream" class="headerlink" title="3.1 由值创建流：java.util.stream.Stream"></a>3.1 由值创建流：<code>java.util.stream.Stream</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>ofNullable(T t)</code></td>
+<td>若 <code>t</code> 为 <code>null</code> ，则返回空流，否则返回包含 <code>t</code> 的流</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>empty()</code></td>
+<td>获取一个不包含任何元素的空流</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>of(T... values)</code></td>
+<td>获取一个有限流，元素固定</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>generate(Supplier&lt;? extends T&gt; s)</code></td>
+<td>获取一个无限流，元素通过反复调用 <code>s</code> 生成</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>iterate(T seed, UnaryOperator&lt;T&gt; f)</code></td>
+<td>获取一个无限流，元素： <code>seed</code> 为初始值，之后依次由上一个值通过 <code>f</code> 生成下一个值</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>iterate(T seed, Predicate&lt;? super T&gt; hasNext, UnaryOperator&lt;T&gt; f)</code></td>
+<td>获取一个有限流，和无限流的区别是会在某个元素不满足 <code>hasNext</code> 时停止</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-由集合创建流：-java-util-Collection-lt-E-gt"><a href="#3-2-由集合创建流：-java-util-Collection-lt-E-gt" class="headerlink" title="3.2 由集合创建流： java.util.Collection&lt;E&gt;"></a>3.2 由集合创建流： <code>java.util.Collection&lt;E&gt;</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default Stream&lt;E&gt;</code></td>
+<td><code>stream()</code></td>
+<td>获取一个顺序流</td>
+</tr>
+<tr>
+<td><code>default Stream&lt;E&gt;</code></td>
+<td><code>parallelStream()</code></td>
+<td>获取一个并行流</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-由数组创建流：java-util-Arrays"><a href="#3-3-由数组创建流：java-util-Arrays" class="headerlink" title="3.3 由数组创建流：java.util.Arrays"></a>3.3 由数组创建流：<code>java.util.Arrays</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>stream(T[] array[, int start, int end])</code></td>
+<td>获取 <code>Stream</code> 流，可指定范围 <code>[start, end)</code></td>
+</tr>
+<tr>
+<td><code>static IntStream</code></td>
+<td><code>stream(int[] array[, int start, int end])</code></td>
+<td>获取 <code>IntStream</code> 流，可指定范围 <code>[start, end)</code></td>
+</tr>
+<tr>
+<td><code>static LongStream</code></td>
+<td><code>stream(long[] array[, int start, int end])</code></td>
+<td>获取 <code>LongStream</code> 流，可指定范围 <code>[start, end)</code></td>
+</tr>
+<tr>
+<td><code>static DoubleStream</code></td>
+<td><code>stream(double[] array[, int start, int end])</code></td>
+<td>获取 <code>DoubleStream</code> 流，可指定范围 <code>[start, end)</code></td>
+</tr>
+</tbody></table>
+<h2 id="3-4-由文件生成流：java-nio-file-Files"><a href="#3-4-由文件生成流：java-nio-file-Files" class="headerlink" title="3.4 由文件生成流：java.nio.file.Files"></a>3.4 由文件生成流：<code>java.nio.file.Files</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static Stream&lt;String&gt;</code></td>
+<td><code>lines(Path path)</code></td>
+<td>流元素为文件中的行，字符集默认为 <code>UTF-8</code></td>
+</tr>
+<tr>
+<td><code>static Stream&lt;String&gt;</code></td>
+<td><code>lines(Path path, Charset cs)</code></td>
+<td>流元素为文件中的行，可指定字符集</td>
+</tr>
+</tbody></table>
+<h1 id="四-中间操作"><a href="#四-中间操作" class="headerlink" title="四 中间操作"></a>四 中间操作</h1><h2 id="4-1-筛选和切片"><a href="#4-1-筛选和切片" class="headerlink" title="4.1 筛选和切片"></a>4.1 筛选和切片</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>filter(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>由所有符合条件的元素构成一个流</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>takeWhile(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>从第一个元素开始匹配，遇到不匹配就停止，由所有筛选出的元素构成一个流</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>dropWhile(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>从第一个元素开始匹配，由第一个不匹配的元素及其之后的所有元素构成一个流</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>distinct()</code></td>
+<td>去重</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>limit(long maxSize)</code></td>
+<td>限制数量</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>skip(long n)</code></td>
+<td>跳过前 n 个元素，若数量不够则返回空流</td>
+</tr>
+</tbody></table>
+<h2 id="4-2-排序"><a href="#4-2-排序" class="headerlink" title="4.2 排序"></a>4.2 排序</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>sorted()</code></td>
+<td>自然排序</td>
+</tr>
+<tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>sorted​(Comparator&lt;? super T&gt; comparator)</code></td>
+<td>定制排序</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-映射"><a href="#4-3-映射" class="headerlink" title="4.3 映射"></a>4.3 映射</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;R&gt; Stream&lt;R&gt;</code></td>
+<td><code>map​(Function&lt;? super T,​? extends R&gt; mapper)</code></td>
+<td>流中每个元素映射为一个新元素，所有新元素组成流，新旧流元素个数相同</td>
+</tr>
+<tr>
+<td><code>&lt;R&gt; Stream&lt;R&gt;</code></td>
+<td><code>flatMap​(Function&lt;? super T,​? extends Stream&lt;? extends R&gt;&gt; mapper)</code></td>
+<td>流中每个元素都映射为一个流，所有流连接为一个新流（即映射成的每个流中的元素组成新流），新旧流元素个数可能不同</td>
+</tr>
+</tbody></table>
+<h2 id="4-4-操作"><a href="#4-4-操作" class="headerlink" title="4.4 操作"></a>4.4 操作</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>peek​(Consumer&lt;? super T&gt; action)</code></td>
+<td>流中元素不变，对每个元素进行一些操作</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Stream&lt;T&gt;</code></td>
+<td><code>concat(Stream&lt;? extends T&gt; a, Stream&lt;? extends T&gt; b)</code></td>
+<td>由流 <code>a</code> 的一个元素后跟流 <code>b</code> 的一个元素组成的元素构成一个流</td>
+</tr>
+</tbody></table>
+<h1 id="五-终止操作"><a href="#五-终止操作" class="headerlink" title="五 终止操作"></a>五 终止操作</h1><h2 id="5-1-迭代"><a href="#5-1-迭代" class="headerlink" title="5.1 迭代"></a>5.1 迭代</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>forEach​(Consumer&lt;? super T&gt; action)</code></td>
+<td>迭代流中元素</td>
+</tr>
+<tr>
+<td><code>Iterator&lt;T&gt;</code></td>
+<td><code>iterator()</code></td>
+<td>旧式迭代器</td>
+</tr>
+</tbody></table>
+<h2 id="5-2-统计"><a href="#5-2-统计" class="headerlink" title="5.2 统计"></a>5.2 统计</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>long</code></td>
+<td><code>count()</code></td>
+<td>统计流中元素个数</td>
+</tr>
+</tbody></table>
+<h2 id="5-3-匹配"><a href="#5-3-匹配" class="headerlink" title="5.3 匹配"></a>5.3 匹配</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>anyMatch​(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>是否有任意元素匹配</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>allMatch​(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>是否全部元素都匹配</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>noneMatch​(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>是否没有元素匹配</td>
+</tr>
+</tbody></table>
+<h2 id="5-4-查找"><a href="#5-4-查找" class="headerlink" title="5.4 查找"></a>5.4 查找</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>findFirst()</code></td>
+<td>返回流中第一个元素</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>findAny()</code></td>
+<td>返回流中任意一个元素（如果是稳定流，也返回第一个元素）</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>max​(Comparator&lt;? super T&gt; comparator)</code></td>
+<td>返回流中最大元素，使用给定比较器定义的排序规则</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>min​(Comparator&lt;? super T&gt; comparator)</code></td>
+<td>返回流中最小元素</td>
+</tr>
+</tbody></table>
+<h2 id="5-5-归约"><a href="#5-5-归约" class="headerlink" title="5.5 归约"></a>5.5 归约</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>reduce​(BinaryOperator&lt;T&gt; accumulator)</code></td>
+<td>元素1和元素2运算获取累计结果，结果再和下一个元素运算获取累计结果…，直到获取最终结果，由于流可能没有元素，所以返回 <code>Optional</code></td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><code>reduce​(T identity, BinaryOperator&lt;T&gt; accumulator)</code></td>
+<td>同上，只是指定一个初始元素，由于肯定有值，所以不用返回 <code>Optional</code></td>
+</tr>
+</tbody></table>
+<h2 id="5-6-收集"><a href="#5-6-收集" class="headerlink" title="5.6 收集"></a>5.6 收集</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;R,A&gt; R</code></td>
+<td><code>collect​(Collector&lt;? super T,​A,​R&gt; collector)</code></td>
+<td>使用指定收集器收集流中元素</td>
+</tr>
+<tr>
+<td><code>Object[]</code></td>
+<td><code>toArray[]</code></td>
+<td>收集到对象数组中</td>
+</tr>
+<tr>
+<td><code>&lt;A&gt; A[]</code></td>
+<td><code>toArray(IntFunction&lt;A[]&gt; generator)</code></td>
+<td>传入 <code>A[]::new</code> 收集到 <code>A[]</code> 类型数组中</td>
+</tr>
+</tbody></table>
+<h1 id="六-流收集器"><a href="#六-流收集器" class="headerlink" title="六 流收集器"></a>六 流收集器</h1><h2 id="6-1-收集器接口：Collector-lt-T-A-R-gt"><a href="#6-1-收集器接口：Collector-lt-T-A-R-gt" class="headerlink" title="6.1 收集器接口：Collector&lt;T,A,R&gt;"></a>6.1 收集器接口：<code>Collector&lt;T,A,R&gt;</code></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Supplier&lt;A&gt; <span class="title">supplier</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">BiConsumer&lt;A, T&gt; <span class="title">accumulator</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Function&lt;A, R&gt; <span class="title">finisher</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">BinaryOperator&lt;A&gt; <span class="title">combiner</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">Set&lt;Characteristics&gt; <span class="title">characteristics</span><span class="params">()</span></span>;</span><br><span class="line">T：是流中要收集的元素的泛型。</span><br><span class="line">A：是累加器的类型，累加器是在收集过程中用于累积部分结果的对象。</span><br><span class="line">R 是收集操作得到的对象（通常但并不一定是集合）的类型</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-supplier：建立新的结果容器"><a href="#1-supplier：建立新的结果容器" class="headerlink" title="1 supplier：建立新的结果容器"></a>1 <code>supplier</code>：建立新的结果容器</h3><ol>
+<li><code>supplier</code> 方法必须返回一个结果为空的 <code>Supplier</code> ，调用此 <code>Supplier</code> 时创建一个空的累加器实例（结果容器），供数据收集过程使用</li>
+<li>累加器类型为 <code>A</code></li>
+</ol>
+<h3 id="2-accumulator：将元素添加到结果容器"><a href="#2-accumulator：将元素添加到结果容器" class="headerlink" title="2 accumulator：将元素添加到结果容器"></a>2 <code>accumulator</code>：将元素添加到结果容器</h3><ol>
+<li><code>accumulator</code> 方法会返回执行归约操作的函数</li>
+<li>返回的函数有两个参数（假设遍历到流中第 <code>n</code> 个元素）<ol>
+<li>保存归约结果的累加器（已收集了流中的前 <code>n - 1</code> 个项目）</li>
+<li>第 <code>n</code> 个元素本身</li>
+</ol>
+</li>
+</ol>
+<h3 id="3-finisher：对结果容器应用最终转换"><a href="#3-finisher：对结果容器应用最终转换" class="headerlink" title="3 finisher：对结果容器应用最终转换"></a>3 <code>finisher</code>：对结果容器应用最终转换</h3><ol>
+<li>在遍历完流后， <code>finisher</code> 方法必须返回在累积过程的最后要调用的一个函数，以便将累加器对象转换为整个集合操作的最终结果</li>
+<li>如果累加器对象恰好符合预期的最终结果，则无需进行转换，只需返回 <code>Function.identity()</code></li>
+</ol>
+<h3 id="4-combiner：合并两个结果容器"><a href="#4-combiner：合并两个结果容器" class="headerlink" title="4 combiner：合并两个结果容器"></a>4 <code>combiner</code>：合并两个结果容器</h3><ol>
+<li><code>combiner</code> 方法会返回一个供归约操作使用的函数，它定义了对流的各个子部分进行并行处理时，各个子部分归约所得的累加器要如何合并</li>
+<li>并行流使用，将多个线程产生的结果容器合并</li>
+</ol>
+<h3 id="5-characteristics"><a href="#5-characteristics" class="headerlink" title="5 characteristics"></a>5 <code>characteristics</code></h3><ol>
+<li><code>characteristics</code> 会返回一个不可变的 <code>Characteristics</code> 集合，它定义了收集器的行为——尤其是关于流是否可以并行归约，以及可以使用哪些优化的提示</li>
+<li><code>Characteristics</code> 是一个包含三个项目的枚举<ul>
+<li><code>UNORDERED</code><ul>
+<li>归约结果不受流中元素的遍历和累积顺序的影响</li>
+</ul>
+</li>
+<li><code>CONCURRENT</code><ul>
+<li><code>accumulator</code> 函数可以从多个线程同时调用，且该收集器可以并行归约流</li>
+<li>如果收集器没有标为 <code>UNORDERED</code> ，那它仅在用于无序数据源时才可以并行归约</li>
+</ul>
+</li>
+<li><code>IDENTITY_FINISH</code><ul>
+<li>表明完成器方法返回的函数是一个恒等函数，可以跳过。</li>
+<li>这种情况下，累加器对象将会直接用作归约过程的最终结果。这也意味着，将累加器 <code>A</code> 不加检查地转换为结果 <code>R</code> 是安全的</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-2-预定于收集器：Collectors"><a href="#6-2-预定于收集器：Collectors" class="headerlink" title="6.2 预定于收集器：Collectors"></a>6.2 预定于收集器：<code>Collectors</code></h2><h3 id="1-收集"><a href="#1-收集" class="headerlink" title="1 收集"></a>1 收集</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, List&lt;T&gt;&gt; toList()</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Set&lt;T&gt;&gt; toSet()</span><br><span class="line">toMap()</span><br><span class="line">toConcurrentMap()</span><br><span class="line"><span class="keyword">static</span> &lt;T, C extends Collection&lt;T&gt;&gt; Collector&lt;T, ?, C&gt; toCollection(Supplier&lt;C&gt; collectionFactory)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>toList</code></td>
+<td><code>List&lt;T&gt;</code></td>
+<td>把流中所有项目收集到一个 List（类型不确定）</td>
+</tr>
+<tr>
+<td><code>toSet</code></td>
+<td><code>Set&lt;T&gt;</code></td>
+<td>把流中所有项目收集到一个 Set（类型不确定），删除重复项</td>
+</tr>
+<tr>
+<td><code>toCollection</code></td>
+<td><code>Collection&lt;T&gt;</code></td>
+<td>把流中所有项目收集到给定的供应源创建的集合，既可以指定集合具体类型</td>
+</tr>
+</tbody></table>
+<h3 id="2-归约和汇总"><a href="#2-归约和汇总" class="headerlink" title="2 归约和汇总"></a>2 归约和汇总</h3><h4 id="1-统计个数，最小-大值"><a href="#1-统计个数，最小-大值" class="headerlink" title="1 统计个数，最小/大值"></a>1 统计个数，最小/大值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Long&gt; counting()</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Optional&lt;T&gt;&gt; minBy(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Optional&lt;T&gt;&gt; maxBy(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>counting</code></td>
+<td><code>Long</code></td>
+<td>计算流中元素的个数</td>
+</tr>
+<tr>
+<td><code>minBy</code></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>一个包裹了流中按照给定比较器选出的最小元素的 <code>Optional</code> ，或如果流为空则为 <code>Optional.empty()</code></td>
+</tr>
+<tr>
+<td><code>maxBy</code></td>
+<td><code>Optional&lt;T&gt;</code></td>
+<td>一个包裹了流中按照给定比较器选出的最大元素的 <code>Optional</code> ，或如果流为空则为 <code>Optional.empty()</code></td>
+</tr>
+</tbody></table>
+<h4 id="2-和-平均值"><a href="#2-和-平均值" class="headerlink" title="2 和/平均值"></a>2 和/平均值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Integer&gt; summingInt(ToIntFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Long&gt; summingLong(ToLongFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Double&gt; summingDouble(ToDoubleFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Double&gt; averagingInt(ToIntFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Double&gt; averagingLong(ToLongFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Double&gt; averagingDouble(ToDoubleFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>summingInt</code></td>
+<td><code>Integer</code></td>
+<td>对流中元素的一个整数属性求和</td>
+</tr>
+<tr>
+<td><code>summingLong</code></td>
+<td><code>Long</code></td>
+<td>对流中元素的一个长整型属性求和</td>
+</tr>
+<tr>
+<td><code>summingDouble</code></td>
+<td><code>Double</code></td>
+<td>对流中元素的一个浮点型属性求和</td>
+</tr>
+<tr>
+<td><code>averagingInt</code></td>
+<td><code>Double</code></td>
+<td>对流中元素的一个整数属性求平均值</td>
+</tr>
+<tr>
+<td><code>averagingLong</code></td>
+<td><code>Double</code></td>
+<td>对流中元素的一个长整型属性求平均值</td>
+</tr>
+<tr>
+<td><code>averagingDouble</code></td>
+<td><code>Double</code></td>
+<td>对流中元素的一个浮点型属性求平均值</td>
+</tr>
+</tbody></table>
+<h4 id="3-统计个数-最小-大值-和-平均值"><a href="#3-统计个数-最小-大值-和-平均值" class="headerlink" title="3 统计个数 + 最小/大值 + 和/平均值"></a>3 统计个数 + 最小/大值 + 和/平均值</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, IntSummaryStatistics&gt; summarizingInt(ToIntFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, LongSummaryStatistics&gt; summarizingLong(ToLongFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, DoubleSummaryStatistics&gt; summarizingDouble(ToDoubleFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>summarizingInt</code></td>
+<td><code>IntSummaryStatistics</code></td>
+<td>收集流中元素统计个数 + 最小/大值 + 和/平均值</td>
+</tr>
+<tr>
+<td><code>summarizingLong</code></td>
+<td><code>LongSummaryStatistics</code></td>
+<td>收集流中元素统计个数 + 最小/大值 + 和/平均值</td>
+</tr>
+<tr>
+<td><code>summarizingDouble</code></td>
+<td><code>DoubleSummaryStatistics</code></td>
+<td>收集流中元素统计个数 + 最小/大值 + 和/平均值</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>返回类型中提供了相应的 <code>getter</code> 方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getCount()</span><br><span class="line">getMin()</span><br><span class="line">getMax()</span><br><span class="line">getSum()</span><br><span class="line">getAverage()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="4-连接字符串"><a href="#4-连接字符串" class="headerlink" title="4 连接字符串"></a>4 连接字符串</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static Collector&lt;CharSequence, ?, String&gt; joining()</span><br><span class="line">static Collector&lt;CharSequence, ?, String&gt; joining(CharSequence delimiter)</span><br><span class="line">static Collector&lt;CharSequence, ?, String&gt; joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>joining</code></td>
+<td><code>String</code></td>
+<td>连接对流中每个元素调用 <code>toString</code> 方法所生成的字符串，可指定分隔符、前缀、后缀</td>
+</tr>
+</tbody></table>
+<h4 id="5-广义的归约汇总"><a href="#5-广义的归约汇总" class="headerlink" title="5 广义的归约汇总"></a>5 广义的归约汇总</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static &lt;T&gt; Collector&lt;T, ?, Optional&lt;T&gt;&gt; reducing(BinaryOperator&lt;T&gt; op)</span><br><span class="line">static &lt;T&gt; Collector&lt;T, ?, T&gt; reducing(T identity, BinaryOperator&lt;T&gt; op)</span><br><span class="line">static &lt;T, U&gt; Collector&lt;T, ?, U&gt; reducing(U identity, Function&lt;? super T, ? extends U&gt; mapper, BinaryOperator&lt;U&gt; op)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>reducing</code></td>
+<td>归约操作产生的类型</td>
+<td>从一个作为累加器的初始值开始，利用 <code>BinaryOperator</code> 与流中的元素逐个结合，从而将流归约为单个值</td>
+</tr>
+</tbody></table>
+<ol>
+<li>以上所有归约和汇总收集器都是 <code>reducing</code> 工厂方法定义的归约过程的特殊情况而已，仅仅是为了方便程序员使用而已</li>
+<li>三个参数<ul>
+<li>初始值</li>
+<li>转换函数</li>
+<li>累计函数</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-分组"><a href="#3-分组" class="headerlink" title="3 分组"></a>3 分组</h3><h4 id="1-分组"><a href="#1-分组" class="headerlink" title="1 分组"></a>1 分组</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一级分组：根据 T 的某个属性 K 分组，返回 Map&lt;K, list&lt;T&gt;&gt;</span></span><br><span class="line"><span class="keyword">static</span> &lt;T, K&gt; Collector&lt;T, ?, Map&lt;K, List&lt;T&gt;&gt;&gt; groupingBy(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; classifier)</span><br><span class="line"><span class="comment">// 多级分组：根据 T 的某个属性 K 分组，返回 Map&lt;K, list&lt;T&gt;&gt;，之后使用第三个参数队属性 K 收集，返回 Map&lt;K, D&gt;</span></span><br><span class="line"><span class="keyword">static</span> &lt;T, K, A, D&gt; Collector&lt;T, ?, Map&lt;K, D&gt;&gt; groupingBy(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; classifier, Collector&lt;? <span class="keyword">super</span> T, A, D&gt; downstream)</span><br><span class="line"><span class="comment">// 多级分组：可以自己提供 Map 类型</span></span><br><span class="line"><span class="keyword">static</span> &lt;T, K, D, A, M extends Map&lt;K, D&gt;&gt; Collector&lt;T, ?, M&gt; groupingBy(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; classifier, Supplier&lt;M&gt; mapFactory, Collector&lt;? <span class="keyword">super</span> T, A, D&gt; downstream)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>groupingBy</code></td>
+<td><code>Map&lt;K, List&lt;T&gt;&gt;</code></td>
+<td>根据元素某个属性映射的值分组，并作为键，元素收集到 <code>List</code> 中作为值（单参数的 <code>groupingBy</code> 其实第二个参数省略了 <code>Collectors.toList()</code>）</td>
+</tr>
+<tr>
+<td><code>groupingBy</code></td>
+<td><code>Map&lt;K, D&gt;</code></td>
+<td>根据元素某个属性映射的值分组，并作为键，第二个收集器返回值作为值</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>groupingByConcurrent</code> 返回的是 <code>ConcurrentMap</code></li>
+</ul>
+<h4 id="2-常与分组联合使用的收集器"><a href="#2-常与分组联合使用的收集器" class="headerlink" title="2 常与分组联合使用的收集器"></a>2 常与分组联合使用的收集器</h4><h5 id="1-collectingAndThen"><a href="#1-collectingAndThen" class="headerlink" title="1 collectingAndThen"></a>1 <code>collectingAndThen</code></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 将第一个参数（旧收集器）的结果传入第二个参数（转换函数）返回新的类型</span><br><span class="line">static &lt;T, A, R, RR&gt; Collector&lt;T, A, RR&gt; collectingAndThen(Collector&lt;T, A, R&gt; downstream, Function&lt;R, RR&gt; finisher)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>collectingAndThen</code></td>
+<td>转换函数返回的类型</td>
+<td>包裹另一个收集器，对其结果应用转换函数</td>
+</tr>
+</tbody></table>
+<h5 id="2-mapping"><a href="#2-mapping" class="headerlink" title="2 mapping"></a>2 <code>mapping</code></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static &lt;T, U, A, R&gt; Collector&lt;T, ?, R&gt; mapping(Function&lt;? super T, ? extends U&gt; mapper, Collector&lt;? super U, A, R&gt; downstream)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mapping</code></td>
+<td>转换函数返回的类型</td>
+<td>原收集器中的每个元素映射为一个新值，并使用一个新收集器收集</td>
+</tr>
+</tbody></table>
+<h3 id="4-分区"><a href="#4-分区" class="headerlink" title="4 分区"></a>4 分区</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一级分区</span></span><br><span class="line"><span class="keyword">static</span> &lt;T&gt; Collector&lt;T, ?, Map&lt;Boolean, List&lt;T&gt;&gt;&gt; partitioningBy(Predicate&lt;? <span class="keyword">super</span> T&gt; predicate)</span><br><span class="line"><span class="comment">// 多级分区</span></span><br><span class="line"><span class="keyword">static</span> &lt;T, D, A&gt; Collector&lt;T, ?, Map&lt;Boolean, D&gt;&gt; partitioningBy(Predicate&lt;? <span class="keyword">super</span> T&gt; predicate, Collector&lt;? <span class="keyword">super</span> T, A, D&gt; downstream)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>工厂方法</th>
+<th>返回类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>partitioningBy</code></td>
+<td><code>Map&lt;Boolean,List&lt;T&gt;&gt;</code></td>
+<td>根据对流中每个元素应用谓词的结果来对元素进行分区</td>
+</tr>
+</tbody></table>
+<ol>
+<li>分区是分组的特殊情况：由一个谓词（返回一个布尔值的函数）作为分类函数，它称分区函数</li>
+<li>分区函数返回一个布尔值，这意味着得到的分组 Map 的键类型是 <code>Boolean</code> ，即最多可以分为两组—— <code>true</code> 是一组， <code>false</code> 是一组</li>
+</ol>
+<h1 id="七-基本类型流"><a href="#七-基本类型流" class="headerlink" title="七 基本类型流"></a>七 基本类型流</h1><h2 id="7-1-概述"><a href="#7-1-概述" class="headerlink" title="7.1 概述"></a>7.1 概述</h2><ol>
+<li>流操作基本类型时暗含装箱操作，Java8 提供了基本类型流来解决<ol>
+<li><code>IntStream</code>：<code>byte short char int boolean</code></li>
+<li><code>DoubleStream</code>：<code>float double</code></li>
+<li><code>LongStream</code>：<code>long</code></li>
+</ol>
+</li>
+<li><code>IntStream DoubleStream LongStream</code> 分别将流中的元素转为 <code>int double long</code> ，从而避免了暗含的装箱成本，且每个接口有新的常用数值归约方法以及转回对象流的方法</li>
+</ol>
+<h2 id="7-2-对象流与基本类型流的转换"><a href="#7-2-对象流与基本类型流的转换" class="headerlink" title="7.2 对象流与基本类型流的转换"></a>7.2 对象流与基本类型流的转换</h2><h3 id="1-对象流-→-基本类型流"><a href="#1-对象流-→-基本类型流" class="headerlink" title="1 对象流 → 基本类型流"></a>1 对象流 → 基本类型流</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">IntStream <span class="title">mapToInt</span><span class="params">(ToIntFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span></span></span><br><span class="line"><span class="function">DoubleStream <span class="title">mapToDouble</span><span class="params">(ToDoubleFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span></span></span><br><span class="line"><span class="function">LongStream <span class="title">mapToLong</span><span class="params">(ToLongFunction&lt;? <span class="keyword">super</span> T&gt; mapper)</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-基本类型流-→-对象流"><a href="#2-基本类型流-→-对象流" class="headerlink" title="2 基本类型流 → 对象流"></a>2 基本类型流 → 对象流</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Stream&lt;Integer&gt; <span class="title">boxed</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Stream&lt;Double&gt; <span class="title">boxed</span><span class="params">()</span></span></span><br><span class="line"><span class="function">Stream&lt;Long&gt; <span class="title">boxed</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&lt;U&gt; Stream&lt;U&gt; <span class="title">mapToObj</span><span class="params">(IntFunction&lt;? extends U&gt; mapper)</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-IntStream"><a href="#7-3-IntStream" class="headerlink" title="7.3 IntStream"></a>7.3 <code>IntStream</code></h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static IntStream</code></td>
+<td><code>range(int start, int end)</code></td>
+<td><code>[start, end)</code> 范围内数值构成流</td>
+</tr>
+<tr>
+<td><code>static IntStream</code></td>
+<td><code>rangeClosed(int start, int end)</code></td>
+<td><code>[start, end]</code> 范围内数值构成流</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>sum()</code></td>
+<td>求和</td>
+</tr>
+<tr>
+<td><code>OptionalInt</code></td>
+<td><code>max()</code></td>
+<td>求最大值</td>
+</tr>
+<tr>
+<td><code>OptionalInt</code></td>
+<td><code>min()</code></td>
+<td>求最小值</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>count()</code></td>
+<td>统计个数</td>
+</tr>
+</tbody></table>
+<h1 id="八-并行流"><a href="#八-并行流" class="headerlink" title="八 并行流"></a>八 并行流</h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1 概述"></a>8.1 概述</h2><ol>
+<li>并行流就是一个把内容分成多个数据块，并用不同的线程分别处理每个数据块的流</li>
+<li>并行流背后使用的基础架构是 Java 7 中引入的分支/合并框架（<code>Fork/Join</code>）</li>
+</ol>
+<h2 id="8-2-转换"><a href="#8-2-转换" class="headerlink" title="8.2 转换"></a>8.2 转换</h2><ol>
+<li><code>parallel()</code>：顺序流 → 并行流</li>
+<li><code>sequential()</code>：并行流 → 顺序流</li>
+</ol>
+<h2 id="8-3-Spliterator-lt-T-gt"><a href="#8-3-Spliterator-lt-T-gt" class="headerlink" title="8.3 Spliterator&lt;T&gt;"></a>8.3 <code>Spliterator&lt;T&gt;</code></h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/spliterator.png" alt=""></p>
+<h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li><code>Spliterator</code> 是 Java 8中加入的一个新接口；这个名字代表“可分迭代器”（<code>splitable iterator</code>）</li>
+<li>和 <code>Iterator</code> 一样， <code>Spliterator</code> 也用于遍历数据源中的元素，但它是为了并行执行而设计的</li>
+<li>Java 8 为集合框架中包含的所有数据结构提供了一个默认的 <code>Spliterator</code> 实现</li>
+</ol>
+<h3 id="2-API"><a href="#2-API" class="headerlink" title="2 API"></a>2 API</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>tryAdvance(Consumer&lt;? super T&gt; action)</code></td>
+<td>按顺序一个一个使用 <code>Spliterator</code> 中的元素，并且如果还有元素要遍历就返回 <code>true</code></td>
+</tr>
+<tr>
+<td><code>Spliterator&lt;T&gt;</code></td>
+<td><code>trySplit()</code></td>
+<td>把一些元素划出去分给第二个 <code>Spliterator</code> （由该方法返回），让它们两个并行处理。当返回 <code>null</code> 时 ，表明它处理的数据结构不能再分割</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>estimateSize()</code></td>
+<td>估计还剩下多少元素要遍历</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>characteristics()</code></td>
+<td>返回一个 <code>int</code> ，代表 <code>Spliterator</code> 本身特性集的编码</td>
+</tr>
+</tbody></table>
+<h3 id="3-特性"><a href="#3-特性" class="headerlink" title="3 特性"></a>3 特性</h3><table>
+<thead>
+<tr>
+<th>特性 <code>int</code></th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ORDERED</code></td>
+<td>元素有既定的顺序（例如 <code>List</code> ），因此 <code>Spliterator</code> 在遍历和划分时也会遵循这一顺序</td>
+</tr>
+<tr>
+<td><code>DISTINCT</code></td>
+<td>对于任意一对遍历过的元素 x 和 y ， <code>x.equals(y)</code> 返回 <code>false</code></td>
+</tr>
+<tr>
+<td><code>SORTED</code></td>
+<td>遍历的元素按照一个预定义的顺序排序</td>
+</tr>
+<tr>
+<td><code>SIZED</code></td>
+<td>该 <code>Spliterator</code> 由一个已知大小的源建立（例如 <code>Set</code> ），因此 <code>estimatedSize()</code> 返回的是准确值</td>
+</tr>
+<tr>
+<td><code>NONNULL</code></td>
+<td>保证遍历的元素不会为 <code>null</code></td>
+</tr>
+<tr>
+<td><code>IMMUTABLE</code></td>
+<td><code>Spliterator</code> 的数据源不能修改。这意味着在遍历时不能添加、删除或修改任何元素</td>
+</tr>
+<tr>
+<td><code>CONCURRENT</code></td>
+<td>该 <code>Spliterator</code> 的数据源可以被其他线程同时修改而无需同步</td>
+</tr>
+<tr>
+<td><code>SUBSIZED</code></td>
+<td>该 <code>Spliterator</code> 和所有从它拆分出来的 <code>Spliterator</code> 都是 <code>SIZED</code></td>
+</tr>
+</tbody></table>
+<h1 id="九-java-util-Optional-lt-T-gt"><a href="#九-java-util-Optional-lt-T-gt" class="headerlink" title="九 java.util.Optional&lt;T&gt;"></a>九 <code>java.util.Optional&lt;T&gt;</code></h1><h2 id="9-1-概述"><a href="#9-1-概述" class="headerlink" title="9.1 概述"></a>9.1 概述</h2><ol>
+<li><code>Optional&lt;T&gt;</code> 是一种包装器对象，且只包装一个对象：<code>T</code> 或 <code>null</code><ul>
+<li>对象存在时，则返回封装对象的 <code>Optional</code></li>
+<li>对象不存在时，由方法 <code>Optional.empty()</code> 返回一个空的 <code>Optional</code></li>
+</ul>
+</li>
+<li>使用原则<ul>
+<li>不能为 <code>null</code> 的属性正常声明 <code>T</code></li>
+<li>可能为 <code>null</code> 的属性声明为 <code>Optional&lt;T&gt;</code></li>
+</ul>
+</li>
+<li><code>Optional&lt;T&gt;</code> 也有三个基本类型版本：<code>OptionalInt、OptionalDouble、OptionalLong</code></li>
+</ol>
+<h2 id="9-2-API"><a href="#9-2-API" class="headerlink" title="9.2 API"></a>9.2 API</h2><h3 id="1-创建-Optional"><a href="#1-创建-Optional" class="headerlink" title="1 创建 Optional"></a>1 创建 <code>Optional</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static &lt;T&gt; Optional&lt;T&gt;</code></td>
+<td><code>empty()</code></td>
+<td>返回空的 <code>Optional</code></td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Optional&lt;T&gt;</code></td>
+<td><code>of​(T t)</code></td>
+<td>将指定值用 <code>Optional</code> 封装之后返回，如果该值为 <code>null</code> ，则抛出一个 <code>NullPointerException</code> 异常</td>
+</tr>
+<tr>
+<td><code>static &lt;T&gt; Optional&lt;T&gt;</code></td>
+<td><code>ofNullable​(T t)</code></td>
+<td>将指定值用 <code>Optional</code> 封装之后返回，如果该值为 <code>null</code> ，则返回一个空的 <code>Optional</code> 对象</td>
+</tr>
+</tbody></table>
+<h3 id="2-获取-Optional-容器中的值"><a href="#2-获取-Optional-容器中的值" class="headerlink" title="2 获取 Optional 容器中的值"></a>2 获取 <code>Optional</code> 容器中的值</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>T</code></td>
+<td><code>get()</code></td>
+<td>如果值存在则返回，否则抛 <code>NoSuchElementException</code> 异常</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><code>orElse​(T other)</code></td>
+<td>如果值存在则返回，否则返回 <code>other</code></td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><code>orElseGet​(Supplier&lt;? extends T&gt; supplier)</code></td>
+<td>如果值存在则返回，否则返回由 <code>Supplier</code> 提供的值</td>
+</tr>
+<tr>
+<td><code>&lt;X extends Throwable&gt; T</code></td>
+<td><code>orElseThrow​(Supplier&lt;? extends X&gt; exceptionSupplier)</code></td>
+<td>如果值存在则返回，否则抛出由 <code>Supplier</code> 提供的异常</td>
+</tr>
+</tbody></table>
+<h3 id="3-操作-Optional-中的值"><a href="#3-操作-Optional-中的值" class="headerlink" title="3 操作 Optional 中的值"></a>3 操作 <code>Optional</code> 中的值</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>isPresent()</code></td>
+<td>如果值存在就返回 <code>true</code> ，否则返回 <code>false</code></td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>ifPresent​(Consumer&lt;? super T&gt; action)</code></td>
+<td>如果值存在则传递给 <code>action</code> 执行；否则就不进行任何操作</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>ifPresentOrElse(Consumer&lt;? super T&gt; action, Runnable emptyAction)</code></td>
+<td>如果值存在则传递给 <code>action</code> 执行；否则调用 <code>emptyAction</code></td>
+</tr>
+<tr>
+<td><code>&lt;U&gt; Optional&lt;U&gt;</code></td>
+<td><code>map​(Function&lt;? super T,​? extends U&gt; mapper)</code></td>
+<td>如果值存在则映射一个新值（如果映射值为 <code>null</code> 会空指针异常），然后返回存储新值的 <code>Optional</code>；否则返回空的 <code>Optional</code></td>
+</tr>
+<tr>
+<td><code>&lt;U&gt; Optional&lt;U&gt;</code></td>
+<td><code>flatMap​(Function&lt;? super T,​? extends Optional&lt;? extends U&gt;&gt; mapper)</code></td>
+<td><code>map</code> 方法的问题在于如果映射成的值还是一个 <code>Optional</code>，会形成多层 <code>Optional&lt;Optional&lt;T&gt;&gt;</code>，此方法能将多层的 <code>Optional</code> 合并为一个</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>filter​(Predicate&lt;? super T&gt; predicate)</code></td>
+<td>如果值存在并且满足提供的谓词，就返回包含该值的 <code>Optional</code> 对象；否则返回空的 <code>Optional</code> 对象</td>
+</tr>
+<tr>
+<td><code>Optional&lt;T&gt;</code></td>
+<td><code>or(Supplier&lt;? extends Optional&lt;? extends T&gt;&gt; supplier)</code></td>
+<td>如果值存在，则返回存储此值的 <code>Optional</code>，否则返回由 <code>Supplier</code> 提供的 <code>Optional</code></td>
+</tr>
+</tbody></table>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/flatmap.png" alt=""></p>
+<h3 id="4-其它"><a href="#4-其它" class="headerlink" title="4 其它"></a>4 其它</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Stream&lt;T&gt;</code></td>
+<td><code>stream()</code></td>
+<td>如果值存在则获取只包含此元素的流，否则获取空流</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-Lambda/" rel="next" title="Java-Lambda">
+                  <i class="fa fa-chevron-left"></i> Java-Lambda
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E5%B8%B8%E7%94%A8API/" rel="prev" title="Java-常用API">
+                  Java-常用API <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-流的操作"><span class="nav-text">二 流的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-特点"><span class="nav-text">2.1 特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-流程"><span class="nav-text">2.2 流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-创建流"><span class="nav-text">三 创建流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-由值创建流：java-util-stream-Stream"><span class="nav-text">3.1 由值创建流：java.util.stream.Stream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-由集合创建流：-java-util-Collection-lt-E-gt"><span class="nav-text">3.2 由集合创建流： java.util.Collection&lt;E&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-由数组创建流：java-util-Arrays"><span class="nav-text">3.3 由数组创建流：java.util.Arrays</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-由文件生成流：java-nio-file-Files"><span class="nav-text">3.4 由文件生成流：java.nio.file.Files</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-中间操作"><span class="nav-text">四 中间操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-筛选和切片"><span class="nav-text">4.1 筛选和切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-排序"><span class="nav-text">4.2 排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-映射"><span class="nav-text">4.3 映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-操作"><span class="nav-text">4.4 操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-终止操作"><span class="nav-text">五 终止操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-迭代"><span class="nav-text">5.1 迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-统计"><span class="nav-text">5.2 统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-匹配"><span class="nav-text">5.3 匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-查找"><span class="nav-text">5.4 查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-归约"><span class="nav-text">5.5 归约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-收集"><span class="nav-text">5.6 收集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-流收集器"><span class="nav-text">六 流收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-收集器接口：Collector-lt-T-A-R-gt"><span class="nav-text">6.1 收集器接口：Collector&lt;T,A,R&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-supplier：建立新的结果容器"><span class="nav-text">1 supplier：建立新的结果容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-accumulator：将元素添加到结果容器"><span class="nav-text">2 accumulator：将元素添加到结果容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-finisher：对结果容器应用最终转换"><span class="nav-text">3 finisher：对结果容器应用最终转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-combiner：合并两个结果容器"><span class="nav-text">4 combiner：合并两个结果容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-characteristics"><span class="nav-text">5 characteristics</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-预定于收集器：Collectors"><span class="nav-text">6.2 预定于收集器：Collectors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-收集"><span class="nav-text">1 收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-归约和汇总"><span class="nav-text">2 归约和汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-统计个数，最小-大值"><span class="nav-text">1 统计个数，最小/大值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-和-平均值"><span class="nav-text">2 和/平均值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-统计个数-最小-大值-和-平均值"><span class="nav-text">3 统计个数 + 最小/大值 + 和/平均值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-连接字符串"><span class="nav-text">4 连接字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-广义的归约汇总"><span class="nav-text">5 广义的归约汇总</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-分组"><span class="nav-text">3 分组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-分组"><span class="nav-text">1 分组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-常与分组联合使用的收集器"><span class="nav-text">2 常与分组联合使用的收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-collectingAndThen"><span class="nav-text">1 collectingAndThen</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-mapping"><span class="nav-text">2 mapping</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-分区"><span class="nav-text">4 分区</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-基本类型流"><span class="nav-text">七 基本类型流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-概述"><span class="nav-text">7.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-对象流与基本类型流的转换"><span class="nav-text">7.2 对象流与基本类型流的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-对象流-→-基本类型流"><span class="nav-text">1 对象流 → 基本类型流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-基本类型流-→-对象流"><span class="nav-text">2 基本类型流 → 对象流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-IntStream"><span class="nav-text">7.3 IntStream</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-并行流"><span class="nav-text">八 并行流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-概述"><span class="nav-text">8.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-转换"><span class="nav-text">8.2 转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-Spliterator-lt-T-gt"><span class="nav-text">8.3 Spliterator&lt;T&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-API"><span class="nav-text">2 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-特性"><span class="nav-text">3 特性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九-java-util-Optional-lt-T-gt"><span class="nav-text">九 java.util.Optional&lt;T&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-概述"><span class="nav-text">9.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-API"><span class="nav-text">9.2 API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建-Optional"><span class="nav-text">1 创建 Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取-Optional-容器中的值"><span class="nav-text">2 获取 Optional 容器中的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-操作-Optional-中的值"><span class="nav-text">3 操作 Optional 中的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-其它"><span class="nav-text">4 其它</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

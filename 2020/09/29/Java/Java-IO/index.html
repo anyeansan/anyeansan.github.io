@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 File1.1 概述 File 类代表了一个文件或一个目录 File 类中涉及到的关于文件或目录的创建、删除、修改等方法，并未涉及到写入或读取文件内容的操作。如需读写文件内容，必须通过 IO 流来完成  1.2 属性   修饰 属性 说明    static char separatorChar 路径分隔符；unix &amp;#39;&#x2F;&amp;#39;，windows &amp;#39;\\&amp;#39;   sta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-IO">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;09&#x2F;29&#x2F;Java&#x2F;Java-IO&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 File1.1 概述 File 类代表了一个文件或一个目录 File 类中涉及到的关于文件或目录的创建、删除、修改等方法，并未涉及到写入或读取文件内容的操作。如需读写文件内容，必须通过 IO 流来完成  1.2 属性   修饰 属性 说明    static char separatorChar 路径分隔符；unix &amp;#39;&#x2F;&amp;#39;，windows &amp;#39;\\&amp;#39;   sta">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81.png">
+<meta property="og:updated_time" content="2020-09-29T07:53:01.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Java&#x2F;%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/09/29/Java/Java-IO/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Java-IO | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/09/29/Java/Java-IO/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java-IO
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-09-29 15:52:03 / 修改时间：15:53:01" itemprop="dateCreated datePublished" datetime="2020-09-29T15:52:03+08:00">2020-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-File"><a href="#一-File" class="headerlink" title="一 File"></a>一 <code>File</code></h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><ol>
+<li>File 类代表了一个文件或一个目录</li>
+<li>File 类中涉及到的关于文件或目录的创建、删除、修改等方法，并未涉及到写入或读取文件内容的操作。如需读写文件内容，必须通过 IO 流来完成</li>
+</ol>
+<h2 id="1-2-属性"><a href="#1-2-属性" class="headerlink" title="1.2 属性"></a>1.2 属性</h2><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static char</code></td>
+<td><code>separatorChar</code></td>
+<td>路径分隔符；<code>unix &#39;/&#39;</code>，<code>windows &#39;\\&#39;</code></td>
+</tr>
+<tr>
+<td><code>static String</code></td>
+<td><code>separator</code></td>
+<td><code>&quot;&quot; + separatorChar</code></td>
+</tr>
+<tr>
+<td><code>static char</code></td>
+<td><code>pathSeparatorChar</code></td>
+<td>多个路径之间的分隔符；<code>unix :</code> ，<code>windows  ;</code></td>
+</tr>
+<tr>
+<td><code>static String</code></td>
+<td><code>pathSeparator</code></td>
+<td><code>&quot;&quot; + pathSeparatorChar</code></td>
+</tr>
+</tbody></table>
+<h2 id="1-3-构造"><a href="#1-3-构造" class="headerlink" title="1.3 构造"></a>1.3 构造</h2><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>File​(String pathname)</code></td>
+<td>根据路径字符串构造 <code>File</code></td>
+</tr>
+<tr>
+<td><code>File​(String parent, String child)</code></td>
+<td>根据父路径字符串和子路径字符串构造 <code>File</code></td>
+</tr>
+<tr>
+<td><code>File​(File parent, String child)</code></td>
+<td>根据父 <code>File</code> 和 子路径字符串构造 <code>File</code></td>
+</tr>
+<tr>
+<td><code>File(URI uri)</code></td>
+<td>根据 <code>uri</code> 构造 <code>File</code></td>
+</tr>
+</tbody></table>
+<h2 id="1-4-方法"><a href="#1-4-方法" class="headerlink" title="1.4 方法"></a>1.4 方法</h2><h3 id="1-创建"><a href="#1-创建" class="headerlink" title="1 创建"></a>1 创建</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>createNewFile()</code></td>
+<td>创建文件，已存在则不创建</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>mkdir()</code></td>
+<td>创建目录，已存在则不创建</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>mkdirs()</code></td>
+<td>递归创建目录</td>
+</tr>
+</tbody></table>
+<h3 id="2-删除"><a href="#2-删除" class="headerlink" title="2 删除"></a>2 删除</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>delete()</code></td>
+<td>删除文件或空目录（不走回收站）</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>renameTo(File dest)</code></td>
+<td>路径相同则重命名，路径不同则剪切</td>
+</tr>
+</tbody></table>
+<h3 id="3-判断"><a href="#3-判断" class="headerlink" title="3 判断"></a>3 判断</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean</code></td>
+<td><code>exists()</code></td>
+<td>是否存在</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>isDirectory()</code></td>
+<td>是否是目录</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>isFile()</code></td>
+<td>是否是文件</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>canRead()</code></td>
+<td>是否可读</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>canWrite()</code></td>
+<td>是否可写</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>isHidden()</code></td>
+<td>是否是隐藏</td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>isAbsolute()</code></td>
+<td>是否是绝对路径</td>
+</tr>
+</tbody></table>
+<h3 id="4-获取"><a href="#4-获取" class="headerlink" title="4 获取"></a>4 获取</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String</code></td>
+<td><code>getName()</code></td>
+<td>获取文件名</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getPath()</code></td>
+<td>获取构造 File 对象时指定的路径</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getAbsolutePath()</code></td>
+<td>获取绝对路径</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getCanonicalPath()</code></td>
+<td>获取规范路径（自动解析 <code>. ..</code>）</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>length()</code></td>
+<td>获取文件大小</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>lastModified()</code></td>
+<td>获取文件最后修改时间</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>getParent()</code></td>
+<td>获取父目录路径的字符串</td>
+</tr>
+<tr>
+<td><code>File</code></td>
+<td><code>getParentFile()</code></td>
+<td>获取父目录路径的 File 对象</td>
+</tr>
+</tbody></table>
+<h3 id="5-遍历目录"><a href="#5-遍历目录" class="headerlink" title="5 遍历目录"></a>5 遍历目录</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>static File[]</code></td>
+<td><code>listRoots()</code></td>
+<td>获取系统可用盘符</td>
+</tr>
+<tr>
+<td><code>String[]</code></td>
+<td><code>list()</code></td>
+<td>获取目录下所有文件和目录的字符串名称的数组</td>
+</tr>
+<tr>
+<td><code>String[]</code></td>
+<td><code>list(FilenameFilter filter)</code></td>
+<td>文件名过滤器</td>
+</tr>
+<tr>
+<td><code>File[]</code></td>
+<td><code>listFiles()</code></td>
+<td>获取目录下所有文件和目录的 File 对象的数组</td>
+</tr>
+<tr>
+<td><code>File[]</code></td>
+<td><code>listFiles(FileFilter filter)</code></td>
+<td>文件过滤器</td>
+</tr>
+<tr>
+<td><code>File[]</code></td>
+<td><code>listFiles(FilenameFilter filter)</code></td>
+<td>文件名过滤器</td>
+</tr>
+</tbody></table>
+<h1 id="二-IO-流的异常处理"><a href="#二-IO-流的异常处理" class="headerlink" title="二 IO 流的异常处理"></a>二 IO 流的异常处理</h1><h2 id="2-1-JDK-7"><a href="#2-1-JDK-7" class="headerlink" title="2.1 JDK 7"></a>2.1 JDK 7</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">InputStream in = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">	in = <span class="keyword">new</span> FileInputStream(<span class="string">"test.txt"</span>);</span><br><span class="line">	业务代码;</span><br><span class="line">&#125; <span class="keyword">catch</span>(IOException e) &#123;</span><br><span class="line">	异常处理;</span><br><span class="line">&#125; <span class="keyword">finally</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(in!=<span class="keyword">null</span>)&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			in.close();</span><br><span class="line">		&#125;<span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-JDK-8"><a href="#2-2-JDK-8" class="headerlink" title="2.2 JDK 8"></a>2.2 JDK 8</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (</span><br><span class="line">	需要关闭的资源;</span><br><span class="line">) &#123;</span><br><span class="line">	业务代码;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">	异常处理</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>实现了 <code>java.lang.AutoCloseble</code> 的资源可以使用此语法自动关闭（无论是否发生异常）</li>
+<li>IO 流体系实现了此接口</li>
+<li>JDK9 以后要关闭的资源可以在 <code>try</code> 外边初始化</li>
+</ol>
+<h1 id="三-基础流"><a href="#三-基础流" class="headerlink" title="三 基础流"></a>三 基础流</h1><h2 id="3-1-字节输入流"><a href="#3-1-字节输入流" class="headerlink" title="3.1 字节输入流"></a>3.1 字节输入流</h2><h3 id="1-体系"><a href="#1-体系" class="headerlink" title="1 体系"></a>1 体系</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%AD%97%E8%8A%82%E8%BE%93%E5%85%A5%E6%B5%81.png" alt=""></p>
+<h3 id="2-InputStream"><a href="#2-InputStream" class="headerlink" title="2 InputStream"></a>2 <code>InputStream</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>abstract int</code></td>
+<td><code>read()</code></td>
+<td>读取单个字节，返回字节的 <code>int</code> 值，流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>read​(byte[] b)</code></td>
+<td>读取字节并存储到数组中，返回读取的字节个数，流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>read​(byte[] b, int off, int len)</code></td>
+<td>读取字节并存储到数组指定位置，返回读取的字节个数，流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>byte[]</code></td>
+<td><code>readAllBytes()</code></td>
+<td>读取流中所有字节</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td><code>transferTo(OutputStream out)</code></td>
+<td>将当前输入流中所有数据传递给输出流，并返回传递字节数</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>close()</code></td>
+<td>关闭流</td>
+</tr>
+</tbody></table>
+<ul>
+<li>字节流读取中文<ol>
+<li>使用 <code>read()</code> 读取一个字节肯定乱码</li>
+<li>使用 <code>read(byte[] b)</code> 缓存数组读取有可能乱码，因为数组长度与数据的字节个数未必恰好吻合，有可能会出现一个字符多个字节但只读取到部分的情况</li>
+</ol>
+</li>
+</ul>
+<h2 id="3-2-字节输出流"><a href="#3-2-字节输出流" class="headerlink" title="3.2 字节输出流"></a>3.2 字节输出流</h2><h3 id="1-体系-1"><a href="#1-体系-1" class="headerlink" title="1 体系"></a>1 体系</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81.png" alt=""></p>
+<h3 id="2-OutputStream"><a href="#2-OutputStream" class="headerlink" title="2 OutputStream"></a>2 <code>OutputStream</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>abstract void</code></td>
+<td><code>write​(int b)</code></td>
+<td>写单个字节</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(byte[] b)</code></td>
+<td>写字节数组</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(byte[] b, int off, int len)</code></td>
+<td>写字节数组的指定部分</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>flush()</code></td>
+<td>刷新，即将缓冲区数据写到目的地，刷新后还可以继续写</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>close()</code></td>
+<td>关闭前会自动刷新</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-字符输入流"><a href="#3-3-字符输入流" class="headerlink" title="3.3 字符输入流"></a>3.3 字符输入流</h2><h3 id="1-体系-2"><a href="#1-体系-2" class="headerlink" title="1 体系"></a>1 体系</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E6%B5%81.png" alt=""></p>
+<h3 id="2-Reader"><a href="#2-Reader" class="headerlink" title="2 Reader"></a>2 <code>Reader</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>read()</code></td>
+<td>读取单个字符，返回 Unicode 码元（<code>0~65535</code>），流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>read(char[] cbuf)</code></td>
+<td>读取字符并存储到数组中，返回读取的字符个数，流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>abstract int</code></td>
+<td><code>read​(char[] cbuf, int off, int len)</code></td>
+<td>读取字符并存储到数组指定位置，返回读取的字符个数，流末尾返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>abstract void</code></td>
+<td><code>close()</code></td>
+<td>关闭流</td>
+</tr>
+</tbody></table>
+<ol>
+<li>字符流一次读取一个字符，字符流怎么知道几个字节是一个字符呢？<ul>
+<li>跟字符集有关，如GBK中中文都是1开头的</li>
+</ul>
+</li>
+<li>字符流编码转换过程 <code>read()</code><ul>
+<li>按照指定字符集读取 → 查询 <code>unicode</code> 中对应的码点（因为 java 为 <code>unicode</code>）</li>
+<li>比如文件内容为一个字 “北”，假如使用的码表为GBK，字符流读取结果为 <code>十进制：21271</code>，转为十六进制为 <code>\u5317</code>，先读取文件根据GBK转成了 “北”，然后查“北”在 <code>Unicode</code> 中的码点</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-4-字符输出流"><a href="#3-4-字符输出流" class="headerlink" title="3.4 字符输出流"></a>3.4 字符输出流</h2><h3 id="1-体系-3"><a href="#1-体系-3" class="headerlink" title="1 体系"></a>1 体系</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81.png" alt=""></p>
+<h3 id="2-Writer"><a href="#2-Writer" class="headerlink" title="2 Writer"></a>2 <code>Writer</code></h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>write(int c)</code></td>
+<td>写单个字符</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(String str)</code></td>
+<td>写字符串</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(String str, int off, int len)</code></td>
+<td>写字符串的指定部分</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(char[] cbuf)</code></td>
+<td>写字符数组</td>
+</tr>
+<tr>
+<td><code>abstract  void</code></td>
+<td><code>write(char[] cbuf, int off, int len)</code></td>
+<td>写字符数组的指定部分</td>
+</tr>
+<tr>
+<td><code>abstract void</code></td>
+<td><code>flush()</code></td>
+<td>刷新</td>
+</tr>
+<tr>
+<td><code>abstract void</code></td>
+<td><code>close()</code></td>
+<td>关闭前会自动刷新</td>
+</tr>
+</tbody></table>
+<h1 id="四-文件流"><a href="#四-文件流" class="headerlink" title="四 文件流"></a>四 文件流</h1><h2 id="4-1-FileInputStream"><a href="#4-1-FileInputStream" class="headerlink" title="4.1 FileInputStream"></a>4.1 <code>FileInputStream</code></h2><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FileInputStream(File file)</code></td>
+<td>根据 File 对象创建，文件必须存在</td>
+</tr>
+<tr>
+<td><code>FileInputStream(String name)</code></td>
+<td>根据文件路径创建，文件必须存在</td>
+</tr>
+</tbody></table>
+<h2 id="4-2-FileOutputStream"><a href="#4-2-FileOutputStream" class="headerlink" title="4.2 FileOutputStream"></a>4.2 <code>FileOutputStream</code></h2><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FileOutputStream(File file [, boolean append])</code></td>
+<td>文件不存在会创建，文件存在会清空</td>
+</tr>
+<tr>
+<td><code>FileOutputStream(String name [, boolean append])</code></td>
+<td>文件不存在会创建，文件存在会清空</td>
+</tr>
+</tbody></table>
+<h1 id="五-缓冲流"><a href="#五-缓冲流" class="headerlink" title="五 缓冲流"></a>五 缓冲流</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><ol>
+<li>缓存流和定义数组哪个快？<ul>
+<li>定义数组快，因为读写操作的都是同一个数组，而缓存流分输入和输出，操作的是两个数组</li>
+</ul>
+</li>
+<li>关闭流时，先关外层，再关内层，而关外层流时内层流会自动关闭</li>
+</ol>
+<h2 id="5-2-字节缓冲流"><a href="#5-2-字节缓冲流" class="headerlink" title="5.2 字节缓冲流"></a>5.2 字节缓冲流</h2><h3 id="1-BufferedInputStream"><a href="#1-BufferedInputStream" class="headerlink" title="1 BufferedInputStream"></a>1 <code>BufferedInputStream</code></h3><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BufferedInputStream​(InputStream in [, int size])</code></td>
+<td>默认缓存区大小为 <code>8192</code> 字节</td>
+</tr>
+</tbody></table>
+<h3 id="2-BufferedOutputStream"><a href="#2-BufferedOutputStream" class="headerlink" title="2 BufferedOutputStream"></a>2 <code>BufferedOutputStream</code></h3><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BufferedOutputStream(OutputStream out, int size)</code></td>
+<td>默认缓存区大小为 <code>8192</code> 字节</td>
+</tr>
+</tbody></table>
+<h2 id="5-3-字符缓冲流"><a href="#5-3-字符缓冲流" class="headerlink" title="5.3 字符缓冲流"></a>5.3 字符缓冲流</h2><h3 id="1-BufferedReader"><a href="#1-BufferedReader" class="headerlink" title="1 BufferedReader"></a>1 <code>BufferedReader</code></h3><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BufferedReader​(Reader in [, int sz])</code></td>
+<td>默认缓存区大小 <code>8192</code> 字符</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String</code></td>
+<td><code>readLine()</code></td>
+<td>读取一行并返回（不包括换行符），流末尾返回 <code>null</code></td>
+</tr>
+</tbody></table>
+<h3 id="2-BufferedWriter"><a href="#2-BufferedWriter" class="headerlink" title="2 BufferedWriter"></a>2 <code>BufferedWriter</code></h3><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BufferedWriter​(Writer out [, int sz])</code></td>
+<td>默认缓存区大小 <code>8192</code> 字符</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>newLine()</code></td>
+<td>写出换行符（可跨平台）</td>
+</tr>
+</tbody></table>
+<h1 id="六-转换流"><a href="#六-转换流" class="headerlink" title="六 转换流"></a>六 转换流</h1><h2 id="6-1-概述"><a href="#6-1-概述" class="headerlink" title="6.1 概述"></a>6.1 概述</h2><ol>
+<li><p>转换流属于字符流，提供了字节流和字符流之间的转换</p>
+<ul>
+<li><code>InputStreamReader</code>：<code>InputStream</code> → <code>Reader</code></li>
+<li><code>OutputStreamWriter</code>：<code>Writer</code> → <code>OutputStream</code></li>
+</ul>
+</li>
+<li><p>字符流原理就是转换流使用平台默认字符集将字节流转换成了字符流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"test.txt"</span>);</span><br><span class="line">OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(<span class="string">"test.txt"</span>),<span class="string">"utf-8"</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>字符流 = 转换流(字节流 + 默认字符集)</p>
+</li>
+<li><p>如果默认字符集是 <code>utf-8</code> ，则上述两句是等价的</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-2-InputStreamReader"><a href="#6-2-InputStreamReader" class="headerlink" title="6.2 InputStreamReader"></a>6.2 <code>InputStreamReader</code></h2><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>InputStreamReader​(InputStream in [, String charsetName)]</code></td>
+<td>字节流到字符流的桥梁，使用指定字符集解码</td>
+</tr>
+</tbody></table>
+<ol>
+<li>使用字节流读取文本数据时，先读取字节数据，然后使用字符集解码</li>
+<li><code>InputStreamReader</code>：读取字节数据并使用字符集解码</li>
+</ol>
+<h2 id="6-3-OutputStreamWriter"><a href="#6-3-OutputStreamWriter" class="headerlink" title="6.3 OutputStreamWriter"></a>6.3 <code>OutputStreamWriter</code></h2><table>
+<thead>
+<tr>
+<th>构造方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>OutputStreamWriter​(OutputStream out [, String charsetName])</code></td>
+<td>字符流到字节流的桥梁，使用指定字符集编码</td>
+</tr>
+</tbody></table>
+<ol>
+<li>使用字节流写出文本数据时，先使用字符集编码，然后写出字节数据</li>
+<li><code>OutputStreamWriter</code>：使用字符集编码并写出字节数据</li>
+</ol>
+<h2 id="6-4-两种方法实现键盘录入"><a href="#6-4-两种方法实现键盘录入" class="headerlink" title="6.4 两种方法实现键盘录入"></a>6.4 两种方法实现键盘录入</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span></span><br><span class="line">BufferedReader br=<span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in))</span><br><span class="line">BUfferedWriter bw=<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(System.out)) </span><br><span class="line">    </span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line">Scanner sc=<span class="keyword">new</span> Scanner(System.in);</span><br></pre></td></tr></table></figure>
+
+<h1 id="七-打印流"><a href="#七-打印流" class="headerlink" title="七 打印流"></a>七 打印流</h1><h2 id="7-1-概述"><a href="#7-1-概述" class="headerlink" title="7.1 概述"></a>7.1 概述</h2><ol>
+<li>可以对多种数据类型进行打印，并<strong>保持数据的表示形式</strong><ol>
+<li><code>write(int)</code> ：只会写出 1 个字节</li>
+<li><code>print(int)</code> ：可以写出 4 个字节</li>
+</ol>
+</li>
+<li>不抛出 <code>IOException</code></li>
+<li>打印原理<ol>
+<li>基本数据类型先变成字符串再打印</li>
+<li>引用数据类型非 <code>null</code> 就调用对象的 <code>toString()</code>，<code>null</code> 就打印 <code>null</code></li>
+</ol>
+</li>
+<li><code>PrintWriter &amp; printStream</code><ol>
+<li><code>PrintStream</code> 能做的 <code>PrintWriter</code> 也都能实现且功能更强大，但 <code>PrintStream</code> 出现较早，<code>System.out</code> 使用的是 <code>PrintStream</code> 来实现的，所以为了兼容并没有废弃 <code>PrintStream</code></li>
+<li>二者都提供了一系列重载的 <code>print println</code> 方法</li>
+<li><code>PringtStream</code> 打印的所有字符都使用平台默认的字符集来编码为字节数据，打印字符时，建议使用 <code>PrintWriter</code></li>
+<li><code>PrintWriter &amp; printStream</code> 都可以设置自动刷新<ul>
+<li><code>printStream</code>：写入字节数组、任何重载版本的 <code>println()</code> 被调用、一个换行符（<code>char</code>）被写入、一个换行符的字节存储（<code>\n</code>）被写入</li>
+<li><code>PrintWriter</code>： 自动刷新只对 <code>println() printf() format()</code> 这些方法有效</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="7-2-PrintStream"><a href="#7-2-PrintStream" class="headerlink" title="7.2 PrintStream"></a>7.2 <code>PrintStream</code></h2><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PrintStream​(File file [, String charsetName])</code></td>
+<td>接收 File 对象</td>
+</tr>
+<tr>
+<td><code>PrintStream​(String fileName [, String charsetName])</code></td>
+<td>接收字符串路径</td>
+</tr>
+<tr>
+<td><code>PrintStream​(OutputStream out [, boolean autoFlush [, String encoding]])</code></td>
+<td>接收字节输出流</td>
+</tr>
+</tbody></table>
+<h2 id="7-3-PrintWriter"><a href="#7-3-PrintWriter" class="headerlink" title="7.3 PrintWriter"></a>7.3 <code>PrintWriter</code></h2><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PrintWriter​(File file [, String charsetName])</code></td>
+<td>接收 File 对象</td>
+</tr>
+<tr>
+<td><code>PrintWriter​(String fileName [, String charsetName])</code></td>
+<td>接收字符串路径</td>
+</tr>
+<tr>
+<td><code>PrintWriter​(OutputStream out [, boolean autoFlush [, Charset charset]])</code></td>
+<td>接收字节输出流</td>
+</tr>
+<tr>
+<td><code>PrintWriter​(Writer out [, boolean autoFlush])</code></td>
+<td>接收字符输出流</td>
+</tr>
+</tbody></table>
+<h2 id="7-4-标准输入输出流"><a href="#7-4-标准输入输出流" class="headerlink" title="7.4 标准输入输出流"></a>7.4 标准输入输出流</h2><table>
+<thead>
+<tr>
+<th>流</th>
+<th>类型</th>
+<th>说明</th>
+<th>设备</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>System.in</code></td>
+<td><code>InputStream</code></td>
+<td>标准输入</td>
+<td>键盘</td>
+</tr>
+<tr>
+<td><code>System.out</code></td>
+<td><code>PrintStream</code></td>
+<td>标准输出</td>
+<td>显示器（控制台）</td>
+</tr>
+<tr>
+<td><code>System.err</code></td>
+<td><code>PrintStream</code></td>
+<td>标准错误输出</td>
+<td>显示器（控制台）</td>
+</tr>
+</tbody></table>
+<h1 id="八-序列化流（对象流）"><a href="#八-序列化流（对象流）" class="headerlink" title="八 序列化流（对象流）"></a>八 序列化流（对象流）</h1><h2 id="8-1-概述"><a href="#8-1-概述" class="headerlink" title="8.1 概述"></a>8.1 概述</h2><ol>
+<li>序列化 &amp; 反序列化<ul>
+<li>序列化：写出一个对象</li>
+<li>反序列化：读取一个对象</li>
+</ul>
+</li>
+<li>对象序列化机制：好处在于将对象转化为字节数据，使其在保存和传输时可被还原<ul>
+<li>允许把内存中的 Java 对象转换成平台无关的二进制流，从而把这种二进制流持久的保存在磁盘上或通过网络进行传输</li>
+<li>当其它程序获取这种二进制流，就可以恢复成原来的 Java 对象</li>
+</ul>
+</li>
+<li>对象序列化的条件：<ol>
+<li>对象必须实现序列化接口<ul>
+<li><code>Serializable</code> ：序列化标记接口，对象序列化内容和顺序都是默认的</li>
+<li><code>Externalizable</code> ：<code>Serializable</code> 的子接口，可定制序列号内容和顺序</li>
+</ul>
+</li>
+<li>对象的所有属性也必须可序列化<ul>
+<li>引用类型的属性也必须实现序列化接口</li>
+<li>基本类型属性默认可序列化</li>
+</ul>
+</li>
+<li>对象不会序列化的属性<ul>
+<li><code>transient</code> 关键字修饰的属性</li>
+<li><code>static</code> 关键字修饰的属性</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>序列化ID ：<code>serialVersionUID</code><ul>
+<li>用于判断类和对象是否是同一个版本</li>
+<li>建议实现序列化接口时就指定，否则每次重新编译类，序列化ID都会变化</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-2-ObjectInputStream"><a href="#8-2-ObjectInputStream" class="headerlink" title="8.2 ObjectInputStream"></a>8.2 <code>ObjectInputStream</code></h2><h3 id="1-构造"><a href="#1-构造" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ObjectInputStream​(InputStream in)</code></td>
+<td>装饰字节输入流</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法"><a href="#2-方法" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object</code></td>
+<td><code>readObject()</code></td>
+<td>读取对象</td>
+</tr>
+</tbody></table>
+<h2 id="8-3-ObjectOutputStream"><a href="#8-3-ObjectOutputStream" class="headerlink" title="8.3 ObjectOutputStream"></a>8.3 <code>ObjectOutputStream</code></h2><h3 id="1-构造-1"><a href="#1-构造-1" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ObjectOutputStream(OutputStream out)</code></td>
+<td>装饰字节输出流</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法-1"><a href="#2-方法-1" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>writeObject(Object obj)</code></td>
+<td>写出对象</td>
+</tr>
+</tbody></table>
+<h1 id="九-数据流"><a href="#九-数据流" class="headerlink" title="九 数据流"></a>九 数据流</h1><h2 id="9-1-概述"><a href="#9-1-概述" class="headerlink" title="9.1 概述"></a>9.1 概述</h2><ol>
+<li>数据流主要用来操作基本类型和 <code>String</code> 类型的数据，这些数据如果使用其它流读写，可能会出问题</li>
+<li>以二进制形式读写数组，字符，字符串，布尔…</li>
+</ol>
+<h2 id="9-2-DataInputStream"><a href="#9-2-DataInputStream" class="headerlink" title="9.2 DataInputStream"></a>9.2 <code>DataInputStream</code></h2><h3 id="1-构造-2"><a href="#1-构造-2" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DataInputStream​(InputStream in)</code></td>
+<td>装饰字节输入流</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法-2"><a href="#2-方法-2" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String</code></td>
+<td><code>readUTF()</code></td>
+<td>读字符串</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><code>readT()</code></td>
+<td>读指定类型数据，<code>readInt() readDouble() ...</code></td>
+</tr>
+</tbody></table>
+<h2 id="9-3-DataOutputStream"><a href="#9-3-DataOutputStream" class="headerlink" title="9.3 DataOutputStream"></a>9.3 <code>DataOutputStream</code></h2><h3 id="1-构造-3"><a href="#1-构造-3" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DataOutputStream​(OutputStream out)</code></td>
+<td>装饰字节输出流</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>writeUTF​(String str)</code></td>
+<td>写字符串</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>writeT(T t)</code></td>
+<td>写指定类型数据，<code>writeInt(int i) writeDouble(double d) ...</code></td>
+</tr>
+</tbody></table>
+<h1 id="十-内存流"><a href="#十-内存流" class="headerlink" title="十 内存流"></a>十 内存流</h1><h2 id="10-1-概述"><a href="#10-1-概述" class="headerlink" title="10.1 概述"></a>10.1 概述</h2><ol>
+<li>操作字节数组</li>
+<li>流关闭无效，不抛 <code>IOException</code></li>
+<li>向内存中读写数组</li>
+<li>字节流读取中文时，可能会乱码，可以使用内存输出流先写到内存中，然后一次性获取所有数据</li>
+</ol>
+<h2 id="10-2-ByteArrayInputStream"><a href="#10-2-ByteArrayInputStream" class="headerlink" title="10.2 ByteArrayInputStream"></a>10.2 <code>ByteArrayInputStream</code></h2><h3 id="1-构造-4"><a href="#1-构造-4" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ByteArrayInputStream(byte[] buf [, int offset, int length])</code></td>
+<td>把字节数组作为缓冲数组</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法-3"><a href="#2-方法-3" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td><code>read()</code></td>
+<td>读取一个字节</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>read(byte[] b, int off, int len)</code></td>
+<td>读取字节并存储在数组中</td>
+</tr>
+</tbody></table>
+<h2 id="10-3-ByteArrayOutputStream"><a href="#10-3-ByteArrayOutputStream" class="headerlink" title="10.3 ByteArrayOutputStream"></a>10.3 <code>ByteArrayOutputStream</code></h2><h3 id="1-构造-5"><a href="#1-构造-5" class="headerlink" title="1 构造"></a>1 构造</h3><table>
+<thead>
+<tr>
+<th>构造</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ByteArrayOutputStream([int size])</code></td>
+<td>可以指定缓冲区大小</td>
+</tr>
+</tbody></table>
+<h3 id="2-方法-4"><a href="#2-方法-4" class="headerlink" title="2 方法"></a>2 方法</h3><table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>void</code></td>
+<td><code>write(int b)</code></td>
+<td>写出一个字节</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td><code>write(byte[] b, int off, int len)</code></td>
+<td>写出数组指定数据</td>
+</tr>
+<tr>
+<td><code>byte[]</code></td>
+<td><code>toByteArray()</code></td>
+<td>将缓冲区的数据全部取出，获取一个字节数组</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td><code>toString()</code></td>
+<td>将缓冲区的数据用平台默认编码转为字符串</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E5%BC%82%E5%B8%B8/" rel="next" title="Java-异常">
+                  <i class="fa fa-chevron-left"></i> Java-异常
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/09/29/Java/Java-%E9%9B%86%E5%90%88/" rel="prev" title="Java-集合">
+                  Java-集合 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-File"><span class="nav-text">一 File</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-概述"><span class="nav-text">1.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-属性"><span class="nav-text">1.2 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-构造"><span class="nav-text">1.3 构造</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-方法"><span class="nav-text">1.4 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建"><span class="nav-text">1 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-删除"><span class="nav-text">2 删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-判断"><span class="nav-text">3 判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-获取"><span class="nav-text">4 获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-遍历目录"><span class="nav-text">5 遍历目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-IO-流的异常处理"><span class="nav-text">二 IO 流的异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-JDK-7"><span class="nav-text">2.1 JDK 7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-JDK-8"><span class="nav-text">2.2 JDK 8</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-基础流"><span class="nav-text">三 基础流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-字节输入流"><span class="nav-text">3.1 字节输入流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-体系"><span class="nav-text">1 体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-InputStream"><span class="nav-text">2 InputStream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-字节输出流"><span class="nav-text">3.2 字节输出流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-体系-1"><span class="nav-text">1 体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-OutputStream"><span class="nav-text">2 OutputStream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-字符输入流"><span class="nav-text">3.3 字符输入流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-体系-2"><span class="nav-text">1 体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Reader"><span class="nav-text">2 Reader</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-字符输出流"><span class="nav-text">3.4 字符输出流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-体系-3"><span class="nav-text">1 体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Writer"><span class="nav-text">2 Writer</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-文件流"><span class="nav-text">四 文件流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-FileInputStream"><span class="nav-text">4.1 FileInputStream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-FileOutputStream"><span class="nav-text">4.2 FileOutputStream</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-缓冲流"><span class="nav-text">五 缓冲流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-概述"><span class="nav-text">5.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-字节缓冲流"><span class="nav-text">5.2 字节缓冲流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-BufferedInputStream"><span class="nav-text">1 BufferedInputStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-BufferedOutputStream"><span class="nav-text">2 BufferedOutputStream</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-字符缓冲流"><span class="nav-text">5.3 字符缓冲流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-BufferedReader"><span class="nav-text">1 BufferedReader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-BufferedWriter"><span class="nav-text">2 BufferedWriter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-转换流"><span class="nav-text">六 转换流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-InputStreamReader"><span class="nav-text">6.2 InputStreamReader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-OutputStreamWriter"><span class="nav-text">6.3 OutputStreamWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-两种方法实现键盘录入"><span class="nav-text">6.4 两种方法实现键盘录入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-打印流"><span class="nav-text">七 打印流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-概述"><span class="nav-text">7.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-PrintStream"><span class="nav-text">7.2 PrintStream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-PrintWriter"><span class="nav-text">7.3 PrintWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-标准输入输出流"><span class="nav-text">7.4 标准输入输出流</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-序列化流（对象流）"><span class="nav-text">八 序列化流（对象流）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-概述"><span class="nav-text">8.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-ObjectInputStream"><span class="nav-text">8.2 ObjectInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法"><span class="nav-text">2 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-ObjectOutputStream"><span class="nav-text">8.3 ObjectOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造-1"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-1"><span class="nav-text">2 方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九-数据流"><span class="nav-text">九 数据流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-概述"><span class="nav-text">9.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-DataInputStream"><span class="nav-text">9.2 DataInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造-2"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-2"><span class="nav-text">2 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-DataOutputStream"><span class="nav-text">9.3 DataOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造-3"><span class="nav-text">1 构造</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十-内存流"><span class="nav-text">十 内存流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-概述"><span class="nav-text">10.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-ByteArrayInputStream"><span class="nav-text">10.2 ByteArrayInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造-4"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-3"><span class="nav-text">2 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3-ByteArrayOutputStream"><span class="nav-text">10.3 ByteArrayOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造-5"><span class="nav-text">1 构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-方法-4"><span class="nav-text">2 方法</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
