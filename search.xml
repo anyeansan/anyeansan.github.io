@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Java面向对象</title>
-    <url>/anyeansan.github.io/2020/09/29/Java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>]]></content>
-      <categories>
-        <category>父</category>
-        <category>子</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Java语法</title>
     <url>/anyeansan.github.io/2020/09/29/Java/Java%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="一-前言"><a href="#一-前言" class="headerlink" title="一 前言"></a>一 前言</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><img src="https://gitee.com/anis5/pic/raw/master/CS/Java/java.png" alt=""></p>
+    <content><![CDATA[<h1 id="一-前言"><a href="#一-前言" class="headerlink" title="一 前言"></a>一 前言</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/java.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -137,7 +126,7 @@
 <td>所有单词大写，单词之间使用 <code>_</code> 连接</td>
 </tr>
 </tbody></table>
-<h1 id="四-数据类型"><a href="#四-数据类型" class="headerlink" title="四 数据类型"></a>四 数据类型</h1><h2 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1 概述"></a>4.1 概述</h2><p><img src="https://gitee.com/anis5/pic/raw/master/CS/Java/java%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p>
+<h1 id="四-数据类型"><a href="#四-数据类型" class="headerlink" title="四 数据类型"></a>四 数据类型</h1><h2 id="4-1-概述"><a href="#4-1-概述" class="headerlink" title="4.1 概述"></a>4.1 概述</h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/java%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p>
 <h2 id="4-2-基本数据类型"><a href="#4-2-基本数据类型" class="headerlink" title="4.2 基本数据类型"></a>4.2 基本数据类型</h2><h3 id="1-整型"><a href="#1-整型" class="headerlink" title="1 整型"></a>1 整型</h3><table>
 <thead>
 <tr>
@@ -282,7 +271,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="4-3-基本数据类型转换"><a href="#4-3-基本数据类型转换" class="headerlink" title="4.3 基本数据类型转换"></a>4.3 基本数据类型转换</h2><p><img src="https://gitee.com/anis5/pic/raw/master/CS/Java/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.png" alt=""></p>
+<h2 id="4-3-基本数据类型转换"><a href="#4-3-基本数据类型转换" class="headerlink" title="4.3 基本数据类型转换"></a>4.3 基本数据类型转换</h2><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Java/%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.png" alt=""></p>
 <ol>
 <li>自动类型转换（隐式转换）：<code>低容量类型 → 高容量类型</code></li>
 <li>强制类型转换：<code>高容量类型 → 低容量类型</code>，可能损失精度</li>
