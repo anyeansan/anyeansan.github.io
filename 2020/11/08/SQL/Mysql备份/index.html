@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 备份策略1.1备份策略 全量备份 完整备份所有数据   增量备份 做一次完全备份，以后每次只备份新增的数据   差异备份 做一次完全备份，以后每次只备份和第一次完全备份不同的数据    1.2 备份周期 根据数据量 自动  1.3 备份类型 热备 在数据库正常业务时,备份数据,并且能够一致性恢复（只能是innodb）   温备 锁表备份,只能查询不能修改（myisam）   冷备 关闭数据库业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql备份">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;SQL&#x2F;Mysql%E5%A4%87%E4%BB%BD&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 备份策略1.1备份策略 全量备份 完整备份所有数据   增量备份 做一次完全备份，以后每次只备份新增的数据   差异备份 做一次完全备份，以后每次只备份和第一次完全备份不同的数据    1.2 备份周期 根据数据量 自动  1.3 备份类型 热备 在数据库正常业务时,备份数据,并且能够一致性恢复（只能是innodb）   温备 锁表备份,只能查询不能修改（myisam）   冷备 关闭数据库业">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:15:48.422Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/SQL/Mysql%E5%A4%87%E4%BB%BD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mysql备份 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/SQL/Mysql%E5%A4%87%E4%BB%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mysql备份
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:14:49 / 修改时间：21:15:48" itemprop="dateCreated datePublished" datetime="2020-11-08T21:14:49+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-备份策略"><a href="#一-备份策略" class="headerlink" title="一 备份策略"></a>一 备份策略</h1><h2 id="1-1备份策略"><a href="#1-1备份策略" class="headerlink" title="1.1备份策略"></a>1.1备份策略</h2><ol>
+<li>全量备份<ul>
+<li>完整备份所有数据</li>
+</ul>
+</li>
+<li>增量备份<ul>
+<li>做一次完全备份，以后每次只备份新增的数据</li>
+</ul>
+</li>
+<li>差异备份<ul>
+<li>做一次完全备份，以后每次只备份和第一次完全备份不同的数据</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-2-备份周期"><a href="#1-2-备份周期" class="headerlink" title="1.2 备份周期"></a>1.2 备份周期</h2><ol>
+<li>根据数据量</li>
+<li>自动</li>
+</ol>
+<h2 id="1-3-备份类型"><a href="#1-3-备份类型" class="headerlink" title="1.3 备份类型"></a>1.3 备份类型</h2><ol>
+<li>热备<ul>
+<li>在数据库正常业务时,备份数据,并且能够一致性恢复（只能是innodb）</li>
+</ul>
+</li>
+<li>温备<ul>
+<li>锁表备份,只能查询不能修改（myisam）</li>
+</ul>
+</li>
+<li>冷备<ul>
+<li>关闭数据库业务,数据库没有任何变更的情况下,进行备份数据.</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-4-备份工具"><a href="#1-4-备份工具" class="headerlink" title="1.4 备份工具"></a>1.4 备份工具</h2><ol>
+<li><code>mysqldump</code></li>
+<li><code>Xtrabackup</code><ul>
+<li>percona 数据库默认</li>
+</ul>
+</li>
+<li><code>mysqlbinlog</code></li>
+</ol>
+<h2 id="1-5-备份方式"><a href="#1-5-备份方式" class="headerlink" title="1.5 备份方式"></a>1.5 备份方式</h2><ol>
+<li>逻辑（基于 SQL 语句备份）<ol>
+<li>全备：<code>mysqldump</code></li>
+<li>增量：<code>mysqlbinlog</code></li>
+</ol>
+</li>
+<li>物理（基于磁盘数据文件备份）<ol>
+<li>全备：<code>Xtrabackup</code></li>
+<li>增量：<code>Xtrabackup</code></li>
+</ol>
+</li>
+</ol>
+<h1 id="二-mysqldump"><a href="#二-mysqldump" class="headerlink" title="二 mysqldump"></a>二 mysqldump</h1><h2 id="2-1-连接数据库"><a href="#2-1-连接数据库" class="headerlink" title="2.1 连接数据库"></a>2.1 连接数据库</h2><ul>
+<li><code>mysqldupm OPTION</code><ul>
+<li><code>OPTION</code><ul>
+<li><code>-u</code></li>
+<li><code>-p</code></li>
+<li><code>-S</code></li>
+<li><code>-h</code></li>
+<li><code>-P</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-2-基础参数"><a href="#2-2-基础参数" class="headerlink" title="2.2 基础参数"></a>2.2 基础参数</h2><ol>
+<li><code>-A</code><ul>
+<li>全备</li>
+</ul>
+</li>
+<li><code>-B db1 db2 ...</code><ul>
+<li>备份多个数据库</li>
+</ul>
+</li>
+<li><code>db t1 t2 ...</code><ul>
+<li>备份指定数据的表</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-3-特殊参数"><a href="#2-3-特殊参数" class="headerlink" title="2.3 特殊参数"></a>2.3 特殊参数</h2><ol>
+<li><code>-R</code><ul>
+<li>备份备份存储过程及函数</li>
+</ul>
+</li>
+<li><code>-E</code><ul>
+<li>备份事件</li>
+</ul>
+</li>
+<li><code>--triggers</code><ul>
+<li>备份触发器</li>
+</ul>
+</li>
+<li><code>-F</code><ul>
+<li>在备份开始时,刷新一个新 binlog 日志</li>
+</ul>
+</li>
+<li><code>--master-data=2</code><ul>
+<li>以注释的形式，保存备份开始时间点的 binlog 的状态信息</li>
+</ul>
+</li>
+<li><code>--single-transaction</code><ol>
+<li>不加 ，温备份，所有表都锁定</li>
+<li>加上，对 innodb 表进行快照备份（不锁表），对非 innodb 表可以实现自动锁表功能</li>
+</ol>
+</li>
+<li><code>--set-gtid-purged=auto/on/off</code></li>
+<li><code>--max-allowed-packet=#</code></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/SQL/Mysql%E6%97%A5%E5%BF%97/" rel="next" title="Mysql日志">
+                  <i class="fa fa-chevron-left"></i> Mysql日志
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-备份策略"><span class="nav-text">一 备份策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1备份策略"><span class="nav-text">1.1备份策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-备份周期"><span class="nav-text">1.2 备份周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-备份类型"><span class="nav-text">1.3 备份类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-备份工具"><span class="nav-text">1.4 备份工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-备份方式"><span class="nav-text">1.5 备份方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-mysqldump"><span class="nav-text">二 mysqldump</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-连接数据库"><span class="nav-text">2.1 连接数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-基础参数"><span class="nav-text">2.2 基础参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-特殊参数"><span class="nav-text">2.3 特殊参数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

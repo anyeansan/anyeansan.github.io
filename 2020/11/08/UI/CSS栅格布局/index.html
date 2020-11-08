@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 Grid 概述 将网页划分成一个个网格，可以任意组合不同的网格，做出各种各样的布局 Flex 布局是轴线布局，只能指定”项目”针对轴线的位置，可以看作是一维布局。Grid 布局则是将容器划分成”行”和”列”，产生单元格，然后指定”项目所在”的单元格，可以看作是二维布局 设为网格布局以后，容器子元素（项目）的float、vertical-align等设置都将失效  二 基本概念   概念 名称">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS栅格布局">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;CSS%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 Grid 概述 将网页划分成一个个网格，可以任意组合不同的网格，做出各种各样的布局 Flex 布局是轴线布局，只能指定”项目”针对轴线的位置，可以看作是一维布局。Grid 布局则是将容器划分成”行”和”列”，产生单元格，然后指定”项目所在”的单元格，可以看作是二维布局 设为网格布局以后，容器子元素（项目）的float、vertical-align等设置都将失效  二 基本概念   概念 名称">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:06:40.164Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/CSS%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CSS栅格布局 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/CSS%E6%A0%85%E6%A0%BC%E5%B8%83%E5%B1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS栅格布局
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:02:39 / 修改时间：21:06:40" itemprop="dateCreated datePublished" datetime="2020-11-08T21:02:39+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-Grid-概述"><a href="#一-Grid-概述" class="headerlink" title="一 Grid 概述"></a>一 Grid 概述</h1><ol>
+<li>将网页划分成一个个网格，可以任意组合不同的网格，做出各种各样的布局</li>
+<li>Flex 布局是轴线布局，只能指定”项目”针对轴线的位置，可以看作是一维布局。Grid 布局则是将容器划分成”行”和”列”，产生单元格，然后指定”项目所在”的单元格，可以看作是二维布局</li>
+<li>设为网格布局以后，容器子元素（项目）的float、vertical-align等设置都将失效</li>
+</ol>
+<h1 id="二-基本概念"><a href="#二-基本概念" class="headerlink" title="二 基本概念"></a>二 基本概念</h1><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Grid Container</code></td>
+<td>栅格容器</td>
+<td>采用 grid 布局的元素</td>
+</tr>
+<tr>
+<td><code>Grid Item</code></td>
+<td>栅格项目</td>
+<td>栅格容器中采用网格定位的子元素</td>
+</tr>
+<tr>
+<td><code>Grid Line</code></td>
+<td>栅格线</td>
+<td>划分网格的线</td>
+</tr>
+<tr>
+<td><code>Grid Track</code></td>
+<td>栅格轨道</td>
+<td>两条相邻网格线之间的空间，即行（row）和列（column）</td>
+</tr>
+<tr>
+<td><code>Grid Cell</code></td>
+<td>栅格单元格</td>
+<td>行和列的交叉区域</td>
+</tr>
+<tr>
+<td><code>Grid Area</code></td>
+<td>栅格区域</td>
+<td>由任意数量单元格组成的区域（必须为矩形）</td>
+</tr>
+</tbody></table>
+<h2 id="三-声明容器"><a href="#三-声明容器" class="headerlink" title="三 声明容器"></a>三 声明容器</h2><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>display: grid</code></td>
+<td>块级栅格容器</td>
+</tr>
+<tr>
+<td><code>display: inline-grid</code></td>
+<td>内联栅格容器</td>
+</tr>
+</tbody></table>
+<h1 id="四-容器属性"><a href="#四-容器属性" class="headerlink" title="四 容器属性"></a>四 容器属性</h1><h2 id="4-1-grid-template"><a href="#4-1-grid-template" class="headerlink" title="4.1 grid-template"></a>4.1 grid-template</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grid-template: grid-template-rows grid-template-columns grid-template-areas</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grid-template-rows</code></td>
+<td>定义每一行的高度</td>
+</tr>
+<tr>
+<td><code>grid-template-columns</code></td>
+<td>定义每一列的宽度</td>
+</tr>
+<tr>
+<td><code>grid-template-areas</code></td>
+<td>定义栅格区域</td>
+</tr>
+</tbody></table>
+<h3 id="1-grid-template-rows-amp-grid-template-columns"><a href="#1-grid-template-rows-amp-grid-template-columns" class="headerlink" title="1 grid-template-rows &amp; grid-template-columns"></a>1 grid-template-rows &amp; grid-template-columns</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ &lt;line-names&gt;? [ &lt;track-size&gt; | &lt;track-repeat&gt; ] ]+ </span><br><span class="line">&lt;line-names&gt;?</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-lt-line-names-gt"><a href="#1-lt-line-names-gt" class="headerlink" title="1 &lt;line-names&gt;"></a>1 <code>&lt;line-names&gt;</code></h4><ol>
+<li>指定删格线名称，格式：<code>[name1 name2 ...]</code></li>
+<li>可以省略，则名称按顺序分配为 <code>1 2 3 ...</code> </li>
+</ol>
+<h4 id="2-lt-track-size-gt"><a href="#2-lt-track-size-gt" class="headerlink" title="2 &lt;track-size&gt;"></a>2 <code>&lt;track-size&gt;</code></h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code></td>
+<td>表示由浏览器自己决定长度</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度单位</td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>栅格容器宽/高的百分比</td>
+</tr>
+<tr>
+<td><code>fr</code></td>
+<td>网格剩余空间比例单位（<code>fraction</code> 的缩写，意为”片段”）</td>
+</tr>
+<tr>
+<td><code>minmax(min, max)</code></td>
+<td>尺寸在min和max之间，若min&gt;max，则max的值会被忽略</td>
+</tr>
+</tbody></table>
+<h4 id="3-lt-track-repeat-gt"><a href="#3-lt-track-repeat-gt" class="headerlink" title="3 &lt;track-repeat&gt;"></a>3 <code>&lt;track-repeat&gt;</code></h4><ul>
+<li><code>repeat( count, [ &lt;line-names&gt;? &lt;track-size&gt; ]+ &lt;line-names&gt;? )</code><ul>
+<li>count：重复次数，如果重复次数不确定可以使用<ol>
+<li>auto-fill 关键字</li>
+<li>auto-fit 关键字</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-grid-template-areas"><a href="#2-grid-template-areas" class="headerlink" title="2 grid-template-areas"></a>2 grid-template-areas</h3><ul>
+<li>区域的命名会影响到网格线。每个区域的起始网格线，会自动命名为<code>区域名-start</code>，终止网格线自动命名为<code>区域名-end</code></li>
+</ul>
+<h4 id="1-为每个单元格设置区域（假如三行三列9个单元格）"><a href="#1-为每个单元格设置区域（假如三行三列9个单元格）" class="headerlink" title="1 为每个单元格设置区域（假如三行三列9个单元格）"></a>1 为每个单元格设置区域（假如三行三列9个单元格）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grid-template-areas: &quot;a b c&quot;</span><br><span class="line">					&quot;d e f&quot;</span><br><span class="line">					&quot;g h i&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-多个单元格合并成一个区域：区域名相同即可"><a href="#2-多个单元格合并成一个区域：区域名相同即可" class="headerlink" title="2 多个单元格合并成一个区域：区域名相同即可"></a>2 多个单元格合并成一个区域：区域名相同即可</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">grid-template-areas: &quot;a a a&quot;</span><br><span class="line">					&quot;b b b&quot;</span><br><span class="line">					&quot;c c c&quot;;</span><br><span class="line">grid-template-areas: &quot;header header header&quot;</span><br><span class="line">					&quot;main main sidebar&quot;</span><br><span class="line">					&quot;footer footer footer&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域"><a href="#3-区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域" class="headerlink" title="3 区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域"></a>3 区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grid-template-areas: &quot;a . c&quot;</span><br><span class="line">					&quot;. . f&quot;</span><br><span class="line">					&quot;g h .&quot;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-2-grap"><a href="#4-2-grap" class="headerlink" title="4.2 grap"></a>4.2 grap</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grap: row-gap column-gap # 如果省略了第二个值，则等于第一个值</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>row-gap</code></td>
+<td>设置行与行的间隔（行间距）</td>
+</tr>
+<tr>
+<td><code>column-gap</code></td>
+<td>设置列与列的间隔（列间距）</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-grid-auto-flow"><a href="#4-3-grid-auto-flow" class="headerlink" title="4.3 grid-auto-flow"></a>4.3 grid-auto-flow</h2><ul>
+<li>划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>row</code>（默认）</td>
+<td>先行后列</td>
+</tr>
+<tr>
+<td><code>column</code></td>
+<td>先列后行</td>
+</tr>
+<tr>
+<td><code>row dense</code></td>
+<td>先行后列，并且尽量填满空格</td>
+</tr>
+<tr>
+<td><code>column dense</code></td>
+<td>先列后行，并且尽量填满空格</td>
+</tr>
+</tbody></table>
+<ul>
+<li>尽量填满的意思是比如第2个元素太宽第一行放不下，可以先放第3,4…个</li>
+</ul>
+<h2 id="4-4-place-items"><a href="#4-4-place-items" class="headerlink" title="4.4 place-items"></a>4.4 place-items</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">place-items: align-items justify-items # 如果省略了第二个值，则等于第一个值</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-属性"><a href="#1-属性" class="headerlink" title="1 属性"></a>1 属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>justify-items</td>
+<td>单元格中的元素在单元格中的水平对齐方式（针对所有单元格）</td>
+</tr>
+<tr>
+<td>align-items</td>
+<td>单元格中的元素的在单元格中垂直对齐方式（针对所有单元格）</td>
+</tr>
+</tbody></table>
+<h3 id="2-取值"><a href="#2-取值" class="headerlink" title="2 取值"></a>2 取值</h3><table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stretch</code>（默认）</td>
+<td>拉伸，占满单元格的整个宽度</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>对齐单元格的起始边缘</td>
+</tr>
+<tr>
+<td><code>end</code></td>
+<td>对齐单元格的结束边缘</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>单元格内部居中</td>
+</tr>
+</tbody></table>
+<h2 id="4-5-place-content"><a href="#4-5-place-content" class="headerlink" title="4.5 place-content"></a>4.5 place-content</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">place-content: align-content justify-content # 如果省略了第二个值，则等于第一个值</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-属性-1"><a href="#1-属性-1" class="headerlink" title="1 属性"></a>1 属性</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>justify-content</td>
+<td>所有单元格（整个内容区域）在容器中的水平对齐方式</td>
+</tr>
+<tr>
+<td>align-content</td>
+<td>所有单元格（整个内容区域）在容器中的垂直对齐方式</td>
+</tr>
+</tbody></table>
+<h3 id="2-取值-1"><a href="#2-取值-1" class="headerlink" title="2 取值"></a>2 取值</h3><table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stretch（默认）</td>
+<td>拉伸，占满单元格的整个宽度</td>
+</tr>
+<tr>
+<td>start</td>
+<td>对齐单元格的起始边缘</td>
+</tr>
+<tr>
+<td>end</td>
+<td>对齐单元格的结束边缘</td>
+</tr>
+<tr>
+<td>center</td>
+<td>单元格内部居中</td>
+</tr>
+<tr>
+<td>space-between</td>
+<td>两端对齐，两端紧挨边框中间平均分配</td>
+</tr>
+<tr>
+<td>space-around</td>
+<td>每个项目两侧的间隔相等。所以，项目之间的间隔比项目与容器边框的间隔大一倍</td>
+</tr>
+<tr>
+<td>space-evenly</td>
+<td>项目与项目的间隔相等，项目与容器边框之间也是同样长度的间隔</td>
+</tr>
+</tbody></table>
+<h2 id="4-6-grid-auto-columns-amp-grid-auto-rows"><a href="#4-6-grid-auto-columns-amp-grid-auto-rows" class="headerlink" title="4.6 grid-auto-columns &amp; grid-auto-rows"></a>4.6 grid-auto-columns &amp; grid-auto-rows</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>grid-auto-columns</td>
+<td>浏览器自动创建的多余网格的列宽</td>
+</tr>
+<tr>
+<td>grid-auto-rows</td>
+<td>浏览器自动创建的多余网格的行高</td>
+</tr>
+</tbody></table>
+<ul>
+<li>有时，一些项目的指定位置在现有网格的外部，比如网格只有三行，但是有一个项目在第五行，这时，浏览器会自动生成多余的网格，以便放置项目。</li>
+<li>如果不指定这两个属性，浏览器完全根据单元格内容的大小，决定新增网格的列宽和行高</li>
+</ul>
+<h2 id="4-7-grid"><a href="#4-7-grid" class="headerlink" title="4.7 grid"></a>4.7 grid</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grid: grid-template-rows grid-template-columns grid-template-areas  grid-auto-rows grid-auto-columns grid-auto-flow</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="五-项目属性"><a href="#五-项目属性" class="headerlink" title="五 项目属性"></a>五 项目属性</h1><h2 id="5-1-项目定位"><a href="#5-1-项目定位" class="headerlink" title="5.1 项目定位"></a>5.1 项目定位</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>grid-row-start</td>
+<td>行开始栅格线（上边框）</td>
+</tr>
+<tr>
+<td>grid-row-end</td>
+<td>行结束栅格线（下边框）</td>
+</tr>
+<tr>
+<td>grid-column-start</td>
+<td>列开始栅格线（左边框）</td>
+</tr>
+<tr>
+<td>grid-column-end</td>
+<td>列结束栅格线（右边框）</td>
+</tr>
+</tbody></table>
+<h3 id="1-根据栅格线"><a href="#1-根据栅格线" class="headerlink" title="1 根据栅格线"></a>1 根据栅格线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grid-column-start: 1;</span><br><span class="line">grid-column-end: 3;</span><br><span class="line">grid-row-start: 2;</span><br><span class="line">grid-row-end: 4;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置栅格线来定位，设置的数值可以是正数和负数</li>
+</ul>
+<h3 id="2-根据栅格命名"><a href="#2-根据栅格命名" class="headerlink" title="2 根据栅格命名"></a>2 根据栅格命名</h3><ol>
+<li>固定命名</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grid-column-start: header-start;</span><br><span class="line">grid-column-end: header-end;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>自动命名</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 后边数字表示第几个</span><br><span class="line">grid-column-start: c-start 1;</span><br><span class="line">grid-column-end: c-end 3;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-根据偏移量"><a href="#3-根据偏移量" class="headerlink" title="3 根据偏移量"></a>3 根据偏移量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grid-row-end: span 1;</span><br><span class="line">grid-column-end: span 1;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>span</code> 可以设置移动单元格数量（即开始栅格线和结束栅格线之间有几个单元格），数值只能为正数</li>
+</ul>
+<h2 id="5-2-grid-column-amp-grid-row"><a href="#5-2-grid-column-amp-grid-row" class="headerlink" title="5.2 grid-column &amp; grid-row"></a>5.2 grid-column &amp; grid-row</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>grid-row</td>
+<td><code>grid-row-start / grid-row-end</code></td>
+</tr>
+<tr>
+<td>grid-column</td>
+<td><code>grid-column-start / grid-column-end</code></td>
+</tr>
+</tbody></table>
+<ol>
+<li>设置起始栅格线</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grid-column: 1 / 3;</span><br><span class="line">grid-row: 1 / 2;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用span</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grid-column: 1 / span 3;</span><br><span class="line">grid-row: 1 / span 2;</span><br><span class="line">// 如果省略斜杠及后面部分，表示span值为1</span><br><span class="line">grid-row: 1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-grid-area"><a href="#5-3-grid-area" class="headerlink" title="5.3 grid-area"></a>5.3 grid-area</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. grid-area: 区域名;</span><br><span class="line">2. grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-4-place-self"><a href="#5-4-place-self" class="headerlink" title="5.4 place-self"></a>5.4 place-self</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">place-self: align-self justify-self # 如果省略了第二个值，则等于第一个值</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>justify-self</td>
+<td>单元格中的元素在单元格中的水平对齐方式（针对单个单元格），用法同 <code>justify-items</code></td>
+</tr>
+<tr>
+<td>align-self</td>
+<td>单元格中的元素在单元格中的垂直对齐方式（针对单个单元格），用法同 <code>align-items</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80/" rel="next" title="CSS弹性布局">
+                  <i class="fa fa-chevron-left"></i> CSS弹性布局
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E8%BF%87%E6%B8%A1/" rel="prev" title="CSS过渡">
+                  CSS过渡 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-Grid-概述"><span class="nav-text">一 Grid 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-基本概念"><span class="nav-text">二 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#三-声明容器"><span class="nav-text">三 声明容器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-容器属性"><span class="nav-text">四 容器属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-grid-template"><span class="nav-text">4.1 grid-template</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-grid-template-rows-amp-grid-template-columns"><span class="nav-text">1 grid-template-rows &amp; grid-template-columns</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-lt-line-names-gt"><span class="nav-text">1 &lt;line-names&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-lt-track-size-gt"><span class="nav-text">2 &lt;track-size&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-lt-track-repeat-gt"><span class="nav-text">3 &lt;track-repeat&gt;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-grid-template-areas"><span class="nav-text">2 grid-template-areas</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-为每个单元格设置区域（假如三行三列9个单元格）"><span class="nav-text">1 为每个单元格设置区域（假如三行三列9个单元格）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-多个单元格合并成一个区域：区域名相同即可"><span class="nav-text">2 多个单元格合并成一个区域：区域名相同即可</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域"><span class="nav-text">3 区域占位符（点）：表示没有用到该单元格，或者该单元格不属于任何区域</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-grap"><span class="nav-text">4.2 grap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-grid-auto-flow"><span class="nav-text">4.3 grid-auto-flow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-place-items"><span class="nav-text">4.4 place-items</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-属性"><span class="nav-text">1 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-取值"><span class="nav-text">2 取值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-place-content"><span class="nav-text">4.5 place-content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-属性-1"><span class="nav-text">1 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-取值-1"><span class="nav-text">2 取值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-grid-auto-columns-amp-grid-auto-rows"><span class="nav-text">4.6 grid-auto-columns &amp; grid-auto-rows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-grid"><span class="nav-text">4.7 grid</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-项目属性"><span class="nav-text">五 项目属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-项目定位"><span class="nav-text">5.1 项目定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-根据栅格线"><span class="nav-text">1 根据栅格线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-根据栅格命名"><span class="nav-text">2 根据栅格命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-根据偏移量"><span class="nav-text">3 根据偏移量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-grid-column-amp-grid-row"><span class="nav-text">5.2 grid-column &amp; grid-row</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-grid-area"><span class="nav-text">5.3 grid-area</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-place-self"><span class="nav-text">5.4 place-self</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

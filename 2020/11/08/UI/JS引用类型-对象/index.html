@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 创建对象1.1 Object 构造函数1new Object([value])  1.2  对象字面量1 概述 对象字面量内部调用了 Object 的构造函数 对象字面量与 json 的区别 json 属性只能是字符串 json 值不能是函数和 undefined    2 语法123456789101112131415161718192021222324252627282930&#x2F;&#x2F; 1 标准">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS引用类型-对象">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;JS%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B-%E5%AF%B9%E8%B1%A1&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 创建对象1.1 Object 构造函数1new Object([value])  1.2  对象字面量1 概述 对象字面量内部调用了 Object 的构造函数 对象字面量与 json 的区别 json 属性只能是字符串 json 值不能是函数和 undefined    2 语法123456789101112131415161718192021222324252627282930&#x2F;&#x2F; 1 标准">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:11:27.392Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/JS%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B-%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JS引用类型-对象 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/JS%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B-%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS引用类型-对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:08:26 / 修改时间：21:11:27" itemprop="dateCreated datePublished" datetime="2020-11-08T21:08:26+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-创建对象"><a href="#一-创建对象" class="headerlink" title="一 创建对象"></a>一 创建对象</h1><h2 id="1-1-Object-构造函数"><a href="#1-1-Object-构造函数" class="headerlink" title="1.1 Object 构造函数"></a>1.1 Object 构造函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Object([value])</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-对象字面量"><a href="#1-2-对象字面量" class="headerlink" title="1.2  对象字面量"></a>1.2  对象字面量</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>对象字面量内部调用了 <code>Object</code> 的构造函数</li>
+<li>对象字面量与 <code>json</code> 的区别<ol>
+<li><code>json</code> 属性只能是字符串</li>
+<li><code>json</code> 值不能是函数和 <code>undefined</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="2-语法"><a href="#2-语法" class="headerlink" title="2 语法"></a>2 语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 标准形式</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	key: value,</span><br><span class="line">	key: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 方法定义可以简化</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	key: value,</span><br><span class="line">	key()&#123;&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 如果属性名是一个表达式，则使用[]包裹，意思是取表达式的值</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	[expr]: value,</span><br><span class="line">	key()&#123;&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4 如果属性名和属性值与外部变量名和值都相同，可以简写</span></span><br><span class="line"><span class="keyword">let</span> name = <span class="string">"mm"</span>;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    name: name,</span><br><span class="line">    <span class="comment">// 可以简写</span></span><br><span class="line">	name,</span><br><span class="line">	key()&#123;&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-Object-的-create-方法"><a href="#1-3-Object-的-create-方法" class="headerlink" title="1.3 Object 的 create 方法"></a>1.3 Object 的 <code>create</code> 方法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这种方式可以指定原型</span></span><br><span class="line"><span class="built_in">Object</span>.create(proto[, propertiesObject])</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-构造函数"><a href="#1-4-构造函数" class="headerlink" title="1.4 构造函数"></a>1.4 构造函数</h2><h3 id="1-内置构造函数"><a href="#1-内置构造函数" class="headerlink" title="1 内置构造函数"></a>1 内置构造函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">new Array()</span><br><span class="line">new Function()</span><br><span class="line">new String()</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-自定义构造函数"><a href="#2-自定义构造函数" class="headerlink" title="2 自定义构造函数"></a>2 自定义构造函数</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 定义构造函数，构造函数名首字母大写</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> 构造函数名(<span class="params">形参列表</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.属性 = 值;</span><br><span class="line">	<span class="keyword">this</span>.方法 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 使用自定义构造创建对象</span></span><br><span class="line"><span class="keyword">new</span> 构造函数名(实参列表);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-工厂函数"><a href="#1-5-工厂函数" class="headerlink" title="1.5 工厂函数"></a>1.5 工厂函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">userFactory</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">	<span class="comment">// 1</span></span><br><span class="line">	obj.name = name;</span><br><span class="line">	obj.show = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">	<span class="comment">// 2 简写</span></span><br><span class="line">	<span class="keyword">return</span> &#123;</span><br><span class="line">		name,</span><br><span class="line">		show()&#123;&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>与自定义构造函数方式的区别<ol>
+<li>工厂函数是函数调用，自定义构造是 <code>new</code></li>
+<li>工厂函数是函数名称小写，自定义构造名称大写</li>
+<li>工厂函数内部需要显式创建一个对象，然后根据参数赋值后再显式返</li>
+<li>自定义构造根据参数自动创建一个对象并返回</li>
+</ol>
+</li>
+</ul>
+<h1 id="二-对象属性"><a href="#二-对象属性" class="headerlink" title="二 对象属性"></a>二 对象属性</h1><h2 id="2-1-属性描述符"><a href="#2-1-属性描述符" class="headerlink" title="2.1 属性描述符"></a>2.1 属性描述符</h2><h3 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li><code>property descriptor</code></li>
+<li>JS 提供了一个内部数据结构，用来描述对象的属性，控制它的行为，比如该属性是否可写、可遍历等等。这个内部数据结构称为属性描述符，或者叫属性描述对象</li>
+<li>元属性：属性描述符中的属性，用来描述对象属性的元信息，即描述对象属性的属性</li>
+</ol>
+<h3 id="2-分类（只能取其一）"><a href="#2-分类（只能取其一）" class="headerlink" title="2 分类（只能取其一）"></a>2 分类（只能取其一）</h3><table>
+<thead>
+<tr>
+<th>分类</th>
+<th>可以具有的元属性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据描述符</td>
+<td><code>configurable enumerable value writable</code></td>
+</tr>
+<tr>
+<td>存取描述符</td>
+<td><code>configurable enumerable get set</code></td>
+</tr>
+</tbody></table>
+<h3 id="3-元属性"><a href="#3-元属性" class="headerlink" title="3 元属性"></a>3 元属性</h3><table>
+<thead>
+<tr>
+<th>元属性</th>
+<th>说明</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>value</code></td>
+<td>表示该属性的值</td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>writable</code></td>
+<td>表示该属性是否可写</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>enumerable</code></td>
+<td>表示该属性是否可遍历</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>configurable</code></td>
+<td>1 该属性是否可删除<br>2 该属性的属性描述符是否可修改</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>get</code></td>
+<td>表示该属性的取值函数 <code>getter</code></td>
+<td><code>undefined</code></td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td>表示该属性的存值函数 <code>setter</code></td>
+<td><code>undefined</code></td>
+</tr>
+</tbody></table>
+<h2 id="2-2-属性管理"><a href="#2-2-属性管理" class="headerlink" title="2.2 属性管理"></a>2.2 属性管理</h2><h3 id="1-读写"><a href="#1-读写" class="headerlink" title="1 读写"></a>1 读写</h3><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>obj.property</code></td>
+<td>必须是确定的属性名，且名称不特殊（数字、空格…）</td>
+</tr>
+<tr>
+<td><code>obj[&#39;property&#39;]</code></td>
+<td>属性名可以是表达式和变量，或者名称比较特殊</td>
+</tr>
+</tbody></table>
+<h3 id="2-判断"><a href="#2-判断" class="headerlink" title="2 判断"></a>2 判断</h3><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prop in obj</code></td>
+<td>对象中是否有指定属性</td>
+</tr>
+</tbody></table>
+<h3 id="3-删除"><a href="#3-删除" class="headerlink" title="3 删除"></a>3 删除</h3><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>delete object.property</code></td>
+<td>删除属性，所有情况都返回 <code>true</code></td>
+</tr>
+<tr>
+<td><code>delete object[&#39;property&#39;]</code></td>
+<td>删除属性，所有情况都返回 <code>true</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-访问器（getter-setter）"><a href="#4-访问器（getter-setter）" class="headerlink" title="4 访问器（getter/setter）"></a>4 访问器（getter/setter）</h3><h4 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>JS 中 <code>getter/setter</code> 的调用是当成属性来访问，自动调用方法</li>
+<li>调用方式与属性访问方式一样<ol>
+<li><code>obj.访问器名</code></li>
+<li><code>obj[&#39;访问器名&#39;]</code></li>
+</ol>
+</li>
+</ol>
+<h4 id="2-语法-1"><a href="#2-语法-1" class="headerlink" title="2 语法"></a>2 语法</h4><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get prop() { ... }</code></td>
+<td>访问器名称是一个有效标识符</td>
+</tr>
+<tr>
+<td><code>get [expression]() { ... }</code></td>
+<td>访问器名称可以是一个表达式</td>
+</tr>
+<tr>
+<td><code>set prop(val) { . . . }</code></td>
+<td>访问器名称是一个有效标识符</td>
+</tr>
+<tr>
+<td><code>set [expression](val) { . . . }</code></td>
+<td>访问器名称可以是一个表达式</td>
+</tr>
+</tbody></table>
+<h4 id="3-定义方式"><a href="#3-定义方式" class="headerlink" title="3 定义方式"></a>3 定义方式</h4><ol>
+<li><p>通过配置属性描述符的元属性定义访问器</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	name : <span class="string">'小明'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'name'</span>, &#123;</span><br><span class="line">	<span class="keyword">get</span>() &#123;</span><br><span class="line">		<span class="keyword">return</span> obj.name; <span class="comment">// 注意：此处跟取值方式一样，也会调用get，会无限循环</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="keyword">set</span>(value) &#123;</span><br><span class="line">		obj.name = value;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj.name; <span class="comment">// 调用get取值</span></span><br><span class="line">obj.name = <span class="string">'旺财'</span>; <span class="comment">// 调用set设置值</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对象字面量中直接定义</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	_name: <span class="string">'小明'</span>,</span><br><span class="line">	<span class="keyword">get</span> name() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>._name;</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="keyword">set</span> name(value) &#123;</span><br><span class="line">		<span class="keyword">this</span>._name = value;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="三-对象拷贝"><a href="#三-对象拷贝" class="headerlink" title="三 对象拷贝"></a>三 对象拷贝</h1><h2 id="3-1-概念"><a href="#3-1-概念" class="headerlink" title="3.1 概念"></a>3.1 概念</h2><ol>
+<li><p>浅拷贝</p>
+<ul>
+<li>如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 </li>
+<li>一个对象修改可能会影响到另一个对象</li>
+</ul>
+</li>
+<li><p>深拷贝</p>
+<ul>
+<li>将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象</li>
+<li>一个对象修改不会影响到另一个对象</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-2-浅拷贝方式"><a href="#3-2-浅拷贝方式" class="headerlink" title="3.2 浅拷贝方式"></a>3.2 浅拷贝方式</h2><h3 id="1-for-in"><a href="#1-for-in" class="headerlink" title="1 for... in"></a>1 <code>for... in</code></h3><ul>
+<li><p>创建新对象，然后使用<code>for...in</code>遍历原对象属性并连同值一起添加到新对象上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> source = &#123;<span class="attr">name</span>:<span class="string">'an3'</span>, <span class="attr">age</span>:<span class="number">18</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> cp = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> source)&#123;</span><br><span class="line">	<span class="keyword">if</span>(source.hasOwnProperty(key)&#123;</span><br><span class="line">		cp[key] = source[key];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-Object-assign-target-sources"><a href="#2-Object-assign-target-sources" class="headerlink" title="2 Object.assign(target, ...sources)"></a>2 <code>Object.assign(target, ...sources)</code></h3><ul>
+<li><p>将目标对象设为空对象，就相当于返回了原对象的浅拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> source = &#123;<span class="attr">name</span>:<span class="string">'an3'</span>, <span class="attr">age</span>:<span class="number">18</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> cp = <span class="built_in">Object</span>.assign(&#123;&#125;, source);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="3-展开语法"><a href="#3-展开语法" class="headerlink" title="3 展开语法"></a>3 展开语法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> source = &#123;<span class="attr">name</span>:<span class="string">'an3'</span>, <span class="attr">age</span>:<span class="number">18</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> cp = &#123;...source&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-深拷贝方式"><a href="#3-3-深拷贝方式" class="headerlink" title="3.3 深拷贝方式"></a>3.3 深拷贝方式</h2><h3 id="1-JSON"><a href="#1-JSON" class="headerlink" title="1 JSON"></a>1 <code>JSON</code></h3><ol>
+<li>步骤<ol>
+<li><code>JSON.stringify()</code>：将一个对象序列成一个字符串</li>
+<li><code>JSON.parse()</code>：将字符串反序列化生成深拷贝对象</li>
+</ol>
+</li>
+<li>注意<ol>
+<li>拷贝的对象的值中如果有 <code>函数、undefined、symbol</code> 则经过 <code>JSON.stringify()</code> 序列化后的 <code>JSON</code> 字符串中这个键值对会消失</li>
+<li>无法拷贝不可枚举的属性，无法拷贝对象的原型链</li>
+<li>拷贝 <code>Date</code> 引用类型会变成字符串</li>
+<li>拷贝 <code>RegExp</code> 引用类型会变成空对象</li>
+<li>对象中含有 <code>NaN、Infinity、-Infinity</code> ，则序列化的结果会变成 <code>null</code></li>
+<li>无法拷贝对象的循环应用，即 <code>obj[key] = obj</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="2-递归"><a href="#2-递归" class="headerlink" title="2 递归"></a>2 递归</h3><ul>
+<li><p>原理就是浅拷贝只拷贝一层，利用递归，如果这一层属性的值是引用类型，就再拷贝一层 …</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 对象的属性值有可能是数组，判断一下防止递归时把数组变成了对象</span></span><br><span class="line">	<span class="keyword">let</span> cpObj = obj <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? [] : &#123;&#125;;</span><br><span class="line">	<span class="comment">// Object.entries()方法对于对象和数组返回结果形式是一样的</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">const</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(obj)) &#123;</span><br><span class="line">		<span class="comment">// 判断对象属性如果是引用类型就递归拷贝</span></span><br><span class="line">		cpObj[k] = <span class="keyword">typeof</span> v == <span class="string">'object'</span> ? deepCopy(v) : v;</span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">return</span> cpObj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="四-Object"><a href="#四-Object" class="headerlink" title="四 Object"></a>四 Object</h1><h2 id="4-1-构造函数"><a href="#4-1-构造函数" class="headerlink" title="4.1 构造函数"></a>4.1 构造函数</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>new Object([value])</code></td>
+<td>构造函数</td>
+<td>创建一个对象</td>
+</tr>
+<tr>
+<td><code>Object([value])</code></td>
+<td>类型转换函数</td>
+<td>将 <code>value</code> 转成一个对象</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>value</code> ：<ol>
+<li>为空或者是 <code>undefined null</code>，返回一个空对象</li>
+<li>是基本类型的值则返回其包装对象</li>
+<li>是引用类型则直接返回</li>
+</ol>
+</li>
+</ul>
+<h2 id="4-2-静态方法"><a href="#4-2-静态方法" class="headerlink" title="4.2 静态方法"></a>4.2 静态方法</h2><h3 id="1-属性"><a href="#1-属性" class="headerlink" title="1 属性"></a>1 属性</h3><table>
+<thead>
+<tr>
+<th>静态方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object.keys(obj)</code></td>
+<td>返回对象自身可枚举属性键的数组</td>
+</tr>
+<tr>
+<td><code>Object.values(obj)</code></td>
+<td>返回对象自身可枚举属性值的数组</td>
+</tr>
+<tr>
+<td><code>Object.entries(obj)</code></td>
+<td>返回对象自身可枚举属性键值对的数组</td>
+</tr>
+<tr>
+<td><code>Object.getOwnPropertyNames(obj)</code></td>
+<td>返回对象自身的所有属性（包含可枚举和不可枚举属性，不包含 <code>Symbol</code> 属性）键的数组</td>
+</tr>
+<tr>
+<td><code>Object.getOwnPropertySymbols(obj)</code></td>
+<td>返回对象自身的所有 <code>Symbol</code> 属性的数组</td>
+</tr>
+</tbody></table>
+<h3 id="2-属性描述符"><a href="#2-属性描述符" class="headerlink" title="2 属性描述符"></a>2 属性描述符</h3><table>
+<thead>
+<tr>
+<th>静态方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object.getOwnPropertyDescriptor(obj, prop)</code></td>
+<td>获取对象自身某个属性的属性描述符</td>
+</tr>
+<tr>
+<td><code>Object.getOwnPropertyDescriptors(obj)</code></td>
+<td>获取对象自身所有属性的属性描述符</td>
+</tr>
+<tr>
+<td><code>Object.defineProperty(obj, prop, descriptor)</code></td>
+<td>如果对象自身存在指定属性，则修改它的属性描述符，否则为对象添加指定属性并定义属性描述符，返回该对象</td>
+</tr>
+<tr>
+<td><code>Object.defineProperties(obj, props)</code></td>
+<td>修改或添加对象多个属性的属性描述对象，返回该对象</td>
+</tr>
+</tbody></table>
+<h3 id="3-创建对象"><a href="#3-创建对象" class="headerlink" title="3 创建对象"></a>3 创建对象</h3><table>
+<thead>
+<tr>
+<th>静态方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object.create(proto[, propertiesObject])</code></td>
+<td>根据原型对象和属性（使用属性描述符定义），创建一个新的对象</td>
+</tr>
+<tr>
+<td><code>Object.fromEntries(iterable)</code></td>
+<td>把键值对列表转换为一个对象，是 <code>Object.entries()</code> 的反转</td>
+</tr>
+<tr>
+<td><code>Object.assign(target, ...sources)</code></td>
+<td>将 n 个源对象的所有可枚举属性复制到目标对象，并返回目标对象</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>Object.assign(target, ...sources)</code><ol>
+<li>如果目标对象与源对象有同名属性，或多个源对象有同名属性，后边覆盖前边</li>
+<li><code>Object.assign</code> 方法实行的是浅拷贝</li>
+<li>数组会被当作对象，即相同索引会覆盖</li>
+<li>如果属性值是取值函数，会计算后再复制</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-原型对象"><a href="#4-原型对象" class="headerlink" title="4 原型对象"></a>4 原型对象</h3><table>
+<thead>
+<tr>
+<th>静态方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object.getPrototypeOf(obj)</code></td>
+<td>获取对象的原型对象，即<code>obj.__proto__</code></td>
+</tr>
+<tr>
+<td><code>Object.setPrototypeOf(obj, prototype)</code></td>
+<td>获取对象的原型对象</td>
+</tr>
+</tbody></table>
+<h3 id="5-比较"><a href="#5-比较" class="headerlink" title="5 比较"></a>5 比较</h3><ul>
+<li><code>Object.is(value1, value2)</code><ul>
+<li>判断两个值是否相等，不会作类型转换</li>
+<li>与<code>===</code>的区别<ol>
+<li><code>===</code> 认为<code>-0</code>和<code>+0</code>相等，此方法认为不相等</li>
+<li><code>===</code> 认为<code>NaN</code>和<code>NaN</code>不相等，此方法认为相等</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-状态"><a href="#6-状态" class="headerlink" title="6 状态"></a>6 状态</h3><table>
+<thead>
+<tr>
+<th>静态方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Object.preventExtensions(obj)</code></td>
+<td>让一个对象变的不可扩展，即永远不能添加新的属性</td>
+</tr>
+<tr>
+<td><code>Object.isExtensible(obj)</code></td>
+<td>判断一个对象是否可扩展</td>
+</tr>
+<tr>
+<td><code>Object.seal(obj)</code></td>
+<td>封闭一个对象，此对象不可扩展且对象所有自身属性的<code>configurable</code>标记为 <code>false</code>，即不能添加、删除属性，属性修饰符不可配置</td>
+</tr>
+<tr>
+<td><code>Object.isSealed(obj)</code></td>
+<td>判断一个对象是否被封闭</td>
+</tr>
+<tr>
+<td><code>Object.freeze(obj)</code></td>
+<td>冻结一个对象，此对象不可扩展且对象所有自身属性 <code>writable configurable</code> 标记为 <code>false</code>，即不能添加、修改和删除属性，属性修饰符不可配置</td>
+</tr>
+<tr>
+<td><code>Object.isFrozen(obj)</code></td>
+<td>判断一个对象是否被冻结</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-原型方法-Object-prototype"><a href="#4-3-原型方法-Object-prototype" class="headerlink" title="4.3 原型方法 Object.prototype."></a>4.3 原型方法 <code>Object.prototype.</code></h2><table>
+<thead>
+<tr>
+<th>原型方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>toString()</code></td>
+<td>默认返回 <code>[object type]</code>，通常会覆盖</td>
+</tr>
+<tr>
+<td><code>toLocaleString()</code></td>
+<td>默认返回 <code>toString()</code> 的结果，可以覆盖</td>
+</tr>
+<tr>
+<td><code>hasOwnProperty(prop)</code></td>
+<td>判断对象自身是否含有某个属性</td>
+</tr>
+<tr>
+<td><code>propertyIsEnumerable(prop)</code></td>
+<td>判断某个属性是否可枚举</td>
+</tr>
+<tr>
+<td><code>isPrototypeOf(object)</code></td>
+<td>判断调用对象是否在另一个对象的原型链上</td>
+</tr>
+<tr>
+<td><code>valueOf()</code></td>
+<td>返回对象原始值，若没有原始值，返回对象本身，通常会覆盖</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p><code>isPrototypeOf(object)</code> 和 <code>instanceof</code> 的区别</p>
+<ol>
+<li><code>A instanceof B</code> ：判断 <code>B.prototype</code>是否在 <code>A</code> 的原型链上</li>
+<li><code>B.isPrototypeOf(A)</code>：判断 <code>B</code> 是否在 <code>A</code> 的原型链上</li>
+</ol>
+</li>
+<li><p><code>valueOf()</code> 返回值</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>对象</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Number</code></td>
+<td>数值</td>
+</tr>
+<tr>
+<td><code>Boolean</code></td>
+<td>布尔值</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td>字符串值</td>
+</tr>
+<tr>
+<td><code>Object</code></td>
+<td>对象本身</td>
+</tr>
+<tr>
+<td><code>Array</code></td>
+<td>数组本身</td>
+</tr>
+<tr>
+<td><code>Function</code></td>
+<td>函数本身</td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td>距离1970-01-01 00:00:00 的毫秒数</td>
+</tr>
+</tbody></table>
+<h1 id="五-代理"><a href="#五-代理" class="headerlink" title="五 代理"></a>五 代理</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><ol>
+<li>代理（拦截器）是对象的访问控制</li>
+<li><code>setter/getter</code> 访问器是对对象属性的访问控制</li>
+</ol>
+<h2 id="5-2-Proxy（代理对象）"><a href="#5-2-Proxy（代理对象）" class="headerlink" title="5.2 Proxy（代理对象）"></a>5.2 Proxy（代理对象）</h2><h3 id="1-构造函数"><a href="#1-构造函数" class="headerlink" title="1 构造函数"></a>1 构造函数</h3><ul>
+<li><code>new Proxy(target, handler)</code><ul>
+<li>返回一个代理对象</li>
+<li><code>target</code><ul>
+<li>用 <code>Proxy</code> 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）</li>
+</ul>
+</li>
+<li><code>handler</code><ul>
+<li>处理器对象，有许多拦截相应操作的函数，如果没有配置，则执行默认操作</li>
+<li>注意：处理操作都是针对代理对象的，目标对象无效。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-handler（处理器对象）"><a href="#2-handler（处理器对象）" class="headerlink" title="2 handler（处理器对象）"></a>2 handler（处理器对象）</h3><ol>
+<li><code>get(target, property, receiver)</code><ul>
+<li>参数<ul>
+<li><code>target</code><ul>
+<li>目标对象</li>
+</ul>
+</li>
+<li><code>property</code><ul>
+<li>获取的属性名</li>
+</ul>
+</li>
+<li><code>reveiver</code><ul>
+<li>Proxy或者继承Proxy的对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>说明<ul>
+<li>get 方法拦截属性的获取，可以返回任何值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>set(target, property, value, receiver)</code><ul>
+<li>参数<ul>
+<li><code>value</code><ul>
+<li>被设置的新值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>说明<ul>
+<li>set 方法拦截属性的设置</li>
+<li>严格模式下 set 必须返回布尔值，且如果返回false会报错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>apply(target, thisArg, argumentsList)</code><ul>
+<li>参数<ul>
+<li><code>target</code><ul>
+<li>目标函数</li>
+</ul>
+</li>
+<li><code>thisArg</code><ul>
+<li>被调用时的上下文对象</li>
+</ul>
+</li>
+<li><code>argumentsList</code><ul>
+<li>被调用时的参数数组</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>说明<ul>
+<li>apply 方法拦截函数调用，可以返回任何值<ol>
+<li>直接调用</li>
+<li><code>Function.prototype.call()</code> 方式调用</li>
+<li><code>Function.prototype.apply()</code> 方式调用</li>
+<li><code>Reflet.apply()</code> 方式调用</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>has(target, prop)</code><ul>
+<li>参数<ul>
+<li><code>target</code><ul>
+<li>目标对象</li>
+</ul>
+</li>
+<li><code>prop</code><ul>
+<li>需要检查是否存在的属性.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>说明<ul>
+<li>拦截 <code>prop in object</code> 语句，返回布尔值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>construct(target, argumentsList, newTarget)</code><ul>
+<li>参数<ul>
+<li><code>target</code><ul>
+<li>目标构造函数</li>
+</ul>
+</li>
+<li><code>argumentsList</code><ul>
+<li>constructor的参数列表</li>
+</ul>
+</li>
+<li><code>newTarget</code><ul>
+<li>生成的代理对象（即代理构造函数）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>说明<ul>
+<li>拦截new操作，必须返回一个对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>deleteProperty(target, prop)</code><ul>
+<li>拦截<code>delete</code> 操作，必须返回布尔值</li>
+</ul>
+</li>
+<li><code>defineProperty(target, property, descriptor)</code><ul>
+<li>拦截<code>Object.defineProperty()</code>，必须返回布尔值</li>
+</ul>
+</li>
+<li><code>getOwnPropertyDescriptor(target, prop)</code><ul>
+<li>拦截 <code>Object.getOwnPropertyDescriptor()</code>，必须返回一个对象或undefined</li>
+</ul>
+</li>
+<li><code>getPrototypeOf(target)</code><ul>
+<li>拦截获取原型操作</li>
+</ul>
+</li>
+<li><code>setPrototypeOf(target, prototype)</code><ul>
+<li>拦截设置原型操作，返回布尔值</li>
+</ul>
+</li>
+<li><code>preventExtensions(target)</code><ul>
+<li>拦截<code>Object.preventExtensions()</code>，返回一个布尔值</li>
+</ul>
+</li>
+<li><code>isExtensible(target)</code><ul>
+<li>拦截<code>Object.isExtensible()</code>，必须返回布尔值</li>
+</ul>
+</li>
+<li><code>ownKeys(target)</code><ul>
+<li>拦截对象获取自身属性的操作</li>
+</ul>
+</li>
+</ol>
+<h1 id="六-Reflect"><a href="#六-Reflect" class="headerlink" title="六 Reflect"></a>六 Reflect</h1><h2 id="6-1-概述"><a href="#6-1-概述" class="headerlink" title="6.1 概述"></a>6.1 概述</h2><ol>
+<li><code>Reflect</code> 不是一个构造函数，不能 <code>new</code>，<code>Reflect</code> 的所有属性和方法都是静态的</li>
+<li>将 <code>Object</code> 对象的一些明显属于语言内部的方法（如<code>Object.defineProperty()</code>），放到 <code>Reflect</code> 对象上</li>
+<li>修改某些 <code>Object</code> 方法的返回结果，让其变得更合理<ul>
+<li>如 <code>Object.defineProperty()</code>无法定义属性时，会抛出错误，而<code>Reflect.defineProperty()</code>会返回false</li>
+</ul>
+</li>
+<li>让 <code>Object</code> 操作都变成函数行为<ul>
+<li>如 <code>prop in object</code> ，对应<code>Reflect.has(obj, prop)</code></li>
+<li><code>delete obj.prop</code>，对应<code>Reflect.deleteProperty(obj, prop)</code></li>
+</ul>
+</li>
+<li><code>Reflect</code> 对象与 <code>Proxy</code> 的 <code>handler</code> 方法完全一致，在使用代理拦截某些操作时，使用 <code>Reflect</code> 的方法可以保证原生行为能正常执行。</li>
+</ol>
+<h2 id="6-2-静态方法"><a href="#6-2-静态方法" class="headerlink" title="6.2 静态方法"></a>6.2 静态方法</h2><ul>
+<li>见 <code>Proxy handler</code></li>
+</ul>
+<h1 id="七-this"><a href="#七-this" class="headerlink" title="七 this"></a>七 this</h1><table>
+<thead>
+<tr>
+<th>场景</th>
+<th><code>this</code> 指向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全局作用域，普通函数</td>
+<td>非严格模式 <code>window</code><br>严格模式 <code>undefined</code></td>
+</tr>
+<tr>
+<td>对象中</td>
+<td>当前对象</td>
+</tr>
+<tr>
+<td>对象方法中</td>
+<td>调用该方法的对象</td>
+</tr>
+<tr>
+<td>原型对象方法中</td>
+<td>调用该方法的对象</td>
+</tr>
+<tr>
+<td>构造函数中</td>
+<td>正在构造的新对象</td>
+</tr>
+<tr>
+<td>箭头函数中</td>
+<td>与箭头函数所在作用域的 <code>this</code> 指向一致</td>
+</tr>
+<tr>
+<td>DOM 事件处理函数中</td>
+<td>绑定事件的元素</td>
+</tr>
+<tr>
+<td>回调函数</td>
+<td><code>window</code></td>
+</tr>
+<tr>
+<td>内联事件处理函数中</td>
+<td><code>window</code></td>
+</tr>
+<tr>
+<td>立即执行函数</td>
+<td><code>window</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/JS%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/" rel="next" title="JS基本类型及包装类">
+                  <i class="fa fa-chevron-left"></i> JS基本类型及包装类
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/JS%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B-%E6%95%B0%E7%BB%84/" rel="prev" title="JS引用类型-数组">
+                  JS引用类型-数组 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-创建对象"><span class="nav-text">一 创建对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Object-构造函数"><span class="nav-text">1.1 Object 构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-对象字面量"><span class="nav-text">1.2  对象字面量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-语法"><span class="nav-text">2 语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Object-的-create-方法"><span class="nav-text">1.3 Object 的 create 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-构造函数"><span class="nav-text">1.4 构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-内置构造函数"><span class="nav-text">1 内置构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-自定义构造函数"><span class="nav-text">2 自定义构造函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-工厂函数"><span class="nav-text">1.5 工厂函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-对象属性"><span class="nav-text">二 对象属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-属性描述符"><span class="nav-text">2.1 属性描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分类（只能取其一）"><span class="nav-text">2 分类（只能取其一）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-元属性"><span class="nav-text">3 元属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-属性管理"><span class="nav-text">2.2 属性管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-读写"><span class="nav-text">1 读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-判断"><span class="nav-text">2 判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-删除"><span class="nav-text">3 删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-访问器（getter-setter）"><span class="nav-text">4 访问器（getter/setter）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-语法-1"><span class="nav-text">2 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-定义方式"><span class="nav-text">3 定义方式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-对象拷贝"><span class="nav-text">三 对象拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-概念"><span class="nav-text">3.1 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-浅拷贝方式"><span class="nav-text">3.2 浅拷贝方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-for-in"><span class="nav-text">1 for... in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Object-assign-target-sources"><span class="nav-text">2 Object.assign(target, ...sources)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-展开语法"><span class="nav-text">3 展开语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-深拷贝方式"><span class="nav-text">3.3 深拷贝方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JSON"><span class="nav-text">1 JSON</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-递归"><span class="nav-text">2 递归</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-Object"><span class="nav-text">四 Object</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-构造函数"><span class="nav-text">4.1 构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-静态方法"><span class="nav-text">4.2 静态方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-属性"><span class="nav-text">1 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-属性描述符"><span class="nav-text">2 属性描述符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-创建对象"><span class="nav-text">3 创建对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-原型对象"><span class="nav-text">4 原型对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-比较"><span class="nav-text">5 比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-状态"><span class="nav-text">6 状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-原型方法-Object-prototype"><span class="nav-text">4.3 原型方法 Object.prototype.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-代理"><span class="nav-text">五 代理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-概述"><span class="nav-text">5.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Proxy（代理对象）"><span class="nav-text">5.2 Proxy（代理对象）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构造函数"><span class="nav-text">1 构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-handler（处理器对象）"><span class="nav-text">2 handler（处理器对象）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-Reflect"><span class="nav-text">六 Reflect</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-静态方法"><span class="nav-text">6.2 静态方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-this"><span class="nav-text">七 this</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

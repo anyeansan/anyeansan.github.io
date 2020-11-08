@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述1.1 SQL（Structure Query Language） 结构化查询语言，关系型数据库通用命令 遵循SQL92标准 注释 -- 单行注释 #单行注释（mysql 特有） &#x2F;* 多行注释 *&#x2F;    1.2 严格模式（SQL_MODE） set sql_mode = &amp;#39;traditional&amp;#39; 设置严格模式（默认）   set sql_mode = &amp;#39;&amp;#3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql语句">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;SQL&#x2F;Mysql%E8%AF%AD%E5%8F%A5&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述1.1 SQL（Structure Query Language） 结构化查询语言，关系型数据库通用命令 遵循SQL92标准 注释 -- 单行注释 #单行注释（mysql 特有） &#x2F;* 多行注释 *&#x2F;    1.2 严格模式（SQL_MODE） set sql_mode = &amp;#39;traditional&amp;#39; 设置严格模式（默认）   set sql_mode = &amp;#39;&amp;#3">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;sql-join.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;INNER_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;LEFT_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;LEFT_EXCLUDING_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;RIGHT_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;RIGHT_EXCLUDING_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;FULL_OUTER_JOIN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;OUTER_EXCLUDING_JOIN.png">
+<meta property="og:updated_time" content="2020-11-08T13:16:42.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;SQL&#x2F;sql-join.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E5%8F%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mysql语句 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E5%8F%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mysql语句
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:14:13 / 修改时间：21:16:42" itemprop="dateCreated datePublished" datetime="2020-11-08T21:14:13+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><h2 id="1-1-SQL（Structure-Query-Language）"><a href="#1-1-SQL（Structure-Query-Language）" class="headerlink" title="1.1 SQL（Structure Query Language）"></a>1.1 SQL（Structure Query Language）</h2><ol>
+<li>结构化查询语言，关系型数据库通用命令</li>
+<li>遵循SQL92标准</li>
+<li>注释<ol>
+<li><code>-- 单行注释</code></li>
+<li><code>#单行注释</code>（mysql 特有）</li>
+<li><code>/* 多行注释 */</code></li>
+</ol>
+</li>
+</ol>
+<h2 id="1-2-严格模式（SQL-MODE）"><a href="#1-2-严格模式（SQL-MODE）" class="headerlink" title="1.2 严格模式（SQL_MODE）"></a>1.2 严格模式（SQL_MODE）</h2><ol>
+<li><code>set sql_mode = &#39;traditional&#39;</code><ul>
+<li>设置严格模式（默认）</li>
+</ul>
+</li>
+<li><code>set sql_mode = &#39;&#39;</code><ul>
+<li>关闭严格模式</li>
+</ul>
+</li>
+</ol>
+<h2 id="1-3-规范"><a href="#1-3-规范" class="headerlink" title="1.3 规范"></a>1.3 规范</h2><h3 id="1-SQL-规范"><a href="#1-SQL-规范" class="headerlink" title="1 SQL 规范"></a>1 SQL 规范</h3><ol>
+<li>SQL 语句不区分大小写，关键字和函数名建议大写</li>
+<li>值：除了数值类型外都使用单引号 <code>&#39;&#39;</code></li>
+<li>别名建议使用双引号 <code>&quot;&quot;</code>，且不省略 <code>as</code> 关键字</li>
+<li>数据库必须设置字符集，表必须设置字符集和存储引擎</li>
+<li>列选择合适的数据类型及长度，且要有注释</li>
+<li>每列设置 <code>NOT NULL + DEFAULT</code><ol>
+<li>数值默认为 <code>0</code> 或其它有效数字</li>
+<li>字符串默认为空格字符串 <code>&#39; &#39;</code> 或其它有效字符串</li>
+</ol>
+</li>
+<li>enum 类型不要用于数值，只能用于字符串</li>
+<li>主键列最好是无关数值列，且自增长</li>
+</ol>
+<h3 id="2-命名规范"><a href="#2-命名规范" class="headerlink" title="2 命名规范"></a>2 命名规范</h3><ol>
+<li>库名和表名小写，只能使用 <code>A-Z a-z 0-9</code>，不能以数字开头</li>
+<li>不能使用关键字和保留字</li>
+</ol>
+<h2 id="1-4-SQL-常用分类"><a href="#1-4-SQL-常用分类" class="headerlink" title="1.4 SQL 常用分类"></a>1.4 SQL 常用分类</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DDL（Data Definition Language）</code></td>
+<td>数据定义语言，如 <code>create alter drop truncate</code></td>
+</tr>
+<tr>
+<td><code>DML（Data Manipulation Language）</code></td>
+<td>数据操作语言，如 <code>insert delete update</code></td>
+</tr>
+<tr>
+<td><code>DQL（Data Query Language）</code></td>
+<td>数据查询语言，如 <code>select show</code></td>
+</tr>
+<tr>
+<td><code>DCL（Data Control Language）</code></td>
+<td>数据控制语言，如 <code>grant revoke</code></td>
+</tr>
+</tbody></table>
+<h1 id="二-库"><a href="#二-库" class="headerlink" title="二 库"></a>二 库</h1><h2 id="2-1-查"><a href="#2-1-查" class="headerlink" title="2.1 查"></a>2.1 查</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>show databases</code></td>
+<td>查看所有库</td>
+</tr>
+<tr>
+<td><code>use 库名</code></td>
+<td>使用指定数据库</td>
+</tr>
+<tr>
+<td><code>select database()</code></td>
+<td>查看正在使用的数据库</td>
+</tr>
+<tr>
+<td><code>show create database db_name</code></td>
+<td>查看建库语句</td>
+</tr>
+<tr>
+<td><code>show variables like &#39;character_set_database&#39;</code></td>
+<td>查看当前数据库字符集</td>
+</tr>
+<tr>
+<td><code>show variables like &#39;collation_database&#39;</code></td>
+<td>查看当前数据库校对集</td>
+</tr>
+</tbody></table>
+<h2 id="2-2-增"><a href="#2-2-增" class="headerlink" title="2.2 增"></a>2.2 增</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database [if not exists] 库名 [default character set 字符集 collate 校对集]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>character set</code> 都可以简写为 <code>charset</code></li>
+</ul>
+<h2 id="2-3-删"><a href="#2-3-删" class="headerlink" title="2.3 删"></a>2.3 删</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database [if exists] 库名</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-改"><a href="#2-4-改" class="headerlink" title="2.4 改"></a>2.4 改</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter database 库名 [charset 字符集 collate 校对集]</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>库名不可修改</li>
+<li>只能修改库属性（字符集和校对集）</li>
+</ol>
+<h1 id="三-表"><a href="#三-表" class="headerlink" title="三 表"></a>三 表</h1><h2 id="3-1-查"><a href="#3-1-查" class="headerlink" title="3.1 查"></a>3.1 查</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>show tables [from 库名]</code></td>
+<td>查看库（默认为当前库）中的所有表</td>
+</tr>
+<tr>
+<td><code>show create table 表名</code></td>
+<td>查看建表语句</td>
+</tr>
+<tr>
+<td><code>desc 表名</code></td>
+<td>查看表结构</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-增"><a href="#3-2-增" class="headerlink" title="3.2 增"></a>3.2 增</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 1 </span><br><span class="line">create table [if not exists] 表名(</span><br><span class="line">	列名 列属性,</span><br><span class="line">	......</span><br><span class="line">	列名 列属性</span><br><span class="line">)[engine=INNODB character set 字符集 collate 校对集]</span><br><span class="line"></span><br><span class="line">// 2 根据已有表结构创建新表</span><br><span class="line">create table 新表名 like 旧表名</span><br><span class="line"></span><br><span class="line">// 3 根据已有表创建新表并添加数据</span><br><span class="line">create table 新表名 AS 子查询</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-删"><a href="#3-3-删" class="headerlink" title="3.3 删"></a>3.3 删</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop table [if exists] 表名</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-改"><a href="#3-4-改" class="headerlink" title="3.4 改"></a>3.4 改</h2><h3 id="1-表信息（表名-表属性）"><a href="#1-表信息（表名-表属性）" class="headerlink" title="1 表信息（表名 表属性）"></a>1 表信息（表名 表属性）</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rename table 表名 to 新表名</code></td>
+<td>修改表名</td>
+</tr>
+<tr>
+<td><code>alter table 表名 rename 新表名</code></td>
+<td>修改表名</td>
+</tr>
+<tr>
+<td><code>alter table 表名 表属性</code></td>
+<td>修改表属性</td>
+</tr>
+</tbody></table>
+<h3 id="2-表结构（列信息）"><a href="#2-表结构（列信息）" class="headerlink" title="2 表结构（列信息）"></a>2 表结构（列信息）</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>alter table 表名 add [column] 列名 列属性 [位置]</code></td>
+<td>默认在最后添加一列，可指定位置：<code>first</code> 或 <code>after 某列</code></td>
+</tr>
+<tr>
+<td><code>alter table 表名 add [column] (列名 列属性, ...)</code></td>
+<td>在最后添加多列</td>
+</tr>
+<tr>
+<td><code>alter table 表名 drop [column] 列名</code></td>
+<td>删除列</td>
+</tr>
+<tr>
+<td><code>alter table 表名 modify 列名 列属性</code></td>
+<td>修改列属性</td>
+</tr>
+<tr>
+<td><code>alter table 表名 change 列名 新列名 列属性</code></td>
+<td>修改列名和列属性</td>
+</tr>
+</tbody></table>
+<h1 id="四-数据"><a href="#四-数据" class="headerlink" title="四 数据"></a>四 数据</h1><h2 id="4-1-增删改"><a href="#4-1-增删改" class="headerlink" title="4.1 增删改"></a>4.1 增删改</h2><h3 id="1-insert"><a href="#1-insert" class="headerlink" title="1 insert"></a>1 insert</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>insert [into] 表名 values(值列表)[, (值列表)]</code></td>
+<td>向表所有列插入 1 或多条记录，列与值一一对应</td>
+</tr>
+<tr>
+<td><code>insert [into] 表名(字段列表) values(值列表)[, (值列表)]</code></td>
+<td>向表指定列插入 1 或多条记录，列与值一一对应</td>
+</tr>
+<tr>
+<td><code>insert [into] 表名 set 列=值, ...</code></td>
+<td>向表指定列插入 1 条记录，值可以使用子查询</td>
+</tr>
+</tbody></table>
+<h3 id="2-update"><a href="#2-update" class="headerlink" title="2 update"></a>2 update</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>update 表名 set 列=值 [where 子句]</code></td>
+<td>不加条件会更新所有行</td>
+</tr>
+</tbody></table>
+<h3 id="3-delete"><a href="#3-delete" class="headerlink" title="3 delete"></a>3 delete</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>delete from 表名 [where 子句]</code></td>
+<td>不加条件会删除所有行</td>
+</tr>
+<tr>
+<td><code>truncate [table] 表名</code></td>
+<td>清空表</td>
+</tr>
+</tbody></table>
+<ul>
+<li>truncate 和 delete 区别<ul>
+<li>DELETE <ol>
+<li>DML 操作，是逻辑性质删除，逐行删除速度慢</li>
+<li>删除表中的数据，表结构还在，删除后的数据可以找回</li>
+<li>自增长不会重置</li>
+</ol>
+</li>
+<li>TRUNCATE <ol>
+<li>DDL 操作，对表段中的数据页进行清空，速度快</li>
+<li>相当于把表扔了又创建一个同样表结构的新表</li>
+<li>自增长会重置</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-2-查"><a href="#4-2-查" class="headerlink" title="4.2 查"></a>4.2 查</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">select [选项] 表达式 [as 列别名] [, [选项] 表达式 [as 列别名], ...]</span><br><span class="line">[</span><br><span class="line">	from 数据源 [as 表别名]</span><br><span class="line">	[where 子句]</span><br><span class="line">	[group by 子句]</span><br><span class="line">	[having 子句]</span><br><span class="line">	[order by 子句]</span><br><span class="line">	[limit 子句]</span><br><span class="line">]</span><br><span class="line">[union | union all]</span><br><span class="line">select ...</span><br><span class="line"></span><br><span class="line">// 查询过程</span><br><span class="line">1. from</span><br><span class="line">   - 确定数据源</span><br><span class="line">2. where</span><br><span class="line">   - 从原表中筛选出符合条件的数据形成一个概念中的临时结果集，存入内存</span><br><span class="line">3. group by</span><br><span class="line">   - 按照指定列进行分组</span><br><span class="line">4. select</span><br><span class="line">   - 处理表达式（函数, 别名, 运算 ...），形成结果集</span><br><span class="line">5. having</span><br><span class="line">   - 对结果集进行过滤</span><br><span class="line">6. order by</span><br><span class="line">   - 对过滤后的结果集进行排序</span><br><span class="line">7. limit</span><br><span class="line">   - 对排序后的结果集进行条目限制，形成最终结果集</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-select-子句"><a href="#1-select-子句" class="headerlink" title="1 select 子句"></a>1 select 子句</h3><ol>
+<li>选项<ul>
+<li><code>all</code>：保留所有结果（默认）</li>
+<li><code>distinct</code>：去除重复</li>
+<li><code>distinct row</code></li>
+<li><code>top</code></li>
+</ul>
+</li>
+<li>表达式<ul>
+<li>每一个表达式代表一列，可以是列名，*，变量，函数，…</li>
+</ul>
+</li>
+<li>别名<ul>
+<li>表别名可用于全局</li>
+<li>列别名可用于 <code>having</code> 和 <code>order by</code> </li>
+</ul>
+</li>
+</ol>
+<h3 id="2-from-子句"><a href="#2-from-子句" class="headerlink" title="2 from 子句"></a>2 from 子句</h3><ul>
+<li>本质上只要数据类似二维表，都可以作为数据源<ol>
+<li>单表数据源</li>
+<li>多表数据源</li>
+<li>查询语句</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-where-子句"><a href="#3-where-子句" class="headerlink" title="3 where 子句"></a>3 where 子句</h3><ol>
+<li>从原表中的记录中进行筛选</li>
+<li>where 是直接对表中数据进行判断，所以只能使用表中的列，且不能使用别名</li>
+</ol>
+<h3 id="4-group-by-子句"><a href="#4-group-by-子句" class="headerlink" title="4 group by 子句"></a>4 group by 子句</h3><h4 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>通常配合聚合函数使用</li>
+<li>可以有多个分组列，以逗号分隔</li>
+<li>select 中可以查询的列：<ol>
+<li>分组的列</li>
+<li>聚合函数的列</li>
+<li>与分组列一对一的列（不报错，但不推荐）</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-group-by-原理"><a href="#2-group-by-原理" class="headerlink" title="2 group by 原理"></a>2 group by 原理</h4><ol>
+<li>先按照分组列排序、去重，形成一张虚拟表</li>
+<li>虚拟表的结构：分组列与其它列的对应关系<ol>
+<li>分组列一对一的列可以直接查询（即与分组列对应的列只有一行记录）</li>
+<li>分组列一对多的列不能直接查询（即与分组列对应的列有多行记录）<ol>
+<li>使用聚合函数将多行记录统计为一行记录</li>
+<li>使用 <code>group_concat()</code> 将多行记录合并连接为一行记录</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="3-聚合函数"><a href="#3-聚合函数" class="headerlink" title="3 聚合函数"></a>3 聚合函数</h4><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>max([distinct] expr)</code></td>
+<td>返回 expr 最大值</td>
+</tr>
+<tr>
+<td><code>min([distinct] expr)</code></td>
+<td>返回 expr 最小值</td>
+</tr>
+<tr>
+<td><code>count([distinct] expr)</code></td>
+<td>返回 expr 记录总数</td>
+</tr>
+<tr>
+<td><code>sum([distinct] expr)</code></td>
+<td>返回 expr 总和</td>
+</tr>
+<tr>
+<td><code>avg([distinct] expr)</code></td>
+<td>返回 expr 平均值</td>
+</tr>
+<tr>
+<td><code>group_concat()</code></td>
+<td>将group by产生的同一个分组中的其它列的所有值连接成一个字符串（多行记录变一行）</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>count()</code><ol>
+<li><code>count(*)</code> 和 <code>count(常量)</code><ul>
+<li>记录总数（包含空行）</li>
+<li>此类参数表示数数，有一行记录总数就+1，也就是说总数与记录内容无关</li>
+<li><code>count(*)</code> 效率底不建议</li>
+</ul>
+</li>
+<li><code>count(列名)</code><ul>
+<li>记录总数（不包含空行）</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="4-with-rollup"><a href="#4-with-rollup" class="headerlink" title="4 with rollup"></a>4 with rollup</h4><ul>
+<li>分组后跟 <code>with rollup</code> 会对分组进行统计</li>
+<li>只有 mysql 支持</li>
+</ul>
+<h3 id="5-having-子句"><a href="#5-having-子句" class="headerlink" title="5 having 子句"></a>5 having 子句</h3><ul>
+<li>having 是对其之前子句筛选出的数据进行条件过滤</li>
+</ul>
+<h3 id="6-order-by子句"><a href="#6-order-by子句" class="headerlink" title="6 order by子句"></a>6 order by子句</h3><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>asc</code></td>
+<td>升序（默认）</td>
+</tr>
+<tr>
+<td><code>desc</code></td>
+<td>降序</td>
+</tr>
+</tbody></table>
+<ol>
+<li>排序依赖校对集</li>
+<li>可以有多个排序条件，前一个条件结果相同则比较下一个条件</li>
+</ol>
+<h3 id="7-limit-子句"><a href="#7-limit-子句" class="headerlink" title="7 limit 子句"></a>7 limit 子句</h3><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>limit [startIndex, ]length</code></td>
+<td>从指定索引（若省略，默认为 0）开始，取 <code>length</code> 条数据</td>
+</tr>
+<tr>
+<td><code>limit length offset startIndex</code></td>
+<td>同上，也可以把索引理解为偏移量（即跳过 <code>startIndex</code> 个）</td>
+</tr>
+</tbody></table>
+<h3 id="8-union-amp-union-all"><a href="#8-union-amp-union-all" class="headerlink" title="8 union &amp; union all"></a>8 union &amp; union all</h3><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>union all</code></td>
+<td>合并多个查询结果集，保留所有</td>
+</tr>
+<tr>
+<td><code>union</code></td>
+<td>合并多个查询结果集，去除重复</td>
+</tr>
+</tbody></table>
+<ul>
+<li>要合并的查询结果列数必须相同，合并后结果集的列名取决于第一个要合并的查询</li>
+<li>一般情况下,会将 <code>in()</code> 或者 <code>OR</code> 语句 改写成 <code>UNION ALL</code> ，来提高性能</li>
+</ul>
+<h1 id="五-关联查询（SQL-JOIN）"><a href="#五-关联查询（SQL-JOIN）" class="headerlink" title="五 关联查询（SQL JOIN）"></a>五 关联查询（SQL JOIN）</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><h3 id="1-关联查询结果"><a href="#1-关联查询结果" class="headerlink" title="1 关联查询结果"></a>1 关联查询结果</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/sql-join.png" alt=""></p>
+<ol>
+<li>关联查询有七种结果（行/记录）</li>
+<li>关联查询的列都是两表组合在一起，即 A 表的列 + B 表的列</li>
+</ol>
+<h3 id="2-关联查询分类"><a href="#2-关联查询分类" class="headerlink" title="2 关联查询分类"></a>2 关联查询分类</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>查询结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>inner/cross join</code></td>
+<td>内连接</td>
+<td><code>A ∩ B</code></td>
+</tr>
+<tr>
+<td><code>left [outer] join</code></td>
+<td>左外连接</td>
+<td><code>A</code>，<code>A - A ∩ B</code></td>
+</tr>
+<tr>
+<td><code>right [outer] join</code></td>
+<td>右外连接</td>
+<td><code>B</code>，<code>B - A ∩ B</code></td>
+</tr>
+<tr>
+<td><code>full [outer] join</code></td>
+<td>全外连接</td>
+<td><code>A ∪ B</code>，<code>A ∪ B - A ∩ B</code></td>
+</tr>
+</tbody></table>
+<ol>
+<li>如果连接的表是同一张表，又称为<strong>自连接</strong></li>
+<li>mysql 不支持全外连接，可通过 <code>union</code> 实现</li>
+</ol>
+<h2 id="5-2-语法"><a href="#5-2-语法" class="headerlink" title="5.2 语法"></a>5.2 语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">表1 </span><br><span class="line">&#123;[inner | cross] | &#123;left | right&#125; [outer]&#125;  join</span><br><span class="line">表2</span><br><span class="line">on 条件表达式</span><br><span class="line">[</span><br><span class="line">	&#123;[inner | cross] | &#123;left | right&#125; [outer]&#125;  join</span><br><span class="line">	表3</span><br><span class="line">	on 条件表达式</span><br><span class="line">	......</span><br><span class="line">]</span><br><span class="line">[</span><br><span class="line">	[where 子句]</span><br><span class="line">	[group by 子句]</span><br><span class="line">	[having 子句]</span><br><span class="line">	[order by 子句]</span><br><span class="line">	[limit 子句]</span><br><span class="line">]</span><br><span class="line">[union | union all]</span><br><span class="line">select ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-关联条件"><a href="#5-3-关联条件" class="headerlink" title="5.3 关联条件"></a>5.3 关联条件</h2><h3 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>内连接如果没有关联条件，会形成笛卡尔积</li>
+<li>外连接如果没有关联条件，会报错</li>
+</ol>
+<h3 id="2-笛卡尔积"><a href="#2-笛卡尔积" class="headerlink" title="2 笛卡尔积"></a>2 笛卡尔积</h3><ol>
+<li>笛卡儿积是元素相组合，不是数学相乘</li>
+<li>数学中的笛卡儿积<ul>
+<li>集合 A 有 <code>m</code> 个元素，集合 B 有 <code>n</code> 个元素，则笛卡尔积共 <code>m * n</code>个元素</li>
+<li>集合 <code>A = {a, b}</code>，集合 <code>B = {0, 1, 2}</code>，笛卡尔积 = <code>{(a, 0), (a, 1), (a, 2), (b, 0), (b, 1), (b, 2)}</code></li>
+</ul>
+</li>
+<li>数据库中的笛卡儿积<ul>
+<li>表 A 有 <code>m</code> 条记录，表 B 中有 n 条记录，则笛卡尔积共有 <code>m*n</code> 条记录</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-关联条件的方式"><a href="#3-关联条件的方式" class="headerlink" title="3 关联条件的方式"></a>3 关联条件的方式</h3><ol>
+<li><code>where</code><ul>
+<li>用于所有关联查询</li>
+</ul>
+</li>
+<li><code>join on</code><ul>
+<li>只能写关联条件，虽然关联条件可以并到 <code>where</code> 中，但单独写可读性更好</li>
+</ul>
+</li>
+<li><code>join using(列名列表)</code><ul>
+<li>表示两个关联字段值相同，要求两个关联字段列名必须一致</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-4-内连接"><a href="#5-4-内连接" class="headerlink" title="5.4 内连接"></a>5.4 内连接</h2><h3 id="1-语法"><a href="#1-语法" class="headerlink" title="1 语法"></a>1 语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 1 隐式</span><br><span class="line">from 表1, 表2 where 条件</span><br><span class="line"></span><br><span class="line">// 2 显式</span><br><span class="line">from 表1 [inner | cross] join 表2 on 关联条件</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-结果"><a href="#2-结果" class="headerlink" title="2 结果"></a>2 结果</h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/INNER_JOIN.png" alt=""></p>
+<h2 id="5-5-外连接"><a href="#5-5-外连接" class="headerlink" title="5.5 外连接"></a>5.5 外连接</h2><h3 id="1-左外连接"><a href="#1-左外连接" class="headerlink" title="1 左外连接"></a>1 左外连接</h3><h4 id="1-语法-1"><a href="#1-语法-1" class="headerlink" title="1 语法"></a>1 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表1 left [outer] join 表2 on 条件</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-结果-1"><a href="#2-结果-1" class="headerlink" title="2 结果"></a>2 结果</h4><p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/LEFT_JOIN.png" alt=""></p>
+<ul>
+<li>查出左表所有行，左表中的行在右表没有匹配则右表对应行返回空</li>
+</ul>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/LEFT_EXCLUDING_JOIN.png" alt=""></p>
+<ul>
+<li>查出左表在右表中没有匹配的行，右表肯定都返回空</li>
+</ul>
+<h3 id="2-右外连接"><a href="#2-右外连接" class="headerlink" title="2 右外连接"></a>2 右外连接</h3><h4 id="1-语法-2"><a href="#1-语法-2" class="headerlink" title="1 语法"></a>1 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表1 right [outer] join 表2 on 条件</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-结果-2"><a href="#2-结果-2" class="headerlink" title="2 结果"></a>2 结果</h4><p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/RIGHT_JOIN.png" alt=""></p>
+<ul>
+<li>查出右表所有行，右表中的行在左表没有匹配则左表对应行返回空</li>
+</ul>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/RIGHT_EXCLUDING_JOIN.png" alt=""></p>
+<ul>
+<li>查出右表在左表中没有匹配的行，左表肯定都返回空</li>
+</ul>
+<h3 id="3-全外连接"><a href="#3-全外连接" class="headerlink" title="3 全外连接"></a>3 全外连接</h3><h4 id="1-语法-3"><a href="#1-语法-3" class="headerlink" title="1 语法"></a>1 语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表1 full [outer] join 表2 on 条件</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-结果-3"><a href="#2-结果-3" class="headerlink" title="2 结果"></a>2 结果</h4><p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/FULL_OUTER_JOIN.png" alt=""></p>
+<ul>
+<li>查出左表和右表的所有行，在彼此表中没有匹配的行则返回空</li>
+</ul>
+<p><img src="https://github.com/anyeansan/pics/raw/master/CS/SQL/OUTER_EXCLUDING_JOIN.png" alt=""></p>
+<ul>
+<li>查出在左表和右表中彼此没有匹配的行</li>
+</ul>
+<h2 id="5-6-例"><a href="#5-6-例" class="headerlink" title="5.6 例"></a>5.6 例</h2><h3 id="1-原始表-t1-和-t2"><a href="#1-原始表-t1-和-t2" class="headerlink" title="1 原始表 t1 和 t2"></a>1 原始表 t1 和 t2</h3><table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>a</td>
+</tr>
+<tr>
+<td>2</td>
+<td>b</td>
+</tr>
+<tr>
+<td>3</td>
+<td>c</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td>E</td>
+</tr>
+<tr>
+<td>4</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<h3 id="2-内连接"><a href="#2-内连接" class="headerlink" title="2 内连接"></a>2 内连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 inner join t2 on t1.id=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>a</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td>c</td>
+<td>3</td>
+<td>E</td>
+</tr>
+</tbody></table>
+<h3 id="3-左外连接"><a href="#3-左外连接" class="headerlink" title="3 左外连接"></a>3 左外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 left join t2 on t1.id=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>a</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>2</td>
+<td>b</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td>c</td>
+<td>3</td>
+<td>E</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 left join t2 on t1.id!=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>a</td>
+<td>null</td>
+<td>null</td>
+</tr>
+</tbody></table>
+<h3 id="4-右外连接"><a href="#4-右外连接" class="headerlink" title="4 右外连接"></a>4 右外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 right join t2 on t1.id=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>b</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td>c</td>
+<td>3</td>
+<td>E</td>
+</tr>
+<tr>
+<td>null</td>
+<td>null</td>
+<td>4</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 right join t2 on t1.id!=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>null</td>
+<td>null</td>
+<td>4</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<h3 id="5-全外连接"><a href="#5-全外连接" class="headerlink" title="5 全外连接"></a>5 全外连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 full join t2 on t1.id=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>a</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>2</td>
+<td>b</td>
+<td>2</td>
+<td>D</td>
+</tr>
+<tr>
+<td>3</td>
+<td>c</td>
+<td>3</td>
+<td>E</td>
+</tr>
+<tr>
+<td>null</td>
+<td>null</td>
+<td>4</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 full join t2 on t1.id!=t2.id;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>id</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>a</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>null</td>
+<td>null</td>
+<td>4</td>
+<td>F</td>
+</tr>
+</tbody></table>
+<h1 id="六-子查询"><a href="#六-子查询" class="headerlink" title="六 子查询"></a>六 子查询</h1><h2 id="6-1-概述"><a href="#6-1-概述" class="headerlink" title="6.1 概述"></a>6.1 概述</h2><ul>
+<li>一个查询需要的条件或数据是另一个查询的结果，即一个查询中嵌套了另一个查询，嵌套在里面的查询就是子查询</li>
+</ul>
+<h2 id="6-2-子查询根据位置分类"><a href="#6-2-子查询根据位置分类" class="headerlink" title="6.2 子查询根据位置分类"></a>6.2 子查询根据位置分类</h2><ol>
+<li><p>from 型子查询：子查询必须有别名</p>
+<ul>
+<li><code>from (子查询) 别名</code></li>
+</ul>
+</li>
+<li><p>where 型子查询</p>
+<ul>
+<li><code>where 字段 = (子查询)</code></li>
+<li><code>where 字段 in (子查询)</code></li>
+<li><code>...</code></li>
+</ul>
+</li>
+<li><p>exists 型子查询</p>
+<ul>
+<li><code>where exists(子查询)</code><ol>
+<li>子查询返回记录，则 <code>exists</code> 为 <code>true</code>，添加记录</li>
+<li>子查询没有记录，则 <code>exists</code> 为 <code>false</code>，不添加记录</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>相关子查询：子查询和外部查询有关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM invoices i</span><br><span class="line">WHERE invoice_total &gt; (</span><br><span class="line">	SELECT AVG(invoice_total)</span><br><span class="line">	FROM invoices</span><br><span class="line">	WHERE client_id = i.client_id</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>select 子查询</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E6%B3%95/" rel="next" title="Mysql语法">
+                  <i class="fa fa-chevron-left"></i> Mysql语法
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/SQL/Mysql%E4%BA%8B%E5%8A%A1/" rel="prev" title="Mysql事务">
+                  Mysql事务 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-SQL（Structure-Query-Language）"><span class="nav-text">1.1 SQL（Structure Query Language）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-严格模式（SQL-MODE）"><span class="nav-text">1.2 严格模式（SQL_MODE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-规范"><span class="nav-text">1.3 规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SQL-规范"><span class="nav-text">1 SQL 规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命名规范"><span class="nav-text">2 命名规范</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-SQL-常用分类"><span class="nav-text">1.4 SQL 常用分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-库"><span class="nav-text">二 库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-查"><span class="nav-text">2.1 查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-增"><span class="nav-text">2.2 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-删"><span class="nav-text">2.3 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-改"><span class="nav-text">2.4 改</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-表"><span class="nav-text">三 表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-查"><span class="nav-text">3.1 查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-增"><span class="nav-text">3.2 增</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-删"><span class="nav-text">3.3 删</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-改"><span class="nav-text">3.4 改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-表信息（表名-表属性）"><span class="nav-text">1 表信息（表名 表属性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-表结构（列信息）"><span class="nav-text">2 表结构（列信息）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-数据"><span class="nav-text">四 数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-增删改"><span class="nav-text">4.1 增删改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-insert"><span class="nav-text">1 insert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-update"><span class="nav-text">2 update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-delete"><span class="nav-text">3 delete</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-查"><span class="nav-text">4.2 查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-select-子句"><span class="nav-text">1 select 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-from-子句"><span class="nav-text">2 from 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-where-子句"><span class="nav-text">3 where 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-group-by-子句"><span class="nav-text">4 group by 子句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-group-by-原理"><span class="nav-text">2 group by 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-聚合函数"><span class="nav-text">3 聚合函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-with-rollup"><span class="nav-text">4 with rollup</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-having-子句"><span class="nav-text">5 having 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-order-by子句"><span class="nav-text">6 order by子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-limit-子句"><span class="nav-text">7 limit 子句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-union-amp-union-all"><span class="nav-text">8 union &amp; union all</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-关联查询（SQL-JOIN）"><span class="nav-text">五 关联查询（SQL JOIN）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-概述"><span class="nav-text">5.1 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-关联查询结果"><span class="nav-text">1 关联查询结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-关联查询分类"><span class="nav-text">2 关联查询分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-语法"><span class="nav-text">5.2 语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-关联条件"><span class="nav-text">5.3 关联条件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-笛卡尔积"><span class="nav-text">2 笛卡尔积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-关联条件的方式"><span class="nav-text">3 关联条件的方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-内连接"><span class="nav-text">5.4 内连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-语法"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-结果"><span class="nav-text">2 结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-外连接"><span class="nav-text">5.5 外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-左外连接"><span class="nav-text">1 左外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-语法-1"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-结果-1"><span class="nav-text">2 结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-右外连接"><span class="nav-text">2 右外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-语法-2"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-结果-2"><span class="nav-text">2 结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-全外连接"><span class="nav-text">3 全外连接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-语法-3"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-结果-3"><span class="nav-text">2 结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-例"><span class="nav-text">5.6 例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-原始表-t1-和-t2"><span class="nav-text">1 原始表 t1 和 t2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-内连接"><span class="nav-text">2 内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-左外连接"><span class="nav-text">3 左外连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-右外连接"><span class="nav-text">4 右外连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-全外连接"><span class="nav-text">5 全外连接</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-子查询"><span class="nav-text">六 子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-子查询根据位置分类"><span class="nav-text">6.2 子查询根据位置分类</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

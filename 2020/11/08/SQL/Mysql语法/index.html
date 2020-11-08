@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 元数据1.1 概述 元数据可以简单理解为描述数据的数据，除了存储在数据库中的数据外，其它大多可以理解为元数据 元数据存储在“基表”中，不能直接访问 infomation_schema 数据库中保存了大量元数据查询的视图 show 命令是封装好的，提供元数据查询的基础功能    1.2 information_schema   表 说明    schemata 存储当前 mysql 实例中所有数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql语法">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;SQL&#x2F;Mysql%E8%AF%AD%E6%B3%95&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 元数据1.1 概述 元数据可以简单理解为描述数据的数据，除了存储在数据库中的数据外，其它大多可以理解为元数据 元数据存储在“基表”中，不能直接访问 infomation_schema 数据库中保存了大量元数据查询的视图 show 命令是封装好的，提供元数据查询的基础功能    1.2 information_schema   表 说明    schemata 存储当前 mysql 实例中所有数">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:16:37.821Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Mysql语法 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mysql语法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:14:08 / 修改时间：21:16:37" itemprop="dateCreated datePublished" datetime="2020-11-08T21:14:08+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/SQL/" itemprop="url" rel="index">
+                    <span itemprop="name">SQL</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-元数据"><a href="#一-元数据" class="headerlink" title="一 元数据"></a>一 元数据</h1><h2 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1 概述"></a>1.1 概述</h2><ol>
+<li>元数据可以简单理解为描述数据的数据，除了存储在数据库中的数据外，其它大多可以理解为元数据</li>
+<li>元数据存储在“基表”中，不能直接访问<ol>
+<li><code>infomation_schema</code> 数据库中保存了大量元数据查询的视图</li>
+<li><code>show</code> 命令是封装好的，提供元数据查询的基础功能</li>
+</ol>
+</li>
+</ol>
+<h2 id="1-2-information-schema"><a href="#1-2-information-schema" class="headerlink" title="1.2 information_schema"></a>1.2 information_schema</h2><table>
+<thead>
+<tr>
+<th>表</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>schemata</code></td>
+<td>存储当前 mysql 实例中所有数据库的信息，<code>show databases</code> 命令从这个表获取数据</td>
+</tr>
+<tr>
+<td><code>tables</code></td>
+<td>存储数据库中的表信息（包括视图），<code>show tables [from db_name]</code> 命令从这个表获取结果</td>
+</tr>
+<tr>
+<td><code>columns</code></td>
+<td>存储数据库中每张表的列信息（如属于哪张表哪个库，属性信息…)</td>
+</tr>
+<tr>
+<td><code>table_constraints</code></td>
+<td>存储表约束信息</td>
+</tr>
+<tr>
+<td><code>statistics</code></td>
+<td>存储表索引信息</td>
+</tr>
+<tr>
+<td><code>collations</code></td>
+<td>存储了字符集和校对集对照信息</td>
+</tr>
+</tbody></table>
+<h3 id="tables-表"><a href="#tables-表" class="headerlink" title="tables 表"></a>tables 表</h3><table>
+<thead>
+<tr>
+<th>列</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>table_schema</code></td>
+<td>表所在库名</td>
+</tr>
+<tr>
+<td><code>table_name</code></td>
+<td>表名</td>
+</tr>
+<tr>
+<td><code>engine</code></td>
+<td>存储引擎</td>
+</tr>
+<tr>
+<td><code>table_rows</code></td>
+<td>总行数</td>
+</tr>
+<tr>
+<td><code>avg_row_length</code></td>
+<td>行平均长度</td>
+</tr>
+<tr>
+<td><code>index_length</code></td>
+<td>索引长度</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>表大小 = avg_row_length * table_rows + index_length</code></li>
+</ul>
+<h2 id="1-3-show"><a href="#1-3-show" class="headerlink" title="1.3 show"></a>1.3 show</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>show databases</code></td>
+<td>查看所有库名</td>
+</tr>
+<tr>
+<td><code>show tables [from db_name]</code></td>
+<td>查看库中所有表名</td>
+</tr>
+<tr>
+<td><code>show create database db_name</code></td>
+<td>查看建库语句</td>
+</tr>
+<tr>
+<td><code>show create table t_name</code></td>
+<td>查看建表语句</td>
+</tr>
+<tr>
+<td><code>show processlist</code></td>
+<td>查看数据库连接情况</td>
+</tr>
+<tr>
+<td><code>show charset</code></td>
+<td>查看支持的字符集</td>
+</tr>
+<tr>
+<td><code>show collation</code></td>
+<td>查看支持的校对集</td>
+</tr>
+<tr>
+<td><code>show engines</code></td>
+<td>查看支持的存储引擎</td>
+</tr>
+<tr>
+<td><code>show grants for user_name</code></td>
+<td>查看用户权限</td>
+</tr>
+<tr>
+<td><code>shwo variables [like pattern]</code></td>
+<td>查看变量信息</td>
+</tr>
+<tr>
+<td><code>show index from t_name</code></td>
+<td>查看表的索引信息</td>
+</tr>
+<tr>
+<td><code>show engine innodb statsu\G</code></td>
+<td>查看 innodb 引擎详细状态信息（横向）</td>
+</tr>
+<tr>
+<td><code>show status [like pattern]</code></td>
+<td>查看数据库状态信息</td>
+</tr>
+<tr>
+<td><code>show binary logs</code></td>
+<td>查看二进制日志的列表信息</td>
+</tr>
+<tr>
+<td><code>show binlog events in log_name</code></td>
+<td>查看二进制日志的事件信息</td>
+</tr>
+<tr>
+<td><code>show master status</code></td>
+<td>查看 mysql 当前使用的二进制日志信息</td>
+</tr>
+<tr>
+<td><code>show relaylog events in log_name</code></td>
+<td>查看中继日志的事件信息</td>
+</tr>
+</tbody></table>
+<h1 id="二-运算符-和-语句"><a href="#二-运算符-和-语句" class="headerlink" title="二 运算符 和 语句"></a>二 运算符 和 语句</h1><h2 id="2-1-算术运算符"><a href="#2-1-算术运算符" class="headerlink" title="2.1 算术运算符"></a>2.1 算术运算符</h2><table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>+</code></td>
+<td>加</td>
+</tr>
+<tr>
+<td align="left"><code>-</code></td>
+<td>减</td>
+</tr>
+<tr>
+<td align="left"><code>*</code></td>
+<td>乘</td>
+</tr>
+<tr>
+<td align="left"><code>/</code></td>
+<td>除</td>
+</tr>
+<tr>
+<td align="left"><code>DIV</code></td>
+<td>整除</td>
+</tr>
+<tr>
+<td align="left"><code>%, MOD</code></td>
+<td>模</td>
+</tr>
+</tbody></table>
+<h2 id="2-2-比较运算符"><a href="#2-2-比较运算符" class="headerlink" title="2.2 比较运算符"></a>2.2 比较运算符</h2><table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>&gt;</code></td>
+<td>大于</td>
+</tr>
+<tr>
+<td align="left"><code>&gt;=</code></td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td align="left"><code>&lt;</code></td>
+<td>小于</td>
+</tr>
+<tr>
+<td align="left"><code>&lt;=</code></td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td align="left"><code>=</code></td>
+<td>等于，<code>null = null</code> 返回 null</td>
+</tr>
+<tr>
+<td align="left"><code>&lt;=&gt;</code></td>
+<td>等于，<code>null = null</code> 返回 1</td>
+</tr>
+<tr>
+<td align="left"><code>&lt;&gt;, !=</code></td>
+<td>不等于</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-逻辑运算符"><a href="#2-3-逻辑运算符" class="headerlink" title="2.3 逻辑运算符"></a>2.3 逻辑运算符</h2><table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>and, &amp;&amp;</code></td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td align="left"><code>or, &#124;&#124;</code></td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td align="left"><code>not, !</code></td>
+<td>逻辑非</td>
+</tr>
+<tr>
+<td align="left"><code>xor</code></td>
+<td>逻辑异或</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>and</code> 优先级高于 <code>or</code></li>
+</ul>
+<h2 id="2-4-正则"><a href="#2-4-正则" class="headerlink" title="2.4 正则"></a>2.4 正则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regexp pattern</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>^</code></td>
+<td>开头</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>结尾</td>
+</tr>
+<tr>
+<td>`</td>
+<td>`</td>
+</tr>
+<tr>
+<td><code>[abc] [a-z]</code></td>
+<td>范围</td>
+</tr>
+<tr>
+<td><code>{n} {m,} {m,n} * + ?</code></td>
+<td>数量</td>
+</tr>
+</tbody></table>
+<h2 id="2-5-语句"><a href="#2-5-语句" class="headerlink" title="2.5 语句"></a>2.5 语句</h2><table>
+<thead>
+<tr>
+<th>语句</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>like pattern</code></td>
+<td>模糊查询，<code>pattern</code> 中：<code>%</code> 匹配任意个任意字符，<code>_</code> 匹配一个任意字符</td>
+</tr>
+<tr>
+<td><code>between ... and ...</code></td>
+<td>在某个范围之间</td>
+</tr>
+<tr>
+<td><code>is null</code></td>
+<td>是否为空</td>
+</tr>
+<tr>
+<td><code>is not null</code></td>
+<td>是否不为空</td>
+</tr>
+<tr>
+<td><code>in()</code></td>
+<td>匹配其中任意一个值，则为 true，类似逻辑或</td>
+</tr>
+<tr>
+<td><code>any()</code></td>
+<td>必须配合比较运算符使用，代表（大于, 小于, …）其中任意一个值则为 true</td>
+</tr>
+<tr>
+<td><code>some()</code></td>
+<td>是 <code>any()</code> 的别名</td>
+</tr>
+<tr>
+<td><code>all()</code></td>
+<td>必须配合比较运算符使用，代表（大于, 小于, …）其中所有值则为 true</td>
+</tr>
+</tbody></table>
+<h1 id="三-变量"><a href="#三-变量" class="headerlink" title="三 变量"></a>三 变量</h1><h2 id="3-1-分类"><a href="#3-1-分类" class="headerlink" title="3.1 分类"></a>3.1 分类</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统变量</td>
+<td>全局级别，会话级别</td>
+</tr>
+<tr>
+<td>自定义变量</td>
+<td>会话级别</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-系统变量"><a href="#3-2-系统变量" class="headerlink" title="3.2 系统变量"></a>3.2 系统变量</h2><h3 id="1-查看系统变量"><a href="#1-查看系统变量" class="headerlink" title="1 查看系统变量"></a>1 查看系统变量</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>show global variables</code></td>
+<td>查看全局级别所有系统变量的信息</td>
+</tr>
+<tr>
+<td><code>show session variables</code></td>
+<td>查看会话级别所有系统变量的信息</td>
+</tr>
+<tr>
+<td><code>select @@global.变量名</code></td>
+<td>查看全局级别的指定系统变量的信息</td>
+</tr>
+<tr>
+<td><code>select @@session.变量名</code></td>
+<td>查看会话级别的指定系统变量的信息</td>
+</tr>
+<tr>
+<td><code>select @@变量名</code></td>
+<td>查看会话级别的指定系统变量的信息</td>
+</tr>
+</tbody></table>
+<h3 id="2-修改系统变量"><a href="#2-修改系统变量" class="headerlink" title="2 修改系统变量"></a>2 修改系统变量</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>set global 变量名=值</code></td>
+<td>修改全局级别的系统变量，影响新会话，重启失效</td>
+</tr>
+<tr>
+<td><code>set @@global.变量名=值</code></td>
+<td>修改全局级别的系统变量，影响新会话，重启失效</td>
+</tr>
+<tr>
+<td><code>set session 变量名=值</code></td>
+<td>修改会话级别的系统变量</td>
+</tr>
+<tr>
+<td><code>set @@session.变量名=值</code></td>
+<td>修改会话级别的系统变量</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-自定义变量"><a href="#3-3-自定义变量" class="headerlink" title="3.3 自定义变量"></a>3.3 自定义变量</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>为了区分系统变量, 规定用户自定义变量必须使用一个 <code>@</code> 符号</li>
+<li>所有自定义变量不区分数据库</li>
+<li>所有自定义的变量都是会话级别，但根据作用域可以分为<ol>
+<li>全局变量（user/session variable）: 作用域为当前会话</li>
+<li>局部变量（local variable） ：作用域为所在的 <code>begin end</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="2-全局变量"><a href="#2-全局变量" class="headerlink" title="2 全局变量"></a>2 全局变量</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>set @变量名=值</code></td>
+<td>声明并赋值</td>
+</tr>
+<tr>
+<td><code>set @变量名 := 值</code></td>
+<td>声明并赋值</td>
+</tr>
+<tr>
+<td><code>select @变量名 := 值</code></td>
+<td>声明并赋值</td>
+</tr>
+<tr>
+<td><code>select 字段 into @变量名 from t_name</code></td>
+<td>声明并从表中查询数据赋值</td>
+</tr>
+<tr>
+<td><code>select @变量名</code></td>
+<td>查看变量值</td>
+</tr>
+</tbody></table>
+<ul>
+<li>全局变量可以不声明直接使用，默认值为 <code>null</code></li>
+</ul>
+<h3 id="3-局部变量"><a href="#3-局部变量" class="headerlink" title="3 局部变量"></a>3 局部变量</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>declare 变量名 类型</code></td>
+<td>声明局部变量</td>
+</tr>
+<tr>
+<td><code>declare 变量名 类型 default 默认值</code></td>
+<td>声明局部变量并设置默认值</td>
+</tr>
+</tbody></table>
+<ol>
+<li>局部变量需要先声明后使用</li>
+<li>局部变量的赋值与查看命令与全局变量完全一致</li>
+</ol>
+<h1 id="四-函数"><a href="#四-函数" class="headerlink" title="四 函数"></a>四 函数</h1><h2 id="4-1-信息函数"><a href="#4-1-信息函数" class="headerlink" title="4.1 信息函数"></a>4.1 信息函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>user()</code></td>
+<td>返回当前用户及所在主机</td>
+</tr>
+<tr>
+<td><code>database()</code></td>
+<td>返回当前数据库名</td>
+</tr>
+<tr>
+<td><code>version()</code></td>
+<td>返回数据库的版本号</td>
+</tr>
+<tr>
+<td><code>connection_id()</code></td>
+<td>返回连接id</td>
+</tr>
+<tr>
+<td><code>last_insert_id()</code></td>
+<td>最后插入记录的id</td>
+</tr>
+</tbody></table>
+<h2 id="4-2-数学函数"><a href="#4-2-数学函数" class="headerlink" title="4.2 数学函数"></a>4.2 数学函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>abs(X)</code></td>
+<td>绝对值</td>
+</tr>
+<tr>
+<td><code>ceil(X)</code></td>
+<td>向上取整</td>
+</tr>
+<tr>
+<td><code>floor(X)</code></td>
+<td>向下取整</td>
+</tr>
+<tr>
+<td><code>round(X, D)</code></td>
+<td>四舍五入，保留D位小数</td>
+</tr>
+<tr>
+<td><code>truncate(X, D)</code></td>
+<td>数字截断，保留D位小数</td>
+</tr>
+<tr>
+<td><code>rand(X)</code></td>
+<td><code>0~1</code> 的随机数</td>
+</tr>
+<tr>
+<td><code>mod(N, M)</code></td>
+<td>等价于 <code>N % M</code> 或者 <code>N MOD M</code></td>
+</tr>
+<tr>
+<td><code>sort(X)</code></td>
+<td>平方</td>
+</tr>
+<tr>
+<td><code>pow(X,Y)</code></td>
+<td>Y次方</td>
+</tr>
+<tr>
+<td><code>conv(X, from_base, to_base)</code></td>
+<td>将X从进制 <code>from_base</code> 转为进制 <code>to_base</code> 的字符串</td>
+</tr>
+</tbody></table>
+<h2 id="4-3-字符串函数"><a href="#4-3-字符串函数" class="headerlink" title="4.3 字符串函数"></a>4.3 字符串函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>md5(str)</code></td>
+<td>返回字符串的 md5 加密版本</td>
+</tr>
+<tr>
+<td><code>password(str)</code></td>
+<td>返回字符串的加密版本，41位的字符串</td>
+</tr>
+<tr>
+<td><code>concat(str1, str2, ...)</code></td>
+<td>连接字符串，有一个参数为 <code>null</code>，则返回 <code>null</code></td>
+</tr>
+<tr>
+<td><code>concat_ws(separator, str1, str2, ...)</code></td>
+<td>使用指定分隔符连接字符串</td>
+</tr>
+<tr>
+<td><code>length(str)</code></td>
+<td>字节数</td>
+</tr>
+<tr>
+<td><code>char_length(str)</code></td>
+<td>字符数</td>
+</tr>
+<tr>
+<td><code>lower(str)</code></td>
+<td>转小写</td>
+</tr>
+<tr>
+<td><code>upper(str)</code></td>
+<td>转大写</td>
+</tr>
+<tr>
+<td><code>format(X, D)</code></td>
+<td>将数字 X 转为 <code>#,###,###.##</code> 形式的字符串，D为小数位数</td>
+</tr>
+<tr>
+<td><code>trim([{both &#124; leading &#124; trailing}] [remstr from] str)</code></td>
+<td>去除两端空格，<code>remstr</code> 默认空格可指定字符</td>
+</tr>
+<tr>
+<td><code>ltrim(str)</code></td>
+<td>去除左端空格</td>
+</tr>
+<tr>
+<td><code>rtrim(str)</code></td>
+<td>去除右端空格</td>
+</tr>
+<tr>
+<td><code>reverse(str)</code></td>
+<td>反转</td>
+</tr>
+<tr>
+<td><code>left(str, len)</code></td>
+<td>返回 str 从左开始 <code>len</code> 个字符的字符串</td>
+</tr>
+<tr>
+<td><code>right(str, len)</code></td>
+<td>返回 str 从右开始 <code>len</code> 个字符的字符串</td>
+</tr>
+<tr>
+<td><code>substring(str, [from] pos, [[for] len])</code></td>
+<td>返回 str 从 <code>pos</code> 开始的len个字符的字符串</td>
+</tr>
+<tr>
+<td><code>substr()</code></td>
+<td>等价于  <code>substring()</code></td>
+</tr>
+<tr>
+<td><code>locate(substr, str[, pos])</code></td>
+<td>返回子串在 str 中第一次出现的位置，默认从 1 开始，没有则返回 0</td>
+</tr>
+<tr>
+<td><code>instr(str, substr)</code></td>
+<td>等价于 <code>locate(substr, str)</code></td>
+</tr>
+<tr>
+<td><code>insert(str, pos, len, newstr)</code></td>
+<td>将 str 从 <code>pos</code> 开始的 <code>len</code> 个字符替换为 <code>newstr</code></td>
+</tr>
+<tr>
+<td><code>replace(str, from_str, to_str)</code></td>
+<td>替换 str 的子串</td>
+</tr>
+<tr>
+<td><code>strcmp(expr1,expr2)</code></td>
+<td>比较两个字符串</td>
+</tr>
+<tr>
+<td><code>repeat(str, count)</code></td>
+<td>返回 str 重复 count 次组成的字符串</td>
+</tr>
+<tr>
+<td><code>isnull(expr)</code></td>
+<td>判断表达式是否为空</td>
+</tr>
+</tbody></table>
+<h2 id="4-4-日期函数"><a href="#4-4-日期函数" class="headerlink" title="4.4 日期函数"></a>4.4 日期函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>now()</code></td>
+<td>返回当前日期和时间 <code>yyyy-MM--dd HH:mm:ss</code></td>
+</tr>
+<tr>
+<td><code>curdate()</code></td>
+<td>返回当前日期 <code>yyyy-MM-dd</code></td>
+</tr>
+<tr>
+<td><code>curtime()</code></td>
+<td>返回当前时间 <code>HH:mm:ss</code></td>
+</tr>
+<tr>
+<td><code>date_format(date, format)</code></td>
+<td>日期格式化</td>
+</tr>
+<tr>
+<td><code>year(date)/month(date)/day(date)/hour(time)</code></td>
+<td>返回指定项</td>
+</tr>
+<tr>
+<td><code>extract(year/month/day from now())</code></td>
+<td>提取日期中的年月日…</td>
+</tr>
+<tr>
+<td><code>datediff(expr1, expr2)</code></td>
+<td>返回 <code>expr1 - expr2</code> 的日期差值</td>
+</tr>
+<tr>
+<td><code>dayofyear(date)</code></td>
+<td>返回指定日期是当年的第几天</td>
+</tr>
+<tr>
+<td><code>dayofmonth(date)</code></td>
+<td>返回指定日期是当月的第几天</td>
+</tr>
+<tr>
+<td><code>dayofweek(date)</code></td>
+<td>返回指定日期是当周的第几天（周日是第一天）</td>
+</tr>
+<tr>
+<td><code>date_add(date, INTERVAL expr unit)</code></td>
+<td>给日期加上指定值，unit 用来指定日期项，expr 为值</td>
+</tr>
+<tr>
+<td><code>date_sub(date, INTERVAL expr unit)</code></td>
+<td>给日期减去指定值</td>
+</tr>
+</tbody></table>
+<h2 id="4-4-JSON-函数"><a href="#4-4-JSON-函数" class="headerlink" title="4.4 JSON 函数"></a>4.4 JSON 函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>json_array([val[, val ...]])</code></td>
+<td>返回由参数组成json数组</td>
+</tr>
+<tr>
+<td><code>json_object([key, val[, key, val ...]])</code></td>
+<td>返回由参数组成的 json 对象，奇数参数是 key，偶数参数是 value</td>
+</tr>
+<tr>
+<td><code>json_pretty(json_val)</code></td>
+<td>漂亮的打印 json</td>
+</tr>
+<tr>
+<td><code>json_array_append(json_doc, path, val[, path, val ...])</code></td>
+<td>在 <code>json_doc</code> 指定位置上的值后追加值</td>
+</tr>
+<tr>
+<td><code>json_array_insert(json_doc, path, val[, path, val ...])</code></td>
+<td>向 json 数组指定位置插入值，返回新数组，不改变原有数组</td>
+</tr>
+<tr>
+<td><code>json_insert(json_doc, path, val[, path, val ...])</code></td>
+<td>向 json 对象添加新的键值对，返回新对象，不改变原对象</td>
+</tr>
+<tr>
+<td><code>json_set(json_doc, path, val[, path, val ...])</code></td>
+<td>替换 <code>json_doc</code> 指定位置现有的值，如果不存在则添加</td>
+</tr>
+<tr>
+<td><code>json_replace(json_doc, path, val[, path, val ...])</code></td>
+<td>仅替换现有的值</td>
+</tr>
+<tr>
+<td><code>json_remove(json_doc, path[, path...])</code></td>
+<td>删除 <code>json_doc</code> 指定位置的值</td>
+</tr>
+<tr>
+<td><code>json_extract(json_doc, path[, path...])</code></td>
+<td>获取 <code>json_doc</code> 指定位置的值</td>
+</tr>
+<tr>
+<td><code>json_contains_path(json_doc, one_or_all, path[, path...])</code></td>
+<td>判断是否包含指定路径（索引或者key）</td>
+</tr>
+<tr>
+<td><code>json_contains(target, candidate[, path])</code></td>
+<td>判断是否包含指定值</td>
+</tr>
+<tr>
+<td><code>json_length(json_doc[, path])</code></td>
+<td>返回 <code>json_doc</code> 的长度</td>
+</tr>
+</tbody></table>
+<h2 id="4-5-自定义函数"><a href="#4-5-自定义函数" class="headerlink" title="4.5 自定义函数"></a>4.5 自定义函数</h2><h3 id="1-语法"><a href="#1-语法" class="headerlink" title="1 语法"></a>1 语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CREATE</span><br><span class="line">	[DEFINER = user]</span><br><span class="line">	FUNCTION sp_name ([func_parameter[,...]])</span><br><span class="line">	RETURNS type</span><br><span class="line">	[characteristic ...] </span><br><span class="line">	routine_body</span><br><span class="line"></span><br><span class="line">func_parameter: </span><br><span class="line">	param_name type</span><br><span class="line">type:</span><br><span class="line">	Any valid MySQL data type</span><br><span class="line">characteristic:</span><br><span class="line">	  COMMENT &apos;string&apos;</span><br><span class="line">	| LANGUAGE SQL</span><br><span class="line">	| [NOT] DETERMINISTIC</span><br><span class="line">	| &#123; CONTAINS SQL | NO SQL | READS SQL DATA | MODIFIES SQL DATA &#125;</span><br><span class="line">	| SQL SECURITY &#123; DEFINER | INVOKER &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建"><a href="#2-创建" class="headerlink" title="2 创建"></a>2 创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DROP FUNCTION IF EXISTS 函数名;</span><br><span class="line">DELIMITER 结束标记</span><br><span class="line">CREATE FUNCTION 函数名 ([参数列表]) RETURNS 返回值类型</span><br><span class="line">BEGIN </span><br><span class="line">    函数体</span><br><span class="line">    RETURN 返回值;</span><br><span class="line">END 结束标记</span><br><span class="line">DELIMITER ; -- 将结束标记改回默认分号</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>形参<ul>
+<li><code>形参名 形参类型</code></li>
+</ul>
+</li>
+<li>返回值<ul>
+<li><code>{STRING | INTEGER | REAL | DECIMAL}</code></li>
+<li>必须有返回值且只有一个</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-查看"><a href="#3-查看" class="headerlink" title="3 查看"></a>3 查看</h3><ol>
+<li><code>show function status [like pattern]</code><ul>
+<li>查看所有函数</li>
+</ul>
+</li>
+<li><code>show create function 函数名</code><ul>
+<li>查看函数的创建语句</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-修改-删除-函数"><a href="#4-修改-删除-函数" class="headerlink" title="4 修改/删除 函数"></a>4 修改/删除 函数</h3><ol>
+<li>函数不能修改</li>
+<li>删除<ul>
+<li><code>drop function [if exists] 函数名</code></li>
+</ul>
+</li>
+</ol>
+<h1 id="五-流程控制语句"><a href="#五-流程控制语句" class="headerlink" title="五 流程控制语句"></a>五 流程控制语句</h1><h2 id="5-1-if"><a href="#5-1-if" class="headerlink" title="5.1 if"></a>5.1 if</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">If  条件判断  then</span><br><span class="line">	-- 满足条件要执行的代码;</span><br><span class="line">Else</span><br><span class="line">	-- 不满足条件要执行的代码;</span><br><span class="line">End if;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-while"><a href="#5-2-while" class="headerlink" title="5.2 while"></a>5.2 while</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">While 条件判断 do</span><br><span class="line">	-- 循环体</span><br><span class="line">End while;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-Iterate-amp-Leave"><a href="#5-3-Iterate-amp-Leave" class="headerlink" title="5.3 Iterate &amp; Leave"></a>5.3 Iterate &amp; Leave</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">循环名:While 条件判断 do</span><br><span class="line">	-- 循环体</span><br><span class="line">	itrate/leave 循环名;</span><br><span class="line">End while;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>Iterate</code> 类似 <code>continue</code></li>
+<li><code>Leave</code> 类似 <code>break</code></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/SQL/Mysql%E5%BA%93%E8%A1%A8%E5%88%97%E5%B1%9E%E6%80%A7/" rel="next" title="Mysql库表列属性">
+                  <i class="fa fa-chevron-left"></i> Mysql库表列属性
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/SQL/Mysql%E8%AF%AD%E5%8F%A5/" rel="prev" title="Mysql语句">
+                  Mysql语句 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-元数据"><span class="nav-text">一 元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-概述"><span class="nav-text">1.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-information-schema"><span class="nav-text">1.2 information_schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tables-表"><span class="nav-text">tables 表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-show"><span class="nav-text">1.3 show</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-运算符-和-语句"><span class="nav-text">二 运算符 和 语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-算术运算符"><span class="nav-text">2.1 算术运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-比较运算符"><span class="nav-text">2.2 比较运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-逻辑运算符"><span class="nav-text">2.3 逻辑运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-正则"><span class="nav-text">2.4 正则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-语句"><span class="nav-text">2.5 语句</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-变量"><span class="nav-text">三 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-分类"><span class="nav-text">3.1 分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-系统变量"><span class="nav-text">3.2 系统变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查看系统变量"><span class="nav-text">1 查看系统变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改系统变量"><span class="nav-text">2 修改系统变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-自定义变量"><span class="nav-text">3.3 自定义变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-全局变量"><span class="nav-text">2 全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-局部变量"><span class="nav-text">3 局部变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-函数"><span class="nav-text">四 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-信息函数"><span class="nav-text">4.1 信息函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-数学函数"><span class="nav-text">4.2 数学函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-字符串函数"><span class="nav-text">4.3 字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-日期函数"><span class="nav-text">4.4 日期函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-JSON-函数"><span class="nav-text">4.4 JSON 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-自定义函数"><span class="nav-text">4.5 自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-语法"><span class="nav-text">1 语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建"><span class="nav-text">2 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查看"><span class="nav-text">3 查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-修改-删除-函数"><span class="nav-text">4 修改/删除 函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-流程控制语句"><span class="nav-text">五 流程控制语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-if"><span class="nav-text">5.1 if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-while"><span class="nav-text">5.2 while</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Iterate-amp-Leave"><span class="nav-text">5.3 Iterate &amp; Leave</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

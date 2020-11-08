@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 BOM 概述 Browser Object Model 浏览器对象模型，提供了独立于内容而与浏览器窗口进行交互的对象 BOM 由浏览器厂商各自定义，兼容性较差 BOM 包含 DOM BOM 都有一个顶级对象，不同的环境顶级对象也不同，浏览器环境是 window  二 window2.1 概述 window 是浏览器的顶级对象，是 JS 访问浏览器窗口的一个接口 window 是一个全局对象，定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BOM">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;BOM&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 BOM 概述 Browser Object Model 浏览器对象模型，提供了独立于内容而与浏览器窗口进行交互的对象 BOM 由浏览器厂商各自定义，兼容性较差 BOM 包含 DOM BOM 都有一个顶级对象，不同的环境顶级对象也不同，浏览器环境是 window  二 window2.1 概述 window 是浏览器的顶级对象，是 JS 访问浏览器窗口的一个接口 window 是一个全局对象，定">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:10:39.806Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/BOM/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>BOM | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/BOM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          BOM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:09:25 / 修改时间：21:10:39" itemprop="dateCreated datePublished" datetime="2020-11-08T21:09:25+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-BOM-概述"><a href="#一-BOM-概述" class="headerlink" title="一 BOM 概述"></a>一 BOM 概述</h1><ol>
+<li><code>Browser Object Model</code> 浏览器对象模型，提供了独立于内容而与浏览器窗口进行交互的对象</li>
+<li>BOM 由浏览器厂商各自定义，兼容性较差</li>
+<li>BOM 包含 DOM</li>
+<li>BOM 都有一个顶级对象，不同的环境顶级对象也不同，浏览器环境是 <code>window</code></li>
+</ol>
+<h1 id="二-window"><a href="#二-window" class="headerlink" title="二 window"></a>二 window</h1><h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h2><ol>
+<li><code>window</code> 是浏览器的顶级对象，是 JS 访问浏览器窗口的一个接口</li>
+<li><code>window</code> 是一个全局对象，定义在全局作用域的变量、函数都会变成 <code>window</code> 对象的属性和方法</li>
+</ol>
+<h2 id="2-2-属性"><a href="#2-2-属性" class="headerlink" title="2.2 属性"></a>2.2 属性</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>窗口名</td>
+</tr>
+<tr>
+<td><code>innerWidth</code></td>
+<td>窗口可视宽度</td>
+</tr>
+<tr>
+<td><code>innerHeight</code></td>
+<td>窗口可视高度</td>
+</tr>
+<tr>
+<td><code>pageXOffset</code></td>
+<td>页面的水平滚动距离</td>
+</tr>
+<tr>
+<td><code>pageYOffset</code></td>
+<td>页面的垂直滚动距离</td>
+</tr>
+<tr>
+<td><code>document</code></td>
+<td>返回 Document 对象</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td>返回 Location 对象</td>
+</tr>
+<tr>
+<td><code>navigator</code></td>
+<td>返回 Navigator 对象</td>
+</tr>
+<tr>
+<td><code>history</code></td>
+<td>返回 History 对象</td>
+</tr>
+<tr>
+<td><code>console</code></td>
+<td>返回 Console 对象</td>
+</tr>
+<tr>
+<td><code>screen</code></td>
+<td>返回 Screen 对象</td>
+</tr>
+<tr>
+<td><code>localStorage</code></td>
+<td>本地储存的 <code>localStorage</code> 数据</td>
+</tr>
+<tr>
+<td><code>sessionStorage</code></td>
+<td>本地储存的 <code>sessionStorage</code> 数据</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-方法"><a href="#2-3-方法" class="headerlink" title="2.3 方法"></a>2.3 方法</h2><h3 id="1-弹窗"><a href="#1-弹窗" class="headerlink" title="1 弹窗"></a>1 弹窗</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>alert(message)</code></td>
+<td>提示框</td>
+</tr>
+<tr>
+<td><code>confirm(message)</code></td>
+<td>确认框</td>
+</tr>
+<tr>
+<td><code>prompt([message,] value)</code></td>
+<td>输入框</td>
+</tr>
+</tbody></table>
+<h3 id="2-定时器"><a href="#2-定时器" class="headerlink" title="2 定时器"></a>2 定时器</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>setTimeout(function [, time])</code></td>
+<td>指定时间后调用一次函数，<code>time</code>：毫秒值，默认为 <code>0</code> 即立即执行；通常会给定时器一个标识符，用于清除</td>
+</tr>
+<tr>
+<td><code>clearTimeout(定时器标识符)</code></td>
+<td>清除定时器</td>
+</tr>
+<tr>
+<td><code>setInterval(function [, time])</code></td>
+<td>每隔指定时间调用一此函数</td>
+</tr>
+<tr>
+<td><code>clearInterval(定时器标识符)</code></td>
+<td>清除定时器</td>
+</tr>
+</tbody></table>
+<h3 id="3-滚动"><a href="#3-滚动" class="headerlink" title="3 滚动"></a>3 滚动</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>scrollTo(x-coord, y-coord )</code></td>
+<td>滚动到指定位置</td>
+</tr>
+<tr>
+<td><code>scrollBy(x-coord, y-coord)</code></td>
+<td>滚动指定距离</td>
+</tr>
+</tbody></table>
+<h2 id="2-4-窗口-window-事件"><a href="#2-4-窗口-window-事件" class="headerlink" title="2.4 窗口 window 事件"></a>2.4 窗口 window 事件</h2><table>
+<thead>
+<tr>
+<th>事件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>beforeunload</code></td>
+<td>窗口关闭前</td>
+</tr>
+<tr>
+<td><code>unload</code></td>
+<td>窗口关闭</td>
+</tr>
+<tr>
+<td><code>load</code></td>
+<td>窗口加载完毕，包含 dom 元素，图片，flash，css …</td>
+</tr>
+<tr>
+<td><code>DOMContentLoaded</code></td>
+<td>DOM 加载完毕，不包含其它，事件源为 <code>document</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>窗口加载失败</td>
+</tr>
+<tr>
+<td><code>resize</code></td>
+<td>窗口大小改变</td>
+</tr>
+<tr>
+<td><code>scroll</code></td>
+<td>滚动条滚动</td>
+</tr>
+</tbody></table>
+<h1 id="三-Location"><a href="#三-Location" class="headerlink" title="三 Location"></a>三 Location</h1><h2 id="3-1-属性"><a href="#3-1-属性" class="headerlink" title="3.1 属性"></a>3.1 属性</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>权限</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>href</code></td>
+<td>读写</td>
+<td>URL，格式 <code>protocal://host[:port]/path/[?query] # fragment</code></td>
+</tr>
+<tr>
+<td><code>protocal</code></td>
+<td>读写</td>
+<td>协议</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>读写</td>
+<td>主机，如果端口不是默认 <code>80 433</code>，则包含端口</td>
+</tr>
+<tr>
+<td><code>hostname</code></td>
+<td>读写</td>
+<td>主机，不含端口</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>读写</td>
+<td>端口</td>
+</tr>
+<tr>
+<td><code>pathname</code></td>
+<td>读写</td>
+<td>资源路径</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>读写</td>
+<td>参数，<code>?key=value&amp;key=value</code></td>
+</tr>
+<tr>
+<td><code>hash</code></td>
+<td>读写</td>
+<td>片段，<code>#</code> 后面的内容，如链接 锚点</td>
+</tr>
+</tbody></table>
+<h2 id="3-2-方法"><a href="#3-2-方法" class="headerlink" title="3.2 方法"></a>3.2 方法</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>assign(url)</code></td>
+<td>重定向，记录浏览历史，可以回退，效果同 <code>href</code> 属性</td>
+</tr>
+<tr>
+<td><code>replace(url)</code></td>
+<td>重定向，不记录浏览历史，不能回退</td>
+</tr>
+<tr>
+<td><code>reload([flag])</code></td>
+<td>无参或 <code>false</code> 表示刷新 <code>F5</code>，<code>true</code> 表示强制刷新 <code>ctrl + F5</code></td>
+</tr>
+</tbody></table>
+<h1 id="四-Navigator"><a href="#四-Navigator" class="headerlink" title="四 Navigator"></a>四 Navigator</h1><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>权限</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>userAgent</code></td>
+<td>只读</td>
+<td>客户端发送给服务器的 <code>user-agent</code> 头部的值</td>
+</tr>
+</tbody></table>
+<h1 id="五-History"><a href="#五-History" class="headerlink" title="五 History"></a>五 History</h1><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>back()</code></td>
+<td>后退</td>
+</tr>
+<tr>
+<td><code>forward()</code></td>
+<td>前进</td>
+</tr>
+<tr>
+<td><code>go(n)</code></td>
+<td><code>0</code> 表示刷新，正数表示前进 n 个页面，负数表示后退 n 个页面</td>
+</tr>
+</tbody></table>
+<h1 id="六-本地存储（Storage）"><a href="#六-本地存储（Storage）" class="headerlink" title="六 本地存储（Storage）"></a>六 本地存储（Storage）</h1><h2 id="6-1-概述"><a href="#6-1-概述" class="headerlink" title="6.1 概述"></a>6.1 概述</h2><ol>
+<li>数据存储在用户浏览器中，只能存字符串，以键值对的形式存储</li>
+<li><code>Storage</code> 下有两个子接口 <code>localStorage</code> 和 <code>sessionStorage</code></li>
+</ol>
+<h2 id="6-2-属性"><a href="#6-2-属性" class="headerlink" title="6.2 属性"></a>6.2 属性</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>length</code></td>
+<td>保存的数据项个数</td>
+</tr>
+</tbody></table>
+<h2 id="6-3-方法"><a href="#6-3-方法" class="headerlink" title="6.3 方法"></a>6.3 方法</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>setItem(key, value)</code></td>
+<td>存储数据</td>
+</tr>
+<tr>
+<td><code>getItem(key)</code></td>
+<td>获取数据</td>
+</tr>
+<tr>
+<td><code>removeItem(key)</code></td>
+<td>移除数据</td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>清空</td>
+</tr>
+<tr>
+<td><code>key(index)</code></td>
+<td>返回指定索引的键，从 0 开始</td>
+</tr>
+</tbody></table>
+<h2 id="6-4-sessionStorage-amp-localStorage"><a href="#6-4-sessionStorage-amp-localStorage" class="headerlink" title="6.4 sessionStorage &amp; localStorage"></a>6.4 sessionStorage &amp; localStorage</h2><table>
+<thead>
+<tr>
+<th>对象</th>
+<th>生命周期</th>
+<th>数据共享</th>
+<th>容量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sessionStorage</code></td>
+<td>一次会话（窗口关闭结束）</td>
+<td>本页面</td>
+<td><code>≈ 5M</code></td>
+</tr>
+<tr>
+<td><code>localStorage</code></td>
+<td>长期</td>
+<td>本页面和其它页面</td>
+<td><code>≈ 20M</code></td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/Promise/" rel="next" title="Promise">
+                  <i class="fa fa-chevron-left"></i> Promise
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/DOM/" rel="prev" title="DOM">
+                  DOM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-BOM-概述"><span class="nav-text">一 BOM 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-window"><span class="nav-text">二 window</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-概述"><span class="nav-text">2.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-属性"><span class="nav-text">2.2 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-方法"><span class="nav-text">2.3 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-弹窗"><span class="nav-text">1 弹窗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-定时器"><span class="nav-text">2 定时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-滚动"><span class="nav-text">3 滚动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-窗口-window-事件"><span class="nav-text">2.4 窗口 window 事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-Location"><span class="nav-text">三 Location</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-属性"><span class="nav-text">3.1 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-方法"><span class="nav-text">3.2 方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四-Navigator"><span class="nav-text">四 Navigator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-History"><span class="nav-text">五 History</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-本地存储（Storage）"><span class="nav-text">六 本地存储（Storage）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-概述"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-属性"><span class="nav-text">6.2 属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-方法"><span class="nav-text">6.3 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-sessionStorage-amp-localStorage"><span class="nav-text">6.4 sessionStorage &amp; localStorage</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

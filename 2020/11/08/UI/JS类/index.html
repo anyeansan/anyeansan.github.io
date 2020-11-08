@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述 class 只是语法糖，为了让类的声明与继承更加简洁清晰，底层实现机制依然是原型继承，与其它语言的 class 不一样 class 其实就是函数，typeof 类 -&amp;gt; function class 内部代码始终以严格模式执行 class 不存在变量提升 class 中的属性名可以采用表达式[] class 中定义的属性都是实例属性，定义的方法都是原型方法且不可枚举  二 语法2.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS类">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;JS%E7%B1%BB&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述 class 只是语法糖，为了让类的声明与继承更加简洁清晰，底层实现机制依然是原型继承，与其它语言的 class 不一样 class 其实就是函数，typeof 类 -&amp;gt; function class 内部代码始终以严格模式执行 class 不存在变量提升 class 中的属性名可以采用表达式[] class 中定义的属性都是实例属性，定义的方法都是原型方法且不可枚举  二 语法2.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:11:03.140Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/JS%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>JS类 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/JS%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:09:01 / 修改时间：21:11:03" itemprop="dateCreated datePublished" datetime="2020-11-08T21:09:01+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li>class 只是语法糖，为了让类的声明与继承更加简洁清晰，底层实现机制依然是原型继承，与其它语言的 class 不一样</li>
+<li>class 其实就是函数，<code>typeof 类 -&gt; function</code></li>
+<li>class 内部代码始终以严格模式执行</li>
+<li>class 不存在变量提升</li>
+<li>class 中的属性名可以采用表达式<code>[]</code></li>
+<li>class 中定义的属性都是实例属性，定义的方法都是原型方法且不可枚举</li>
+</ol>
+<h1 id="二-语法"><a href="#二-语法" class="headerlink" title="二 语法"></a>二 语法</h1><h2 id="2-1-类"><a href="#2-1-类" class="headerlink" title="2.1 类"></a>2.1 类</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 类声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> 类名 </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 类表达式</span></span><br><span class="line"><span class="keyword">let</span> 类名= <span class="class"><span class="keyword">class</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 两种方式都不会提升</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-构造函数"><a href="#2-2-构造函数" class="headerlink" title="2.2 构造函数"></a>2.2 构造函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数语法</span></span><br><span class="line"><span class="keyword">constructor</span>(参数列表) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基类默认构造函数</span></span><br><span class="line"><span class="keyword">constructor</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 派生类默认构造函数</span></span><br><span class="line"><span class="keyword">constructor</span>(...args) &#123;</span><br><span class="line">	<span class="keyword">super</span>(...args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用类 <code>new</code> 一个对象时会自动调用构造函数</li>
+<li>如果省略，则会有默认构造函数</li>
+<li><code>constructor</code> 默认返回实例对象（即 <code>this</code>），可以改为返回另一个对象</li>
+<li>类的原型的 <code>constructor</code> 属性指向类本身：<code>类.prototype.constructor = 类</code></li>
+</ol>
+<h2 id="2-3-属性-amp-方法"><a href="#2-3-属性-amp-方法" class="headerlink" title="2.3 属性 &amp; 方法"></a>2.3 属性 &amp; 方法</h2><h3 id="1-实例属性"><a href="#1-实例属性" class="headerlink" title="1 实例属性"></a>1 实例属性</h3><ol>
+<li><p>使用<code>this.</code> 定义在<code>constructor</code>中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(age) &#123;</span><br><span class="line">		<span class="keyword">this</span>.age = age; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在类中直接定义的属性就是实例属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	age = <span class="number">18</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="2-原型方法"><a href="#2-原型方法" class="headerlink" title="2 原型方法"></a>2 原型方法</h3><ol>
+<li><p>在类的原型上定义方法，是可枚举的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User.prototype.show = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在类中直接定义的方法就是原型方法，且不可枚举（non-enumerable）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	show()&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="3-静态属性-方法"><a href="#3-静态属性-方法" class="headerlink" title="3 静态属性/方法"></a>3 静态属性/方法</h3><ol>
+<li><p>定义在类上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User.age = <span class="number">10</span>;</span><br><span class="line">User.show() = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在类中定义的属性/方法前加<code>static</code>关键字</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> age = <span class="number">10</span>;</span><br><span class="line">	<span class="comment">// 静态方法可以包含 this 关键字，this 指的是类本身，而不是实例对象 </span></span><br><span class="line">	<span class="keyword">static</span> show() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h3 id="4-私有属性-方法"><a href="#4-私有属性-方法" class="headerlink" title="4 私有属性 / 方法"></a>4 私有属性 / 方法</h3><h4 id="1-利用-Symbol"><a href="#1-利用-Symbol" class="headerlink" title="1 利用 Symbol"></a>1 利用 Symbol</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _name = <span class="built_in">Symbol</span>();</span><br><span class="line"><span class="keyword">const</span> _show = <span class="built_in">Symbol</span>();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>[_name] = name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [_show]()&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-利用集合"><a href="#2-利用集合" class="headerlink" title="2 利用集合"></a>2 利用集合</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _name = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"><span class="keyword">const</span> _show = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        _name.set(<span class="keyword">this</span>, name);</span><br><span class="line">        _show.set(<span class="keyword">this</span>, () =&gt; &#123;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-约定"><a href="#3-约定" class="headerlink" title="3 约定"></a>3 约定</h4><ol>
+<li><p>私有属性：在属性名前加 <code>#</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	#phone = '13800000000';   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>私有方法：以表达式形式定义方法并在方法前加<code>#</code> ，可以理解为就是定义私有属性，不过属性的值是一个函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class User &#123;</span><br><span class="line">	#say = function() &#123;&#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="5-受保护属性-方法"><a href="#5-受保护属性-方法" class="headerlink" title="5 受保护属性 / 方法"></a>5 受保护属性 / 方法</h3><ul>
+<li>在属性/方法名前加 <code>_</code>，这只是约定不是语法也不是规范</li>
+<li>可以通过 <code>symbol weakmap ...</code> 人为实现保护</li>
+</ul>
+<h2 id="2-4-访问器-getter-setter"><a href="#2-4-访问器-getter-setter" class="headerlink" title="2.4 访问器 getter/setter"></a>2.4 访问器 getter/setter</h2><ul>
+<li>类中同样可以使用访问器，且访问器也是定义在属性的属性描述符上</li>
+</ul>
+<h1 id="三-class-的继承"><a href="#三-class-的继承" class="headerlink" title="三 class 的继承"></a>三 class 的继承</h1><h2 id="3-1-extends"><a href="#3-1-extends" class="headerlink" title="3.1 extends"></a>3.1 extends</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>() &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span> <span class="keyword">extends</span> <span class="title">Fu</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="comment">// 子类构造函数第一行必须先调用父类构造函数</span></span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-super"><a href="#3-2-super" class="headerlink" title="3.2 super"></a>3.2 super</h2><h3 id="1-问题"><a href="#1-问题" class="headerlink" title="1 问题"></a>1 问题</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 子 父：在子类中调用父类方法</span></span><br><span class="line">子：<span class="keyword">this</span>.__proto__.__proto__</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 子 父 爷：在子类中调用父类方法，父类方法中又调用了父类的父类的方法</span></span><br><span class="line">子：<span class="keyword">this</span>.__proto__.__proto__</span><br><span class="line">父：<span class="keyword">this</span>.__proto__</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 父 爷：直接在父类中调用父类的父类的方法</span></span><br><span class="line">父：<span class="keyword">this</span>.__proto__.__proto__</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果只有双层继承，使用 <code>this</code>是可以的，如果有多重继承，同一个类中的代码不同情况是不一样的</li>
+</ul>
+<h3 id="2-用法"><a href="#2-用法" class="headerlink" title="2 用法"></a>2 用法</h3><h4 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li><p>super 只能在类或对象的方法中使用，而不能在函数中使用</p>
+</li>
+<li><p>使用super的时候，必须显式指定是作为函数、还是作为对象使用，否则会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误，无法看出是函数还是对象</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="2-调用父类构造"><a href="#2-调用父类构造" class="headerlink" title="2 调用父类构造"></a>2 调用父类构造</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 此时 super 代表父类的构造函数</span></span><br><span class="line"><span class="keyword">super</span>([<span class="built_in">arguments</span>]);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-调用父类方法"><a href="#3-调用父类方法" class="headerlink" title="3 调用父类方法"></a>3 调用父类方法</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 此时 super 代表父类原型对象，如果是静态方法则 super 代表父类本身</span></span><br><span class="line"><span class="keyword">super</span>.functionOnParent([<span class="built_in">arguments</span>]);</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-原生构造函数的继承"><a href="#3-3-原生构造函数的继承" class="headerlink" title="3.3 原生构造函数的继承"></a>3.3 原生构造函数的继承</h2><ol>
+<li>之前，这些内置的构造函数如<code>Object() Array() ...</code> 是无法继承的</li>
+<li>ES6 允许继承</li>
+</ol>
+<h2 id="3-4-mixin"><a href="#3-4-mixin" class="headerlink" title="3.4 mixin"></a>3.4 mixin</h2><ol>
+<li>创建一个 mixin 类，包含许多供其它类使用的方法</li>
+<li>将 mixin 类合并到要使用功能的类的原型上</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/JS%E5%8E%9F%E5%9E%8B/" rel="next" title="JS原型">
+                  <i class="fa fa-chevron-left"></i> JS原型
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/JS%E6%A8%A1%E5%9D%97/" rel="prev" title="JS模块">
+                  JS模块 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-语法"><span class="nav-text">二 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-类"><span class="nav-text">2.1 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-构造函数"><span class="nav-text">2.2 构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-属性-amp-方法"><span class="nav-text">2.3 属性 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-实例属性"><span class="nav-text">1 实例属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-原型方法"><span class="nav-text">2 原型方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-静态属性-方法"><span class="nav-text">3 静态属性/方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-私有属性-方法"><span class="nav-text">4 私有属性 / 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-利用-Symbol"><span class="nav-text">1 利用 Symbol</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-利用集合"><span class="nav-text">2 利用集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-约定"><span class="nav-text">3 约定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-受保护属性-方法"><span class="nav-text">5 受保护属性 / 方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-访问器-getter-setter"><span class="nav-text">2.4 访问器 getter/setter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-class-的继承"><span class="nav-text">三 class 的继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-extends"><span class="nav-text">3.1 extends</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-super"><span class="nav-text">3.2 super</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-问题"><span class="nav-text">1 问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-用法"><span class="nav-text">2 用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-调用父类构造"><span class="nav-text">2 调用父类构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-调用父类方法"><span class="nav-text">3 调用父类方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-原生构造函数的继承"><span class="nav-text">3.3 原生构造函数的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-mixin"><span class="nav-text">3.4 mixin</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

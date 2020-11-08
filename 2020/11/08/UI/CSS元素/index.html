@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 display1.1 语法12345[ &amp;lt;display-outside&amp;gt; || &amp;lt;display-inside&amp;gt; ]&amp;lt;display-listitem&amp;gt; | &amp;lt;display-internal&amp;gt; |&amp;lt;display-box&amp;gt; |&amp;lt;display-legacy&amp;gt;  1.2 属性说明1 &amp;lt;display-outside">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS元素">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;CSS%E5%85%83%E7%B4%A0&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 display1.1 语法12345[ &amp;lt;display-outside&amp;gt; || &amp;lt;display-inside&amp;gt; ]&amp;lt;display-listitem&amp;gt; | &amp;lt;display-internal&amp;gt; |&amp;lt;display-box&amp;gt; |&amp;lt;display-legacy&amp;gt;  1.2 属性说明1 &amp;lt;display-outside">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:06:28.851Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/CSS%E5%85%83%E7%B4%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CSS元素 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/CSS%E5%85%83%E7%B4%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS元素
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:01:51 / 修改时间：21:06:28" itemprop="dateCreated datePublished" datetime="2020-11-08T21:01:51+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-display"><a href="#一-display" class="headerlink" title="一 display"></a>一 display</h1><h2 id="1-1-语法"><a href="#1-1-语法" class="headerlink" title="1.1 语法"></a>1.1 语法</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[ &lt;display-outside&gt; || &lt;display-inside&gt; ]</span></span><br><span class="line">&lt;display-listitem&gt; | </span><br><span class="line">&lt;display-internal&gt; |</span><br><span class="line">&lt;display-box&gt; |</span><br><span class="line">&lt;<span class="selector-tag">display-legacy</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-2-属性说明"><a href="#1-2-属性说明" class="headerlink" title="1.2 属性说明"></a>1.2 属性说明</h2><h3 id="1-lt-display-outside-gt"><a href="#1-lt-display-outside-gt" class="headerlink" title="1 &lt;display-outside&gt;"></a>1 <code>&lt;display-outside&gt;</code></h3><ul>
+<li>决定了元素类型</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>block</code></td>
+<td>块级元素</td>
+</tr>
+<tr>
+<td><code>inline</code></td>
+<td>行内元素</td>
+</tr>
+</tbody></table>
+<h3 id="2-lt-display-inside-gt"><a href="#2-lt-display-inside-gt" class="headerlink" title="2 &lt;display-inside&gt;"></a>2 <code>&lt;display-inside&gt;</code></h3><ul>
+<li>决定了内部元素布局方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flow-root</code></td>
+<td>触发 BFC</td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td>表现如同 <code>&lt;table&gt;</code></td>
+</tr>
+<tr>
+<td><code>flex</code></td>
+<td>弹性布局</td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td>栅格布局</td>
+</tr>
+<tr>
+<td><code>flow</code></td>
+<td>了解</td>
+</tr>
+<tr>
+<td><code>ruby</code></td>
+<td>了解，可以加旁注标记，如中文的拼音</td>
+</tr>
+</tbody></table>
+<h3 id="3-lt-display-box-gt"><a href="#3-lt-display-box-gt" class="headerlink" title="3 &lt;display-box&gt;"></a>3 <code>&lt;display-box&gt;</code></h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>不显示，就好像不存在一样，不占空间</td>
+</tr>
+</tbody></table>
+<h3 id="4-lt-display-legacy-gt"><a href="#4-lt-display-legacy-gt" class="headerlink" title="4 &lt;display-legacy&gt;"></a>4 <code>&lt;display-legacy&gt;</code></h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>inline-block</code></td>
+<td>行内块</td>
+</tr>
+<tr>
+<td><code>inline-table</code></td>
+<td>行表格</td>
+</tr>
+<tr>
+<td><code>inline-flex</code></td>
+<td>行弹性</td>
+</tr>
+<tr>
+<td><code>inline-grid</code></td>
+<td>行栅格</td>
+</tr>
+</tbody></table>
+<h3 id="5-lt-display-listitem-gt"><a href="#5-lt-display-listitem-gt" class="headerlink" title="5 &lt;display-listitem&gt;"></a>5 <code>&lt;display-listitem&gt;</code></h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">display-outside</span>&gt;? &amp;&amp; <span class="selector-attr">[ flow | flow-root ]</span>? &amp;&amp; <span class="selector-tag">list-item</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>list-item</code></td>
+<td>表现如同 <code>&lt;li&gt;</code>，可以搭配 <code>list-style-type</code> 和 <code>list-style-position</code> 使用</td>
+</tr>
+</tbody></table>
+<h3 id="6-lt-display-internal-gt"><a href="#6-lt-display-internal-gt" class="headerlink" title="6 &lt;display-internal&gt;"></a>6 <code>&lt;display-internal&gt;</code></h3><ul>
+<li>内部属性值</li>
+<li>类似 table 和 ruby 等有复杂内部结构的布局模块，它们的子孙有不同的填充方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>table-header-group</code></td>
+<td>同 <code>&lt;thead&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-row-group</code></td>
+<td>同 <code>&lt;tbody&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-footer-group</code></td>
+<td>同 <code>&lt;tfoot&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-caption</code></td>
+<td>同 <code>&lt;caption&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-row</code></td>
+<td>同 <code>&lt;tr&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-cell</code></td>
+<td>同 <code>&lt;td&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-column-group</code></td>
+<td>同 <code>&lt;colgroup&gt;</code></td>
+</tr>
+<tr>
+<td><code>table-column</code></td>
+<td>同 <code>&lt;col&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-base</code></td>
+<td>同 <code>&lt;rb&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-text</code></td>
+<td>同 <code>&lt;rt&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-base-container</code></td>
+<td>同 <code>&lt;rbc&gt;</code></td>
+</tr>
+<tr>
+<td><code>ruby-text-container</code></td>
+<td>同 <code>&lt;rtc&gt;</code></td>
+</tr>
+</tbody></table>
+<h2 id="1-3-单值语法-amp-双值语法"><a href="#1-3-单值语法-amp-双值语法" class="headerlink" title="1.3 单值语法 &amp; 双值语法"></a>1.3 单值语法 &amp; 双值语法</h2><table>
+<thead>
+<tr>
+<th>single value</th>
+<th>two value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>block</code></td>
+<td><code>block flow</code></td>
+</tr>
+<tr>
+<td><code>flow-root</code></td>
+<td><code>block flow-root</code></td>
+</tr>
+<tr>
+<td><code>inline</code></td>
+<td><code>inline flow</code></td>
+</tr>
+<tr>
+<td><code>inline-block</code></td>
+<td><code>inline flow-root</code></td>
+</tr>
+<tr>
+<td><code>flex</code></td>
+<td><code>block flex</code></td>
+</tr>
+<tr>
+<td><code>inline-flex</code></td>
+<td><code>inline flex</code></td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td><code>block grid</code></td>
+</tr>
+<tr>
+<td><code>inline-grid</code></td>
+<td><code>inline grid</code></td>
+</tr>
+<tr>
+<td><code>table</code></td>
+<td><code>block table</code></td>
+</tr>
+<tr>
+<td><code>inline-table</code></td>
+<td><code>inline table</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>双值语法未广泛支持，但可以帮助理解单值语法时 <code>&lt;display-outside&gt;</code> 和 <code>&lt;display-inside&gt;</code> 的默认值</li>
+</ul>
+<h1 id="二-元素类型"><a href="#二-元素类型" class="headerlink" title="二 元素类型"></a>二 元素类型</h1><h2 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>单值</th>
+<th>双值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>块级元素</td>
+<td><code>block</code></td>
+<td><code>block flow</code></td>
+</tr>
+<tr>
+<td>行内元素</td>
+<td><code>inline</code></td>
+<td><code>inline flow</code></td>
+</tr>
+<tr>
+<td>内联块元素</td>
+<td><code>inline-block</code></td>
+<td><code>inline inline-block</code></td>
+</tr>
+</tbody></table>
+<h2 id="2-2-块级元素"><a href="#2-2-块级元素" class="headerlink" title="2.2 块级元素"></a>2.2 块级元素</h2><h3 id="1-特点"><a href="#1-特点" class="headerlink" title="1 特点"></a>1 特点</h3><ol>
+<li>独占一行，自上而下排列</li>
+<li>宽度、高度和内外边距可以直接设置<ol>
+<li>宽度：默认为父元素宽度的 <code>100%</code></li>
+<li>高度：默认为 <code>0</code>，高度与其内容高度一致</li>
+</ol>
+</li>
+<li>块级元素是一个容器或盒子，可以容纳行内元素或块级元素<ul>
+<li><code>p h1~6 dt</code> 等文字类块级元素内部不能放块级元素</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-默认块级元素"><a href="#2-默认块级元素" class="headerlink" title="2 默认块级元素"></a>2 默认块级元素</h3><table>
+<thead>
+<tr>
+<th>默认块级元素</th>
+<th>display</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;div&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;header&gt; &lt;main&gt; &lt;footer&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;article&gt; &lt;aside&gt; &lt;section&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;h1&gt;~&lt;h6&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;ul&gt; &lt;ol&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;li&gt;</code></td>
+<td>list-item</td>
+</tr>
+<tr>
+<td><code>&lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;hr&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;table&gt;</code></td>
+<td>table</td>
+</tr>
+<tr>
+<td><code>&lt;form&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;option&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;address&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;blockquote&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;pre&gt;</code></td>
+<td>block</td>
+</tr>
+<tr>
+<td><code>&lt;menu&gt;</code></td>
+<td>block</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-行内元素"><a href="#2-3-行内元素" class="headerlink" title="2.3 行内元素"></a>2.3 行内元素</h2><h3 id="1-特点-1"><a href="#1-特点-1" class="headerlink" title="1 特点"></a>1 特点</h3><ol>
+<li>包裹性：默认宽高就是它本身内容的宽高</li>
+<li>自适应性：在一行显示，从左至右排列，如果一行不足以容纳，会换行</li>
+<li>直接设置宽高无效</li>
+<li>只能容纳文本或行内元素<ul>
+<li><code>&lt;a&gt;</code> 中不能容纳 <code>&lt;a&gt;</code></li>
+<li><code>&lt;a&gt;</code> 中可以容纳块级元素</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-默认内联元素"><a href="#2-默认内联元素" class="headerlink" title="2 默认内联元素"></a>2 默认内联元素</h3><table>
+<thead>
+<tr>
+<th>默认内联元素</th>
+<th>display</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;span&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;a&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;strong&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;em&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;del&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;ins&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;br&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;label&gt;</code></td>
+<td>inline</td>
+</tr>
+</tbody></table>
+<h2 id="2-4-行内块元素"><a href="#2-4-行内块元素" class="headerlink" title="2.4 行内块元素"></a>2.4 行内块元素</h2><h3 id="1-特点-2"><a href="#1-特点-2" class="headerlink" title="1 特点"></a>1 特点</h3><ol>
+<li>包裹性：默认宽高就是它本身内容的宽高</li>
+<li>自适应性：在一行显示，从左至右排列（和其它行内或行内块元素之间会有空白缝隙），如果一行不足以容纳，会换行</li>
+<li>宽度、高度和内外边距可以直接设置</li>
+</ol>
+<h3 id="2-默认行内块元素"><a href="#2-默认行内块元素" class="headerlink" title="2 默认行内块元素"></a>2 默认行内块元素</h3><table>
+<thead>
+<tr>
+<th>默认行内块元素</th>
+<th>display</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;img&gt;</code></td>
+<td>inline</td>
+</tr>
+<tr>
+<td><code>&lt;input&gt;</code></td>
+<td>inline-block（<code>type=hidden</code> 时是 <code>none</code>）</td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;</code></td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td><code>&lt;select&gt;</code></td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td><code>&lt;textarea&gt;</code></td>
+<td>inline-block</td>
+</tr>
+<tr>
+<td><code>&lt;td&gt;</code></td>
+<td>table-cell</td>
+</tr>
+</tbody></table>
+<h1 id="三-非替换元素-amp-替换元素"><a href="#三-非替换元素-amp-替换元素" class="headerlink" title="三 非替换元素 &amp; 替换元素"></a>三 非替换元素 &amp; 替换元素</h1><h2 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h2><ul>
+<li>根据 “外在盒子” 把元素分为内联元素和块级元素</li>
+<li>根据是否具有可替换内容，把元素分为替换元素和非替换元素</li>
+</ul>
+<h2 id="3-2-非替换元素"><a href="#3-2-非替换元素" class="headerlink" title="3.2 非替换元素"></a>3.2 非替换元素</h2><ul>
+<li>如果元素的内容包含在文档中，则称之为非替换元素</li>
+<li>html 的大多数元素是不可替换元素，即其内容直接表现给浏览器<ul>
+<li>如 <code>&lt;p&gt;</code> 文档内容是什么，显示结果就是什么</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-替换元素"><a href="#3-3-替换元素" class="headerlink" title="3.3 替换元素"></a>3.3 替换元素</h2><h3 id="1-说明"><a href="#1-说明" class="headerlink" title="1 说明"></a>1 说明</h3><ul>
+<li>浏览器根据元素的标签和属性，来决定元素的具体显示内容（即content box内容可替换，对应的 CSS 属性是 content）<ul>
+<li>如 <code>&lt;img&gt; &lt;object&gt; &lt;video&gt; &lt;iframe&gt; &lt;textarea&gt; &lt;input&gt;</code></li>
+<li><code>&lt;img&gt;</code>，修改src属性就会改变显示结果</li>
+</ul>
+</li>
+<li>匿名可替换元素<ul>
+<li>通过 CSS content 属性来插入的对象 被称作 匿名可替换元素</li>
+</ul>
+</li>
+<li>所有的替换元素都是内联元素</li>
+</ul>
+<h3 id="2-替换元素的特性"><a href="#2-替换元素的特性" class="headerlink" title="2 替换元素的特性"></a>2 替换元素的特性</h3><h4 id="1-内容的外观不受页面上的-CSS-的影响"><a href="#1-内容的外观不受页面上的-CSS-的影响" class="headerlink" title="1 内容的外观不受页面上的 CSS 的影响"></a>1 内容的外观不受页面上的 CSS 的影响</h4><ul>
+<li>替换元素是一种外部对象，它们外观的渲染，是独立于 CSS 的</li>
+<li>样式表现在css作用域之外，如果要替换元素本身的外观，需要类似appearance的属性。或者是浏览器本身暴露的接口。但是直接<code>input[type=&#39;checkbox&#39;]{}</code>没办法改变内间距背景色等特性</li>
+</ul>
+<h4 id="2-有自己的尺寸"><a href="#2-有自己的尺寸" class="headerlink" title="2 有自己的尺寸"></a>2 有自己的尺寸</h4><ul>
+<li>在 Web 中，很多替换元素在没有明确尺寸设定的情况下，其默认的尺寸（不包括边框）是 300 像素×150 像素<ul>
+<li>如 <code>&lt;video&gt; &lt;iframe&gt; &lt;canvas&gt;</code></li>
+</ul>
+</li>
+<li>少部分替换元素为 0 像素，如<code>&lt;img&gt;</code></li>
+<li>表单元素的替换元素的尺寸则和浏览器有关，没有明显的规律</li>
+</ul>
+<h4 id="3-在很多-CSS-属性上有自己的一套表现规则"><a href="#3-在很多-CSS-属性上有自己的一套表现规则" class="headerlink" title="3 在很多 CSS 属性上有自己的一套表现规则"></a>3 在很多 CSS 属性上有自己的一套表现规则</h4><ul>
+<li>如 <code>vertical-align</code> 默认值的 baseline ，但对于替换元素，默认为元素的下边缘</li>
+</ul>
+<h3 id="3-替换元素的尺寸计算规则"><a href="#3-替换元素的尺寸计算规则" class="headerlink" title="3 替换元素的尺寸计算规则"></a>3 替换元素的尺寸计算规则</h3><h4 id="1-尺寸类型"><a href="#1-尺寸类型" class="headerlink" title="1 尺寸类型"></a>1 尺寸类型</h4><ol>
+<li>固有尺寸<ul>
+<li>指的是替换内容原本的尺寸</li>
+<li>如图片，视频都有自身的尺寸</li>
+</ul>
+</li>
+<li>HTML 尺寸<ul>
+<li>HTML 尺寸只能通过HTML 原生属性改变</li>
+<li>HTML 原生属性，如<code>&lt;img&gt;</code>的 width 和 height 属性、<code>&lt;input&gt;</code>的 size 属性、<code>&lt;textarea&gt;</code>的 cols 和 rows 属性等</li>
+</ul>
+</li>
+<li>CSS 尺寸<ul>
+<li>可以通过 CSS 的 width 和 height 或者 max-width/min-width 和max-height/min-height 设置的尺寸</li>
+<li>对应盒尺寸中的 content box</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-计算规则"><a href="#2-计算规则" class="headerlink" title="2 计算规则"></a>2 计算规则</h4><ol>
+<li>没有 CSS 尺寸和 HTML 尺寸，则使用固有尺寸作为最终的宽高</li>
+<li>没有 CSS 尺寸，则使用 HTML尺寸作为最终的宽高</li>
+<li>有 CSS 尺寸，则最终尺寸由 CSS 属性决定</li>
+<li>如果固有尺寸含有固有的宽高比，css尺寸和html尺寸如果只设置了宽高中的一个，则另一个值根据固有尺寸宽高比变化</li>
+<li>如果以上都不符合，则最终宽度表现为 300 像素，高度为 150 像素<ul>
+<li><code>&lt;img&gt;</code> 较为特殊<ul>
+<li>chrome下默认为0*0</li>
+<li>firefox下默认为0*22，且firfox下如果省略src属性，则<code>&lt;img&gt;</code>不是替换元素，而是一个普通的内联元素</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>内联替换元素和块级替换元素使用上面同一套尺寸计算规则<ul>
+<li>即内联替换元素块级化，计算规则不变</li>
+</ul>
+</li>
+<li>无法改变替换元素内容的固有尺寸<ul>
+<li>我们为<code>&lt;img&gt;</code>设置宽高，好像是覆盖了固有尺寸，其实改变的是content box的宽高，而<code>&lt;img&gt;</code>的content box替换内容默认适配方式是填充（fill）</li>
+<li>css3替换元素的替换内容的适配方式可以通过<code>object-fit</code> 属性修改</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E6%A0%B7%E5%BC%8F/" rel="next" title="CSS样式">
+                  <i class="fa fa-chevron-left"></i> CSS样式
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E5%86%85%E8%81%94%E7%9B%92%E6%A8%A1%E5%9E%8B/" rel="prev" title="CSS内联盒模型">
+                  CSS内联盒模型 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-display"><span class="nav-text">一 display</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-语法"><span class="nav-text">1.1 语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-属性说明"><span class="nav-text">1.2 属性说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-lt-display-outside-gt"><span class="nav-text">1 &lt;display-outside&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-lt-display-inside-gt"><span class="nav-text">2 &lt;display-inside&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-lt-display-box-gt"><span class="nav-text">3 &lt;display-box&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-lt-display-legacy-gt"><span class="nav-text">4 &lt;display-legacy&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-lt-display-listitem-gt"><span class="nav-text">5 &lt;display-listitem&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-lt-display-internal-gt"><span class="nav-text">6 &lt;display-internal&gt;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-单值语法-amp-双值语法"><span class="nav-text">1.3 单值语法 &amp; 双值语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-元素类型"><span class="nav-text">二 元素类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-概述"><span class="nav-text">2.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-块级元素"><span class="nav-text">2.2 块级元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-特点"><span class="nav-text">1 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-默认块级元素"><span class="nav-text">2 默认块级元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-行内元素"><span class="nav-text">2.3 行内元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-特点-1"><span class="nav-text">1 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-默认内联元素"><span class="nav-text">2 默认内联元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-行内块元素"><span class="nav-text">2.4 行内块元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-特点-2"><span class="nav-text">1 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-默认行内块元素"><span class="nav-text">2 默认行内块元素</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-非替换元素-amp-替换元素"><span class="nav-text">三 非替换元素 &amp; 替换元素</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-概述"><span class="nav-text">3.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-非替换元素"><span class="nav-text">3.2 非替换元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-替换元素"><span class="nav-text">3.3 替换元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-说明"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-替换元素的特性"><span class="nav-text">2 替换元素的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-内容的外观不受页面上的-CSS-的影响"><span class="nav-text">1 内容的外观不受页面上的 CSS 的影响</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-有自己的尺寸"><span class="nav-text">2 有自己的尺寸</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-在很多-CSS-属性上有自己的一套表现规则"><span class="nav-text">3 在很多 CSS 属性上有自己的一套表现规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-替换元素的尺寸计算规则"><span class="nav-text">3 替换元素的尺寸计算规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-尺寸类型"><span class="nav-text">1 尺寸类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-计算规则"><span class="nav-text">2 计算规则</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

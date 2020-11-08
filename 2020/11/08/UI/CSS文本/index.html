@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 字体1.1 @font face1 作用 自定义字体或字体集 它允许网页开发者为其网页指定在线字体，可以消除对用户电脑字体的依赖  2 语法1234567891011@font-face &amp;#123;	[ font-family: &amp;lt;family-name&amp;gt;; ] ||	[ src: &amp;lt;src&amp;gt;; ] ||	[ unicode-range: &amp;lt;unicode-ra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS文本">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;UI&#x2F;CSS%E6%96%87%E6%9C%AC&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 字体1.1 @font face1 作用 自定义字体或字体集 它允许网页开发者为其网页指定在线字体，可以消除对用户电脑字体的依赖  2 语法1234567891011@font-face &amp;#123;	[ font-family: &amp;lt;family-name&amp;gt;; ] ||	[ src: &amp;lt;src&amp;gt;; ] ||	[ unicode-range: &amp;lt;unicode-ra">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-11-08T13:05:40.388Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/UI/CSS%E6%96%87%E6%9C%AC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>CSS文本 | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/UI/CSS%E6%96%87%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS文本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 21:01:39 / 修改时间：21:05:40" itemprop="dateCreated datePublished" datetime="2020-11-08T21:01:39+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-字体"><a href="#一-字体" class="headerlink" title="一 字体"></a>一 字体</h1><h2 id="1-1-font-face"><a href="#1-1-font-face" class="headerlink" title="1.1 @font face"></a>1.1 <code>@font face</code></h2><h3 id="1-作用"><a href="#1-作用" class="headerlink" title="1 作用"></a>1 作用</h3><ol>
+<li>自定义字体或字体集</li>
+<li>它允许网页开发者为其网页指定在线字体，可以消除对用户电脑字体的依赖</li>
+</ol>
+<h3 id="2-语法"><a href="#2-语法" class="headerlink" title="2 语法"></a>2 语法</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">	[ font-family: &lt;family-name&gt;; ] ||</span><br><span class="line">	[ src: &lt;src&gt;; ] ||</span><br><span class="line">	[ unicode-range: &lt;unicode-range&gt;; ] ||</span><br><span class="line">	[ font-variant: &lt;font-variant&gt;; ] ||</span><br><span class="line">	[ font-feature-settings: &lt;font-feature-settings&gt;; ] ||</span><br><span class="line">	[ font-variation-settings: &lt;font-variation-settings&gt;; ] ||</span><br><span class="line">	[ font-stretch: &lt;font-stretch&gt;; ] ||</span><br><span class="line">	[ font-weight: &lt;font-weight&gt;; ] ||</span><br><span class="line">	<span class="selector-attr">[ font-style: &lt;font-style&gt;; ]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>font-family</code></td>
+<td>自定义字体的名称，特殊符号必须使用引号</td>
+</tr>
+<tr>
+<td><code>src</code></td>
+<td>指定在线字体或本地字体，<code>fromat(&#39;woff2&#39;)</code> 转换字体格式，用于浏览器识别</td>
+</tr>
+<tr>
+<td><code>unicode-range</code></td>
+<td>可以让特定的字符或者字符片段使用特定的字体</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>字体格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TrueType（.ttf）</code></td>
+<td>Windows和Mac上常见的字体格式，是一种原始格式，因此它并没有为网页进行优化处理</td>
+</tr>
+<tr>
+<td><code>OpenType（.otf）</code></td>
+<td>以TrueType为基础，也是一种原始格式，但提供更多的功能</td>
+</tr>
+<tr>
+<td><code>Web Open Font（.woff）</code></td>
+<td>针对网页进行特殊优化，因此是Web字体中最佳格式</td>
+</tr>
+<tr>
+<td><code>SVG（.svg）</code></td>
+<td>基于SVG字体渲染的格式</td>
+</tr>
+<tr>
+<td><code>Embedded Open Type（.eot）</code></td>
+<td>IE专用字体格式，可以从TrueType格式创建此格式字体</td>
+</tr>
+</tbody></table>
+<h2 id="1-2-font"><a href="#1-2-font" class="headerlink" title="1.2 font"></a>1.2 <code>font</code></h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[ font-style || font-variant || font-weight || font-stretch ]</span>? </span><br><span class="line"><span class="selector-tag">font-size</span> <span class="selector-attr">[ / line-height ]</span>? </span><br><span class="line"><span class="selector-tag">font-family</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-font-size"><a href="#1-font-size" class="headerlink" title="1 font-size"></a>1 font-size</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>关键字</code></td>
+<td><code>xx-small, x-small, small, medium, large, x-large, xx-large, xxx-large, larger, smaller</code></td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度，如 <code>px em ex rem</code></td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>相对父元素字体大小的百分比</td>
+</tr>
+</tbody></table>
+<h3 id="2-line-height"><a href="#2-line-height" class="headerlink" title="2 line-height"></a>2 line-height</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>与 <code>font-family</code> 有关，不同浏览器和系统字体不同，默认值就不同，所以通常需要重新设置</td>
+</tr>
+<tr>
+<td><code>&lt;number&gt;</code></td>
+<td>推荐，字体大小的倍数。</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度值（如 <code>px，em</code>）</td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>字体大小的百分比</td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>line-height:1.5</code>、<code>line-height:150%</code> 和 <code>line-height:1.5em</code> <ol>
+<li>计算方式相同： <code>line-height = font-size * 1.5</code></li>
+<li>继承时数值继承的是数值本身，长度和百分比继承的是计算结果，即对于子元素<ol>
+<li>数值：<code>line-height = 子元素font-size * 1.5</code></li>
+<li>长度和百分比：<code>line-height = 父元素font-size * 1.5</code></li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-font-family"><a href="#3-font-family" class="headerlink" title="3 font-family"></a>3 font-family</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;family-name&gt;</code></td>
+<td>字体名称，多个用逗号隔开</td>
+</tr>
+<tr>
+<td><code>&lt;generic-name&gt;</code></td>
+<td>字体系列名称</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>通用字体系列</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>monospace</code></td>
+<td>等宽字体，即字体中每个字宽度相同</td>
+</tr>
+<tr>
+<td><code>sans-serif</code></td>
+<td>无衬线字体，即笔画结尾是平滑的字体</td>
+</tr>
+<tr>
+<td><code>serif</code></td>
+<td>带衬线字体，笔画结尾有特殊的装饰线或衬线</td>
+</tr>
+<tr>
+<td><code>cursive</code></td>
+<td>草书字体</td>
+</tr>
+<tr>
+<td><code>fantasy</code></td>
+<td>艺术字体</td>
+</tr>
+</tbody></table>
+<h3 id="4-font-style"><a href="#4-font-style" class="headerlink" title="4 font-style"></a>4 font-style</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>常规</td>
+</tr>
+<tr>
+<td><code>italic</code></td>
+<td>斜体</td>
+</tr>
+<tr>
+<td><code>oblique &lt;angle&gt;?</code></td>
+<td>倾斜体 可以附加角度</td>
+</tr>
+</tbody></table>
+<h3 id="5-font-weight"><a href="#5-font-weight" class="headerlink" title="5 font-weight"></a>5 font-weight</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>常规，相当于 <code>400</code></td>
+</tr>
+<tr>
+<td><code>bold</code></td>
+<td>加粗，相当于 <code>700</code></td>
+</tr>
+<tr>
+<td><code>lighter</code></td>
+<td>较细</td>
+</tr>
+<tr>
+<td><code>bolder</code></td>
+<td>较粗</td>
+</tr>
+<tr>
+<td><code>&lt;number&gt;</code></td>
+<td>介于 1 和 1000 (包含) 之间</td>
+</tr>
+</tbody></table>
+<h3 id="6-font-variant-amp-font-stretch"><a href="#6-font-variant-amp-font-stretch" class="headerlink" title="6 font-variant &amp; font-stretch"></a>6 font-variant &amp; font-stretch</h3><ul>
+<li>更像是专为英文设计的，默认即可</li>
+</ul>
+<h2 id="1-3-Unicode-字体"><a href="#1-3-Unicode-字体" class="headerlink" title="1.3 Unicode 字体"></a>1.3 Unicode 字体</h2><table>
+<thead>
+<tr>
+<th>字体名称</th>
+<th>英文名称</th>
+<th>Unicode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>宋体</td>
+<td>SimSun</td>
+<td>\5B8B\4F53</td>
+</tr>
+<tr>
+<td>微软雅黑</td>
+<td>Microsoft YaHei</td>
+<td>\5FAE\8F6F\96C5\9ED1</td>
+</tr>
+<tr>
+<td>新宋体</td>
+<td>NSimSun</td>
+<td>\65B0\5B8B\4F53</td>
+</tr>
+<tr>
+<td>黑体</td>
+<td>SimHei</td>
+<td>\9ED1\4F53</td>
+</tr>
+<tr>
+<td>楷体_GB2312</td>
+<td>KaiTi_GB2312</td>
+<td>\6977\4F53_GB2312</td>
+</tr>
+<tr>
+<td>隶书</td>
+<td>LiSu</td>
+<td>\96B6\4E66</td>
+</tr>
+<tr>
+<td>幼园</td>
+<td>YouYuan</td>
+<td>\5E7C\5706</td>
+</tr>
+<tr>
+<td>华文细黑</td>
+<td>STXihei</td>
+<td>\534E\6587\7EC6\9ED1</td>
+</tr>
+<tr>
+<td>细明体</td>
+<td>MingLiU</td>
+<td>\7EC6\660E\4F53</td>
+</tr>
+<tr>
+<td>新细明体</td>
+<td>PMingLiU</td>
+<td>\65B0\7EC6\660E\4F53</td>
+</tr>
+</tbody></table>
+<h2 id="1-4-color（字体颜色）"><a href="#1-4-color（字体颜色）" class="headerlink" title="1.4 color（字体颜色）"></a>1.4 color（字体颜色）</h2><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>关键字</code></td>
+<td><code>black red green blue ...</code></td>
+</tr>
+<tr>
+<td><code>十六进制</code></td>
+<td><code>#000 # FFF # 66CCFF ...</code></td>
+</tr>
+<tr>
+<td><code>RGB</code></td>
+<td><code>rgb(r, g, b [, a])</code>，<code>a</code> 透明度（0~1）</td>
+</tr>
+<tr>
+<td><code>HSL</code></td>
+<td><code>hsl(h, s, l [,a]</code></td>
+</tr>
+<tr>
+<td><code>transparent</code></td>
+<td>透明，可以近似认为是 <code>rgba(0,0,0,0)</code>的缩写</td>
+</tr>
+</tbody></table>
+<h1 id="二-文本排版"><a href="#二-文本排版" class="headerlink" title="二 文本排版"></a>二 文本排版</h1><h2 id="2-1-text-indent"><a href="#2-1-text-indent" class="headerlink" title="2.1 text-indent"></a>2.1 text-indent</h2><ul>
+<li>首行缩进量</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度值 <code>px em ...</code>，允许为负</td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>使用包含块宽度的百分比作为缩进</td>
+</tr>
+</tbody></table>
+<h2 id="2-2-text-align"><a href="#2-2-text-align" class="headerlink" title="2.2 text-align"></a>2.2 text-align</h2><ul>
+<li>定义 <strong>文字、行内元素（inline，inline-block）</strong> 相对它的包围块元素水平对齐方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>left</code></td>
+<td>左对齐</td>
+</tr>
+<tr>
+<td><code>right</code></td>
+<td>右对齐</td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>居中对齐</td>
+</tr>
+<tr>
+<td><code>justify</code></td>
+<td>两端对齐，对最后一行无效</td>
+</tr>
+</tbody></table>
+<h2 id="2-3-vertical-align"><a href="#2-3-vertical-align" class="headerlink" title="2.3 vertical-align"></a>2.3 vertical-align</h2><ul>
+<li>定义 <strong>文字、行内元素（inline，inline-block，inline-table，table-cell）</strong>的垂直对齐方式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>baseline</code>（默认）</td>
+<td>相对于父元素基线对齐</td>
+</tr>
+<tr>
+<td><code>middle</code></td>
+<td>相对于与父元素中部对齐，<code>中部 = 基线 + x-heifht/2</code></td>
+</tr>
+<tr>
+<td><code>top</code></td>
+<td>相对于整行的顶部对齐</td>
+</tr>
+<tr>
+<td><code>bottom</code></td>
+<td>相对于整行底部对齐</td>
+</tr>
+</tbody></table>
+<h2 id="2-4-text-overflow"><a href="#2-4-text-overflow" class="headerlink" title="2.4 text-overflow"></a>2.4 text-overflow</h2><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>clip</code>（默认）</td>
+<td>将溢出的文本裁减掉</td>
+</tr>
+<tr>
+<td><code>ellipsis</code></td>
+<td>将溢出的文本用省略号 <code>...</code> 来表示</td>
+</tr>
+</tbody></table>
+<h2 id="2-5-overflow-wrap"><a href="#2-5-overflow-wrap" class="headerlink" title="2.5 overflow-wrap"></a>2.5 overflow-wrap</h2><ul>
+<li>原 <code>word-wrap</code>，指定一个不可分割的字符串过长，超过容器盒的宽时应该如何处理</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th><code>CJK</code>（中日韩）</th>
+<th><code>non-CJK</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>单个字符之间换行</td>
+<td>在正常的单词结束处换行，保留完整性，可能会溢出容器）</td>
+</tr>
+<tr>
+<td><code>break-word</code></td>
+<td>单个字符之间换行</td>
+<td>内容将在边界内换行。如果需要，单词内部允许断行</td>
+</tr>
+</tbody></table>
+<h2 id="2-6-white-space"><a href="#2-6-white-space" class="headerlink" title="2.6 white-space"></a>2.6 white-space</h2><ul>
+<li>设置如何处理空白（空格 <code>space</code>，制表符 <code>tab</code>，换行符 <code>enter</code>）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>空白</th>
+<th>换行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>空格、制表符、换行符合并成一个空格</td>
+<td>文本自动换行</td>
+</tr>
+<tr>
+<td><code>nowrap</code></td>
+<td>空格、制表符、换行符合并成一个空格</td>
+<td>文本不换行，即强制一行显示</td>
+</tr>
+<tr>
+<td><code>pre</code></td>
+<td>所有东西原样输出</td>
+<td>文本不换行</td>
+</tr>
+<tr>
+<td><code>pre-wrap</code></td>
+<td>所有东西原样输出</td>
+<td>文本换行</td>
+</tr>
+<tr>
+<td><code>pre-line</code></td>
+<td>空格、制表符合并成一个空格，换行符不变</td>
+<td>文本换行</td>
+</tr>
+<tr>
+<td><code>break-spaces</code></td>
+<td>同<code>pre-wrap</code>，但有一些区别</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="2-7-word-break"><a href="#2-7-word-break" class="headerlink" title="2.7 word-break"></a>2.7 word-break</h2><ul>
+<li>控制单词如何被拆分</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th><code>CJK</code>（中日韩）</th>
+<th><code>non-CJK</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>可在任意 2 个字符间断行</td>
+<td>只能再空白符处断行</td>
+</tr>
+<tr>
+<td><code>keep-all</code></td>
+<td>只能在空白符处断行</td>
+<td>只能在空白符处断行</td>
+</tr>
+<tr>
+<td><code>break-all</code></td>
+<td>可在任意位置断行</td>
+<td>可在任意位置断行</td>
+</tr>
+</tbody></table>
+<h2 id="2-8-word-spacing"><a href="#2-8-word-spacing" class="headerlink" title="2.8 word-spacing"></a>2.8 word-spacing</h2><ul>
+<li>设置单词之间的距离，中文无效</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>常规</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度 <code>px em ...</code></td>
+</tr>
+<tr>
+<td><code>&lt;percentage&gt;</code></td>
+<td>百分比</td>
+</tr>
+</tbody></table>
+<h2 id="2-9-letter-spacing"><a href="#2-9-letter-spacing" class="headerlink" title="2.9 letter-spacing"></a>2.9 letter-spacing</h2><ul>
+<li>设置字符之间的距离，中文有效</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>normal</code>（默认）</td>
+<td>常规</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>长度 <code>px em ...</code></td>
+</tr>
+</tbody></table>
+<h1 id="三-文本装饰"><a href="#三-文本装饰" class="headerlink" title="三 文本装饰"></a>三 文本装饰</h1><h2 id="3-1-text-decoration"><a href="#3-1-text-decoration" class="headerlink" title="3.1 text-decoration"></a>3.1 text-decoration</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">text-decoration-line ||</span><br><span class="line">text-decoration-style ||</span><br><span class="line">text-decoration-color ||</span><br><span class="line"><span class="selector-tag">text-decoration-thickness</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-text-decoration-line"><a href="#1-text-decoration-line" class="headerlink" title="1 text-decoration-line"></a>1 text-decoration-line</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code>（默认）</td>
+<td>无线</td>
+</tr>
+<tr>
+<td><code>underline</code></td>
+<td>下划线</td>
+</tr>
+<tr>
+<td><code>overline</code></td>
+<td>上划线</td>
+</tr>
+<tr>
+<td><code>line-through</code></td>
+<td>删除线</td>
+</tr>
+</tbody></table>
+<h3 id="2-text-decoration-style"><a href="#2-text-decoration-style" class="headerlink" title="2 text-decoration-style"></a>2 text-decoration-style</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>solid</code>（默认）</td>
+<td>单实线</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双实线</td>
+</tr>
+<tr>
+<td><code>dotted</code></td>
+<td>点划线</td>
+</tr>
+<tr>
+<td><code>dashed</code></td>
+<td>虚线</td>
+</tr>
+<tr>
+<td><code>wavy</code></td>
+<td>波浪线</td>
+</tr>
+</tbody></table>
+<h3 id="3-text-decoration-color"><a href="#3-text-decoration-color" class="headerlink" title="3 text-decoration-color"></a>3 text-decoration-color</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;color&gt;</code></td>
+<td>设置装饰线的颜色</td>
+</tr>
+</tbody></table>
+<h3 id="4-text-decoration-thickness"><a href="#4-text-decoration-thickness" class="headerlink" title="4 text-decoration-thickness"></a>4 text-decoration-thickness</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>auto</code></td>
+<td>浏览器为文本装饰线选择合适的宽度</td>
+</tr>
+<tr>
+<td><code>from-font</code></td>
+<td>如果字体文件中包含了首选的宽度值，则使用此字体文件的宽度值，否则同auto</td>
+</tr>
+<tr>
+<td><code>&lt;length&gt;</code></td>
+<td>指定装饰线宽度 <code>px em ...</code></td>
+</tr>
+</tbody></table>
+<h2 id="3-2-text-transform"><a href="#3-2-text-transform" class="headerlink" title="3.2 text-transform"></a>3.2 text-transform</h2><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code>（默认）</td>
+<td>无影响</td>
+</tr>
+<tr>
+<td><code>capitalize</code></td>
+<td>每个单词首字母大写</td>
+</tr>
+<tr>
+<td><code>uppercase</code></td>
+<td>所有字母大写</td>
+</tr>
+<tr>
+<td><code>lowercase</code></td>
+<td>所有字母小写</td>
+</tr>
+</tbody></table>
+<h2 id="3-3-text-shadow"><a href="#3-3-text-shadow" class="headerlink" title="3.3 text-shadow"></a>3.3 text-shadow</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[&lt;length&gt; &lt;length&gt;]   // 元素在 X 和 Y 方向的偏移量（必须）</span><br><span class="line">&lt;length&gt;? ||		// 模糊半径（可选）</span><br><span class="line">color?		// 阴影颜色（可选）</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E9%80%89%E6%8B%A9%E5%99%A8/" rel="next" title="CSS选择器">
+                  <i class="fa fa-chevron-left"></i> CSS选择器
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/UI/CSS%E6%A0%B7%E5%BC%8F/" rel="prev" title="CSS样式">
+                  CSS样式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-字体"><span class="nav-text">一 字体</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-font-face"><span class="nav-text">1.1 @font face</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-作用"><span class="nav-text">1 作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-语法"><span class="nav-text">2 语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-font"><span class="nav-text">1.2 font</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-font-size"><span class="nav-text">1 font-size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-line-height"><span class="nav-text">2 line-height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-font-family"><span class="nav-text">3 font-family</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-font-style"><span class="nav-text">4 font-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-font-weight"><span class="nav-text">5 font-weight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-font-variant-amp-font-stretch"><span class="nav-text">6 font-variant &amp; font-stretch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Unicode-字体"><span class="nav-text">1.3 Unicode 字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-color（字体颜色）"><span class="nav-text">1.4 color（字体颜色）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-文本排版"><span class="nav-text">二 文本排版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-text-indent"><span class="nav-text">2.1 text-indent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-text-align"><span class="nav-text">2.2 text-align</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-vertical-align"><span class="nav-text">2.3 vertical-align</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-text-overflow"><span class="nav-text">2.4 text-overflow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-overflow-wrap"><span class="nav-text">2.5 overflow-wrap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-white-space"><span class="nav-text">2.6 white-space</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-word-break"><span class="nav-text">2.7 word-break</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-word-spacing"><span class="nav-text">2.8 word-spacing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-9-letter-spacing"><span class="nav-text">2.9 letter-spacing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-文本装饰"><span class="nav-text">三 文本装饰</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-text-decoration"><span class="nav-text">3.1 text-decoration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-text-decoration-line"><span class="nav-text">1 text-decoration-line</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-text-decoration-style"><span class="nav-text">2 text-decoration-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-text-decoration-color"><span class="nav-text">3 text-decoration-color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-text-decoration-thickness"><span class="nav-text">4 text-decoration-thickness</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-text-transform"><span class="nav-text">3.2 text-transform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-text-shadow"><span class="nav-text">3.3 text-shadow</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

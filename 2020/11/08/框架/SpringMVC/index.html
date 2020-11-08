@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/anyeansan.github.io/images/an-apple-180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/anyeansan.github.io/images/an-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/anyeansan.github.io/images/an-16.png">
+  <link rel="mask-icon" href="/anyeansan.github.io/images/an.svg" color="#222">
+  <link rel="alternate" href="/anyeansan.github.io/atom.xml" title="安₃" type="application/atom+xml">
+
+<link rel="stylesheet" href="/anyeansan.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/anyeansan.github.io/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/anyeansan.github.io/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="一 概述 轻量级的控制层 MVC 框架 与 Spring 无缝结合，功能强大：RESTful，数据验证，格式化，本地化，主题…  二 执行流程  客户端发送请求，DispatcherServlet 捕获请求 DispatcherServlet  根据请求从映射器获取 Handler 以及 Handler 对应的拦截器，以 HandlerExcutionChain 的形式返回 映射器中存储了控制器及">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC">
+<meta property="og:url" content="https:&#x2F;&#x2F;anyeansan.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;%E6%A1%86%E6%9E%B6&#x2F;SpringMVC&#x2F;">
+<meta property="og:site_name" content="安₃">
+<meta property="og:description" content="一 概述 轻量级的控制层 MVC 框架 与 Spring 无缝结合，功能强大：RESTful，数据验证，格式化，本地化，主题…  二 执行流程  客户端发送请求，DispatcherServlet 捕获请求 DispatcherServlet  根据请求从映射器获取 Handler 以及 Handler 对应的拦截器，以 HandlerExcutionChain 的形式返回 映射器中存储了控制器及">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Frame&#x2F;SpringMVC&#x2F;SpringMVC%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Frame&#x2F;SpringMVC&#x2F;Model%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+<meta property="og:updated_time" content="2020-11-08T12:57:16.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;github.com&#x2F;anyeansan&#x2F;pics&#x2F;raw&#x2F;master&#x2F;CS&#x2F;Frame&#x2F;SpringMVC&#x2F;SpringMVC%E6%B5%81%E7%A8%8B.png">
+
+<link rel="canonical" href="https://anyeansan.github.io/2020/11/08/%E6%A1%86%E6%9E%B6/SpringMVC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>SpringMVC | 安₃</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/anyeansan.github.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安₃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">我未成名君未嫁 可能俱是不如人</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/anyeansan.github.io/" rel="section"><i class="fa fa-fw fa-home"></i>安府</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/anyeansan.github.io/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>琅嬛福地</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/anyeansan.github.io/categories/" rel="section"><i class="fa fa-fw fa-th"></i>门派</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/anyeansan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://anyeansan.github.io/anyeansan.github.io/2020/11/08/%E6%A1%86%E6%9E%B6/SpringMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/anyeansan.github.io/images/an3.png">
+      <meta itemprop="name" content="安₃">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安₃">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringMVC
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">✦</span>
+              
+
+              <time title="创建时间：2020-11-08 20:56:26 / 修改时间：20:57:16" itemprop="dateCreated datePublished" datetime="2020-11-08T20:56:26+08:00">2020-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">☛</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/" itemprop="url" rel="index">
+                    <span itemprop="name">CS</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/anyeansan.github.io/categories/CS/Frame/" itemprop="url" rel="index">
+                    <span itemprop="name">Frame</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一-概述"><a href="#一-概述" class="headerlink" title="一 概述"></a>一 概述</h1><ol>
+<li>轻量级的控制层 MVC 框架</li>
+<li>与 Spring 无缝结合，功能强大：RESTful，数据验证，格式化，本地化，主题…</li>
+</ol>
+<h1 id="二-执行流程"><a href="#二-执行流程" class="headerlink" title="二 执行流程"></a>二 执行流程</h1><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Frame/SpringMVC/SpringMVC%E6%B5%81%E7%A8%8B.png" alt=""></p>
+<ol>
+<li>客户端发送请求，<code>DispatcherServlet</code> 捕获请求</li>
+<li><code>DispatcherServlet</code>  根据请求从映射器获取 <code>Handler</code> 以及 <code>Handler</code> 对应的拦截器，以 <code>HandlerExcutionChain</code> 的形式返回<ol>
+<li>映射器中存储了控制器及其能够处理的请求信息</li>
+<li>如果映射不存在，如静态资源，会判断是否配置了 <code>mvc:default-servlet-handler</code></li>
+</ol>
+</li>
+<li><code>DispatcherServlet</code>  根据 <code>Handler</code> 选择适配器执行它，并返回 <code>ModelAndView</code><ol>
+<li>正向执行拦截器链的 <code>preHandler()</code></li>
+<li>执行 <code>Handler</code></li>
+<li>逆向执行拦截器链的 <code>postHandler()</code></li>
+</ol>
+</li>
+<li>使用视图解析器解析 <code>ModelAndView</code></li>
+<li>渲染视图</li>
+<li>逆向执行拦截器链的 <code>AfterCompletion()</code></li>
+<li>响应</li>
+</ol>
+<h1 id="三-前端控制器-DispatcherServlet"><a href="#三-前端控制器-DispatcherServlet" class="headerlink" title="三 前端控制器 DispatcherServlet"></a>三 前端控制器 <code>DispatcherServlet</code></h1><h2 id="3-1-配置"><a href="#3-1-配置" class="headerlink" title="3.1 配置"></a>3.1 配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;DispatcherServlet&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;</span><br><span class="line">    &lt;init-param&gt;</span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;classpath:springmvc.xml&lt;/param-value&gt;</span><br><span class="line">    &lt;/init-param&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;DispatcherServlet&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>默认加载的配置文件为 <code>WEB-INF/&lt;servlet-name&gt;-servlet.xml</code></li>
+<li><code>&lt;url-pattern&gt;</code><ol>
+<li><code>/</code>（建议）<ul>
+<li>拦截所有，不包含<code>.jsp</code></li>
+</ul>
+</li>
+<li><code>/*</code>（不建议）<ul>
+<li>拦截所有</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="3-2-组件"><a href="#3-2-组件" class="headerlink" title="3.2 组件"></a>3.2 组件</h2><h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>一启动就会初始化所有组件，去容器中寻找，如果没有配置则使用默认</li>
+<li>默认加载的组件在 <code>DispatcherServlet.properties</code>中</li>
+</ol>
+<h3 id="2-分类"><a href="#2-分类" class="headerlink" title="2 分类"></a>2 分类</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>List&lt;HandlerMapping&gt;</code></td>
+<td>处理器映射器</td>
+</tr>
+<tr>
+<td><code>List&lt;HandlerAdapter&gt;</code></td>
+<td>处理器适配器</td>
+</tr>
+<tr>
+<td><code>List&lt;ViewResolver&gt;</code></td>
+<td>视图解析器</td>
+</tr>
+<tr>
+<td><code>MultipartResolver</code></td>
+<td>文件上传解析器</td>
+</tr>
+<tr>
+<td><code>List&lt;HandlerExceptionResolver&gt;</code></td>
+<td>异常解析器</td>
+</tr>
+<tr>
+<td><code>LocaleResolver</code></td>
+<td>区域信息解析器，国际化相关</td>
+</tr>
+<tr>
+<td><code>FlashMapManager</code></td>
+<td>重定向携带数据的功能</td>
+</tr>
+<tr>
+<td><code>ThemeResolver</code></td>
+<td>主题解析器</td>
+</tr>
+<tr>
+<td><code>RequestToViewNameTranslator</code></td>
+<td>请求到视图名转换器</td>
+</tr>
+</tbody></table>
+<h3 id="3-处理器映射器-HandlerMapping"><a href="#3-处理器映射器-HandlerMapping" class="headerlink" title="3 处理器映射器 HandlerMapping"></a>3 处理器映射器 <code>HandlerMapping</code></h3><table>
+<thead>
+<tr>
+<th>映射器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>BeanNameUrlHandlerMapping</code></td>
+<td>请求 URL 与处理器 <code>BeanID</code> 进行匹配，<code>BeanID</code> 必须以 <code>/</code> 开头</td>
+</tr>
+<tr>
+<td><code>SimpleUrlHandlerMaping</code></td>
+<td>请求 URL 与配置的 <code>key</code> 进行匹配获取 <code>value</code> 即为处理器 <code>BeanID</code></td>
+</tr>
+<tr>
+<td><code>RequestMappingHandlerMapping</code></td>
+<td>注解映射器</td>
+</tr>
+</tbody></table>
+<h3 id="4-处理器适配器-HandlerAdapter"><a href="#4-处理器适配器-HandlerAdapter" class="headerlink" title="4 处理器适配器 HandlerAdapter"></a>4 处理器适配器 <code>HandlerAdapter</code></h3><table>
+<thead>
+<tr>
+<th>适配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HttpRequestHandlerAdapter</code></td>
+<td><code>Controller</code> 必须实现 <code>HttpRequesHandler</code>接口</td>
+</tr>
+<tr>
+<td><code>SimpleControllerHandlerAdapter</code></td>
+<td><code>Controller</code> 必须实现 <code>Controller</code> 接口</td>
+</tr>
+<tr>
+<td><code>RequestMappingHandlerAdapter</code></td>
+<td>注解适配器</td>
+</tr>
+</tbody></table>
+<h3 id="5-视图解析器-ViewResolver"><a href="#5-视图解析器-ViewResolver" class="headerlink" title="5 视图解析器 ViewResolver"></a>5 视图解析器 <code>ViewResolver</code></h3><h4 id="1-概述-1"><a href="#1-概述-1" class="headerlink" title="1 概述"></a>1 概述</h4><ol>
+<li>无论处理器返回值是什么，最终都会变成 <code>ModelAndView</code> 被视图解析器解析</li>
+<li>SpringMVC 借助视图解析器得到视图对象 <code>View</code>，最终的视图可以是 <code>Jsp Excel JFreeChart ...</code></li>
+<li>所有视图解析器都必须实现 <code>ViewResolve</code> 接口，常用视图解析器<ol>
+<li><code>InternalResourceViewResolver</code></li>
+<li><code>BeanNameViewResolver</code></li>
+</ol>
+</li>
+<li>视图对象才能真正的转发（会将模型数据全部取出存到请求域中）或重定向</li>
+<li>视图对象才能真正的渲染视图，将模型中的数据以某种形式呈现给用户</li>
+</ol>
+<h4 id="2-InternalResourceViewResolver-配置"><a href="#2-InternalResourceViewResolver-配置" class="headerlink" title="2 InternalResourceViewResolver 配置"></a>2 <code>InternalResourceViewResolver</code> 配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;prefix&quot; value=&quot;/&quot;/&gt;</span><br><span class="line">    &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>物理视图 = 前缀(prefix) + 逻辑视图 + 后缀(suffix)</code></li>
+</ul>
+<h4 id="3-lt-mvc-view-controller-gt"><a href="#3-lt-mvc-view-controller-gt" class="headerlink" title="3 &lt;mvc:view-controller&gt;"></a>3 <code>&lt;mvc:view-controller&gt;</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:view-controller path=&quot;请求路径&quot; view-name=&quot;响应的页面&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>无需经过控制器来执行结果，直接响应 SpringMVC  渲染的页面</li>
+</ul>
+<h3 id="6-控制器-Controller-amp-处理器-Handler"><a href="#6-控制器-Controller-amp-处理器-Handler" class="headerlink" title="6 控制器 Controller &amp; 处理器 Handler"></a>6 控制器 <code>Controller</code> &amp; 处理器 <code>Handler</code></h3><ol>
+<li><code>Controller</code>：指控制器类</li>
+<li><code>Handler</code>：控制器类中的方法</li>
+</ol>
+<h1 id="五-配置"><a href="#五-配置" class="headerlink" title="五 配置"></a>五 配置</h1><h2 id="5-1-静态资源处理"><a href="#5-1-静态资源处理" class="headerlink" title="5.1 静态资源处理"></a>5.1 静态资源处理</h2><h3 id="1-概述-2"><a href="#1-概述-2" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>所有项目的 <code>web.xml</code> 都继承了 Tomcat 的 <code>web.xml</code>，所以相同配置会覆盖</li>
+<li>Tomcat 的 <code>web.xml</code> 中<ol>
+<li><code>DefaultServlet</code>：<code>url-pattern = /</code></li>
+<li><code>JspServlet</code>：<code>url-pattern = *.jsp</code></li>
+</ol>
+</li>
+<li><code>DispatcheServlet</code> 的 <code>url-pattern = /*</code>，表示所有请求都由 SpringMVC 处理<ol>
+<li>静态资源请求：没有对应的处理器，会报错</li>
+<li><code>.jsp</code> 请求：没有对应的处理器，会报错</li>
+</ol>
+</li>
+<li><code>DispatcheServlet</code> 的 <code>url-pattern = /</code>，表示除了 <code>.jsp</code> 外的请求由 SpringMVC 处理<ol>
+<li>静态资源请求：没有对应的处理器，会报错</li>
+<li><code>.jsp</code> 请求：由 Tomcat 的 <code>JspServlet</code> 处理，没有问题</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-解决"><a href="#2-解决" class="headerlink" title="2 解决"></a>2 解决</h3><h4 id="1-在-SpringMVC-核心配置文件中配置"><a href="#1-在-SpringMVC-核心配置文件中配置" class="headerlink" title="1 在 SpringMVC 核心配置文件中配置"></a>1 在 SpringMVC 核心配置文件中配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:default-servlet-handler default-servlet-name=&quot;&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>将在 SpringMVC上下文中定义一个 <code>DefaultServletHttpRequestHandler</code>，它会对进入 <code>DispatcheServlet</code> 的请求进行筛选<ol>
+<li>如果不是静态资源的请求，由 <code>DispatcheServlet</code> 处理</li>
+<li>如果是静态资源的请求，即没有匹配映射的请求，则交给 WEB应用服务器默认的 Servlet 处理</li>
+</ol>
+</li>
+<li><code>default-servlet-name</code><ul>
+<li>一般 WEB应用服务器（如 <code>Tomcat</code>）默认的 Servlet 名称都是 <code>default</code>，此属性可以省略，否则需要手动配置</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-在-SpringMVC-核心配置文件中配置"><a href="#2-在-SpringMVC-核心配置文件中配置" class="headerlink" title="2 在 SpringMVC 核心配置文件中配置"></a>2 在 SpringMVC 核心配置文件中配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--配置静态资源访问 **表示的包含自身包和子包的所有文件--&gt;</span><br><span class="line">&lt;mvc:resources mapping=&quot;/statics/**&quot; location=&quot;/statics/&quot; &gt;&lt;/mvc:resources&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-lt-mvc-annotation-driven-gt"><a href="#5-2-lt-mvc-annotation-driven-gt" class="headerlink" title="5.2 &lt;mvc:annotation-driven/&gt;"></a>5.2 <code>&lt;mvc:annotation-driven/&gt;</code></h2><ol>
+<li>注册 <code>RequestMappingHandlerMapping</code></li>
+<li>注册<code>RequestMappingHandlerAdapter</code></li>
+<li>注册<code>ExceptionHandlerExceptionResolver</code></li>
+<li>支持<ol>
+<li><code>ConversionService</code></li>
+<li><code>@NumberFormat annotation 、@DateTimeFormat</code>完成数据类型格式化</li>
+<li><code>@Valid</code> 对 JavaBean 进行 JSR303 校验</li>
+<li><code>@RequestBody 和 @ResponseBody</code></li>
+</ol>
+</li>
+</ol>
+<h1 id="六-原生-Servlet"><a href="#六-原生-Servlet" class="headerlink" title="六 原生 Servlet"></a>六 原生 Servlet</h1><ol>
+<li>想获取谁直接在方法上添加相应的形参即可获取</li>
+<li>默认支持：<ol>
+<li><code>HttpServletRequest</code></li>
+<li><code>HttpServletResponse</code></li>
+<li><code>HttpSession</code></li>
+<li><code>java.security.Principal</code></li>
+<li><code>Locale</code></li>
+<li><code>InputStream</code></li>
+<li><code>OutputStream</code></li>
+<li><code>Reader</code></li>
+<li><code>Writer</code></li>
+</ol>
+</li>
+</ol>
+<h1 id="七-请求"><a href="#七-请求" class="headerlink" title="七 请求"></a>七 请求</h1><h2 id="7-1-概述"><a href="#7-1-概述" class="headerlink" title="7.1 概述"></a>7.1 概述</h2><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@RequestMapping</code></td>
+<td>请求映射，即确定处理指定请求的方法</td>
+</tr>
+<tr>
+<td><code>@PathVariable</code></td>
+<td>请求路径占位符映射</td>
+</tr>
+<tr>
+<td><code>@RequestParam</code></td>
+<td>请求参数映射</td>
+</tr>
+<tr>
+<td><code>@RequestHeader</code></td>
+<td>获取请求头中的值</td>
+</tr>
+<tr>
+<td><code>@RequestBody</code></td>
+<td>获取请求体中的值</td>
+</tr>
+<tr>
+<td><code>@CookieValue</code></td>
+<td>获取 <code>Cookie</code>中的值</td>
+</tr>
+<tr>
+<td><code>@RequestAttribute</code></td>
+<td>获取 <code>request</code> 域中的值</td>
+</tr>
+<tr>
+<td><code>@SessionAttribute</code></td>
+<td>获取 <code>session</code> 域中的值</td>
+</tr>
+</tbody></table>
+<h2 id="7-2-请求映射"><a href="#7-2-请求映射" class="headerlink" title="7.2 请求映射"></a>7.2 请求映射</h2><h3 id="1-RequestMapping"><a href="#1-RequestMapping" class="headerlink" title="1 @RequestMapping"></a>1 <code>@RequestMapping</code></h3><h4 id="1-说明"><a href="#1-说明" class="headerlink" title="1 说明"></a>1 说明</h4><ol>
+<li>定义在类上：第一级的访问路径</li>
+<li>定义在方法上：第二级的访问路径</li>
+</ol>
+<h4 id="2-属性"><a href="#2-属性" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String[] value() default {}</code></td>
+<td>同 <code>path()</code></td>
+</tr>
+<tr>
+<td><code>String[] path() default {}</code></td>
+<td>指定请求路径</td>
+</tr>
+<tr>
+<td><code>RequestMethod[] method() default {}</code></td>
+<td>指定请求方法，值为枚举类 <code>RequestMethod</code> 的值 <code>GET POST...</code></td>
+</tr>
+<tr>
+<td><code>String[] params() default {}</code></td>
+<td>指定必须匹配的请求参数，支持简单表达式</td>
+</tr>
+<tr>
+<td><code>String[] headers() default {}</code></td>
+<td>指定必须包含的请求头</td>
+</tr>
+</tbody></table>
+<h3 id="2-其它映射注解"><a href="#2-其它映射注解" class="headerlink" title="2 其它映射注解"></a>2 其它映射注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 请求方法确定可以直接使用以下注解代替 @RequestMapping</span><br><span class="line">@GetMapping</span><br><span class="line">@PostMapping</span><br><span class="line">@PutMapping</span><br><span class="line">@DeleteMapping</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-请求路径占位符"><a href="#7-3-请求路径占位符" class="headerlink" title="7.3 请求路径占位符"></a>7.3 请求路径占位符</h2><h3 id="1-PathVariable"><a href="#1-PathVariable" class="headerlink" title="1 @PathVariable"></a>1 <code>@PathVariable</code></h3><h4 id="1-说明-1"><a href="#1-说明-1" class="headerlink" title="1 说明"></a>1 说明</h4><ul>
+<li>定义在形参上：映射请求 URL 中的占位符，即指定形参与占位符进行匹配的名称</li>
+<li>占位符：<code>/usr/{id}</code></li>
+</ul>
+<h4 id="2-属性-1"><a href="#2-属性-1" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定占位符映射名称</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td>请求是否必须包含指定占位符</td>
+</tr>
+</tbody></table>
+<h3 id="2-RESTFul-风格"><a href="#2-RESTFul-风格" class="headerlink" title="2 RESTFul 风格"></a>2 RESTFul 风格</h3><h4 id="1-请求格式"><a href="#1-请求格式" class="headerlink" title="1 请求格式"></a>1 请求格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">增: /user POST</span><br><span class="line">删: /user/1 DELETE</span><br><span class="line">改: /user/1 PUT</span><br><span class="line">查: /user/1 GET</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-发送-put-delete-请求"><a href="#2-发送-put-delete-请求" class="headerlink" title="2 发送 put delete 请求"></a>2 发送 <code>put delete</code> 请求</h4><ol>
+<li>使用 Spring 提供的过滤器 <code>HiddenHttpMethodFilter</code></li>
+<li>创建一个 <code>POST</code> 请求的表单</li>
+<li>表单项包含一个 <code>name=&quot;_method&quot; value=&quot;put delete...中的一个&quot;</code></li>
+<li>可以自动将 <code>Post</code> 请求转换成 <code>_method</code> 指定的请求</li>
+</ol>
+<h2 id="7-4-请求参数"><a href="#7-4-请求参数" class="headerlink" title="7.4 请求参数"></a>7.4 请求参数</h2><h3 id="1-RequestParam"><a href="#1-RequestParam" class="headerlink" title="1 @RequestParam"></a>1 <code>@RequestParam</code></h3><h4 id="1-说明-2"><a href="#1-说明-2" class="headerlink" title="1 说明"></a>1 说明</h4><ul>
+<li>定义在形参上：将指定名称的请求参数的值赋给形参</li>
+</ul>
+<h4 id="2-属性-2"><a href="#2-属性-2" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定请求参数名称</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td>请求参数中是否必须包含此参数</td>
+</tr>
+<tr>
+<td><code>String defaultValue() default ValueConstants.DEFAULT_NONE</code></td>
+<td>指定默认值来取代 <code>null</code></td>
+</tr>
+</tbody></table>
+<h3 id="2-请求参数绑定"><a href="#2-请求参数绑定" class="headerlink" title="2 请求参数绑定"></a>2 请求参数绑定</h3><h4 id="1-绑定机制"><a href="#1-绑定机制" class="headerlink" title="1 绑定机制"></a>1 绑定机制</h4><ol>
+<li>表单提交数据都是 <code>k=v</code> 格式</li>
+<li>SpringMVC 请求参数绑定：指控制器中方法的形参与请求参数绑定，即用形参获取请求参数</li>
+</ol>
+<h4 id="2-获取请求参数的方式"><a href="#2-获取请求参数的方式" class="headerlink" title="2 获取请求参数的方式"></a>2 获取请求参数的方式</h4><h5 id="1-直接获取"><a href="#1-直接获取" class="headerlink" title="1 直接获取"></a>1 直接获取</h5><ol>
+<li>方法形参名称与请求参数名称（表单 <code>name</code>）一致</li>
+<li>如果不一致，使用 <code>@RequestParam</code> 指定</li>
+</ol>
+<h5 id="2-封装对象"><a href="#2-封装对象" class="headerlink" title="2 封装对象"></a>2 封装对象</h5><ol>
+<li>如果请求参数过多，可以用 <code>JavaBean</code> 接收，会自动封装</li>
+<li>方法形参名称任意，类型为 <code>JavaBean</code> 类型，<code>JavaBean</code> 中的属性名称与请求参数名称（表单 <code>name</code>）一致</li>
+</ol>
+<h2 id="7-5-请求头：-RequestHeader"><a href="#7-5-请求头：-RequestHeader" class="headerlink" title="7.5 请求头：@RequestHeader"></a>7.5 请求头：<code>@RequestHeader</code></h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定请求头的键</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td>请求头是否必须包含指定键</td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义在形参上：将请求头中指定键的值赋给形参</li>
+</ul>
+<h2 id="7-7-Cookie：-CookieValue"><a href="#7-7-Cookie：-CookieValue" class="headerlink" title="7.7 Cookie：@CookieValue"></a>7.7 Cookie：<code>@CookieValue</code></h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定 Cookie 中的键</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td>Cookie 是否必须包含指定键</td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义在形参上：将 Cookie 中指定键的值赋给形参</li>
+</ul>
+<h2 id="7-8-域"><a href="#7-8-域" class="headerlink" title="7.8 域"></a>7.8 域</h2><h3 id="1-request-域：-RequestAttribute"><a href="#1-request-域：-RequestAttribute" class="headerlink" title="1 request 域：@RequestAttribute"></a>1 <code>request</code> 域：<code>@RequestAttribute</code></h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定 <code>request</code> 域的键</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td><code>request</code> 域是否必须包含指定键</td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义在形参上：将 <code>request</code> 域中指定键的值赋给形参</li>
+</ul>
+<h3 id="2-session-域：-SessionAttribute"><a href="#2-session-域：-SessionAttribute" class="headerlink" title="2 session 域：@SessionAttribute"></a>2 <code>session</code> 域：<code>@SessionAttribute</code></h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定 <code>session</code>域的键</td>
+</tr>
+<tr>
+<td><code>boolean required() default true</code></td>
+<td><code>session</code>域是否必须包含指定键</td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义在形参上：将 <code>session</code> 域中指定键的值赋给形参</li>
+</ul>
+<h2 id="7-9-POST-请求乱码"><a href="#7-9-POST-请求乱码" class="headerlink" title="7.9 POST 请求乱码"></a>7.9 POST 请求乱码</h2><ul>
+<li>在<code>web.xml</code>中配置 Spring 提供的过滤器 <code>CharacterEncodingFilter</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">    &lt;filter-name&gt;characterFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;</span><br><span class="line">    &lt;init-param&gt;</span><br><span class="line">        &lt;param-name&gt;encoding&lt;/param-name&gt;</span><br><span class="line">        &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">    &lt;/init-param&gt;</span><br><span class="line">&lt;/filter&gt;</span><br><span class="line">&lt;filter-mapping&gt;</span><br><span class="line">    &lt;filter-name&gt;characterFilter&lt;/filter-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">&lt;/filter-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="八-响应"><a href="#八-响应" class="headerlink" title="八 响应"></a>八 响应</h1><h2 id="8-1-响应数据"><a href="#8-1-响应数据" class="headerlink" title="8.1 响应数据"></a>8.1 响应数据</h2><h3 id="1-Map-Model-ModelMap"><a href="#1-Map-Model-ModelMap" class="headerlink" title="1 Map Model ModelMap"></a>1 <code>Map</code> <code>Model</code> <code>ModelMap</code></h3><p><img src="https://github.com/anyeansan/pics/raw/master/CS/Frame/SpringMVC/Model%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt=""></p>
+<ol>
+<li><p>形参声明对应类型，之后添加数据即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Model addAttribute(String attributeName, Object attributeValue)</span><br><span class="line">Model addAllAttributes(Map&lt;String, ?&gt; attributes)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这三种类型最终都是使用 <code>BindingAwareModelMap</code></p>
+</li>
+<li><p>数据保存在 <code>request</code> 域中</p>
+</li>
+</ol>
+<h3 id="2-ModelAndView"><a href="#2-ModelAndView" class="headerlink" title="2 ModelAndView"></a>2 <code>ModelAndView</code></h3><ol>
+<li><p>创建 <code>ModelAndView</code>，之后添加数据，设置视图，最后返回即可</p>
+</li>
+<li><p>数据保存在  <code>request</code> 域中</p>
+</li>
+<li><p>处理器无论返回值是什么，其实最终返回的都是 <code>ModelAndView</code></p>
+</li>
+<li><p>添加数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ModelAndView addObject(String attributeName, Object attributeValue)</span><br><span class="line">ModelAndView addAllObjects(@Nullable Map&lt;String, ?&gt; modelMap)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置视图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void setViewName(String viewName)</span><br><span class="line">void setView(View view)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="3-SessionAttributes"><a href="#3-SessionAttributes" class="headerlink" title="3 @SessionAttributes"></a>3 <code>@SessionAttributes</code></h3><h4 id="1-说明-3"><a href="#1-说明-3" class="headerlink" title="1 说明"></a>1 说明</h4><ol>
+<li>定义在类上</li>
+<li>根据配置（属性名称或类型）将存储在 <code>BindingAwareModelMap</code> （即使用 <code>Map Model ModelMap</code>）中的数据，存储一份到  <code>session</code> 域中</li>
+</ol>
+<h4 id="2-属性-3"><a href="#2-属性-3" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String[] value() default {}</code></td>
+<td>同 <code>names()</code></td>
+</tr>
+<tr>
+<td><code>String[] names() default {}</code></td>
+<td>指定被存入 <code>session</code> 域的 <code>key</code> 名称</td>
+</tr>
+<tr>
+<td><code>Class&lt;?&gt;[] types() default {}</code></td>
+<td>指定被存入 <code>session</code> 域的 <code>value</code> 类型</td>
+</tr>
+</tbody></table>
+<h3 id="4-ModelAttribute"><a href="#4-ModelAttribute" class="headerlink" title="4 @ModelAttribute"></a>4 <code>@ModelAttribute</code></h3><h4 id="1-说明-4"><a href="#1-说明-4" class="headerlink" title="1 说明"></a>1 说明</h4><ol>
+<li>定义在方法上：则当前方法会在 <code>Controller</code> 中每个方法执行前执行</li>
+<li>定义在形参上：以指定 <code>key</code> 从 <code>BindingAwareModelMap</code> 获取数据</li>
+</ol>
+<h4 id="2-属性-4"><a href="#2-属性-4" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>String value() default &quot;&quot;</code></td>
+<td>同 <code>name()</code></td>
+</tr>
+<tr>
+<td><code>String name() default &quot;&quot;</code></td>
+<td>指定 <code>key</code></td>
+</tr>
+</tbody></table>
+<h4 id="3-应用场景"><a href="#3-应用场景" class="headerlink" title="3 应用场景"></a>3 应用场景</h4><h5 id="1-说明-5"><a href="#1-说明-5" class="headerlink" title="1 说明"></a>1 说明</h5><ol>
+<li><p>更新操作时，使用实体类接收表单请求数据，而有些字段并不想修改，所以表单提交的数据可能不是全字段，那么封装的实体类中没有提交的字段就为空，如果此时执行更新操作，就会导致数据库丢失相应字段的原有数据</p>
+</li>
+<li><p>例如，更新用户的 <code>name</code>，表单提交数据只有 <code>name</code> 的值，使用实体类 <code>name age</code> 接收，则 <code>age</code> 为空，更新之后，就会导致数据库中用户丢失原有 <code>age</code> 值</p>
+</li>
+<li><p>解决方式</p>
+<ol>
+<li>使用隐藏域（不安全，字段多麻烦）</li>
+<li>在处理方法中，更新前手动设置（麻烦）</li>
+<li>不使用新封装的实体类对象，而是从数据库中查询对应对象，需要更新的字段使用提交的更新数据，不需要更新的字段使用数据库中原有数据（店长推荐）</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-步骤"><a href="#2-步骤" class="headerlink" title="2 步骤"></a>2 步骤</h5><ol>
+<li><code>@ModelAttribute</code> 定义在一个方法上，此方法会在目标方法执行前执行，所以可以在此方法中从数据库查询数据，并存入 <code>BindingAwareModelMap</code></li>
+<li>在目标方法中，使用 <code>@ModelAttribute</code>  修饰形参，则 SpringMVC 不会直接创建相应对象，而是从  <code>BindingAwareModelMap</code> 获取，则使用的就是从数据库中查询到的实体类对象</li>
+</ol>
+<h2 id="8-2-转发和重定向"><a href="#8-2-转发和重定向" class="headerlink" title="8.2 转发和重定向"></a>8.2 转发和重定向</h2><ol>
+<li>处理器返回指定前缀的字符串<ol>
+<li><code>forward:转发路径</code>：转发</li>
+<li><code>redirect:重定向路径</code>：重定向<ul>
+<li>SpringMVC 会自动为重定向路径添加应用名，所以不用加应用名</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>带有前缀时，不会走视图解析器</li>
+</ol>
+<h1 id="九-JSON"><a href="#九-JSON" class="headerlink" title="九 JSON"></a>九 JSON</h1><h2 id="9-1-HttpMessageConverter-lt-T-gt"><a href="#9-1-HttpMessageConverter-lt-T-gt" class="headerlink" title="9.1 HttpMessageConverter&lt;T&gt;"></a>9.1 <code>HttpMessageConverter&lt;T&gt;</code></h2><h3 id="1-概述-3"><a href="#1-概述-3" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>Spring3.0 新添加的接口 </li>
+<li>负责将请求信息转换为 T 类型，或将 T 类型输出为响应信息</li>
+<li><code>DispatcherServlet</code> 默认装配 <code>RequestMappingHandlerAdapter</code>，而 <code>RequestMappingHandlerAdapter</code> 默认装配了一些 <code>HttpMessageConverter</code> 的实现</li>
+<li>如果导入了 <code>JackSon</code> 的包，<code>RequestMappingHandlerAdapter</code> 就会多装配一个 <code>MappingJackson2HttpMessageConverter</code></li>
+</ol>
+<h3 id="2-实现类"><a href="#2-实现类" class="headerlink" title="2 实现类"></a>2 实现类</h3><table>
+<thead>
+<tr>
+<th>实现类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>StringHttpMessageConverter</code></td>
+<td>读写 String</td>
+</tr>
+<tr>
+<td><code>ByteArrayHttpMessageConverter</code></td>
+<td>读写二进制数据</td>
+</tr>
+<tr>
+<td><code>MappingJackson2HttpMessageConverter</code></td>
+<td>利用 <code>JackSon</code> 的 <code>ObjectMapper</code> 读写 JSON 数据</td>
+</tr>
+</tbody></table>
+<h2 id="9-2-ResponseBody"><a href="#9-2-ResponseBody" class="headerlink" title="9.2 @ResponseBody"></a>9.2 <code>@ResponseBody</code></h2><ol>
+<li>定义在类上或方法上</li>
+<li>添加了此注解，则方法不再响应视图，而是直接响应数据</li>
+<li>如果想响应 JSON 数据，在方法内部转为 JSON 并返回即可</li>
+</ol>
+<h2 id="9-3-RequestBody"><a href="#9-3-RequestBody" class="headerlink" title="9.3 @RequestBody"></a>9.3 <code>@RequestBody</code></h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boolean required() default true</code></td>
+<td>是否必须有请求体</td>
+</tr>
+</tbody></table>
+<ul>
+<li>定义在形参上：用于获取请求体的内容（GET 不可用）</li>
+</ul>
+<h2 id="9-4-RestController"><a href="#9-4-RestController" class="headerlink" title="9.4 @RestController"></a>9.4 <code>@RestController</code></h2><ol>
+<li>定义在类上</li>
+<li>相当于同时添加了 <code>@Controller</code> 和 <code>@ResponseBody</code></li>
+</ol>
+<h2 id="9-5-JSON-处理"><a href="#9-5-JSON-处理" class="headerlink" title="9.5 JSON 处理"></a>9.5 JSON 处理</h2><ol>
+<li><p>配置 <code>&lt;mvc:annotation-driven/&gt;</code>，为了支持 <code>@RequestBody 和 @ResponseBody</code></p>
+</li>
+<li><p>在处理方法上添加 <code>@ResponseBody</code> 注解</p>
+</li>
+<li><p>导入所使用的工具包：</p>
+<ol>
+<li><code>JackSon</code><ul>
+<li>SpringMVC 内部有 <code>JackSon</code> 转换器，添加了 <code>JackSon</code> 的依赖后，会自动将返回值转为 JSON</li>
+</ul>
+</li>
+<li><code>GSON FastJson ...</code><ul>
+<li>在方法内部手动转为 JSON 并返回</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>注意：</p>
+<ul>
+<li><p>当使用分步查询时，如果开启了延迟加载，关联属性没有值会导致转 json 异常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select s.s_id,s.s_name,s.gender,s.hobby,s.birthday,s.t_id,t.t_id,t.t_name,t.gender sex from student s,teacher t where s.s_id=#&#123;id&#125; and s.t_id=t.t_id</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="十-数据绑定的处理"><a href="#十-数据绑定的处理" class="headerlink" title="十 数据绑定的处理"></a>十 数据绑定的处理</h1><h2 id="10-1-概述"><a href="#10-1-概述" class="headerlink" title="10.1 概述"></a>10.1 概述</h2><ol>
+<li>数据绑定的核心部件是 <code>DataBinder</code></li>
+<li><code>ConversionService</code>：数据类型转换和格式化</li>
+<li><code>Validator</code>：数据校验</li>
+</ol>
+<h2 id="10-2-类型转换"><a href="#10-2-类型转换" class="headerlink" title="10.2 类型转换"></a>10.2 类型转换</h2><h3 id="1-概述-4"><a href="#1-概述-4" class="headerlink" title="1 概述"></a>1 概述</h3><ol>
+<li>页面提交的数据都是字符串，而 <code>JavaBean</code> 中属性有各种各样的类型</li>
+<li>SpringMVC 提供了许多转换器可以完成大多数的转换，如果有特殊需求可以自定义转换器</li>
+</ol>
+<h3 id="2-自定义转换器"><a href="#2-自定义转换器" class="headerlink" title="2 自定义转换器"></a>2 自定义转换器</h3><ol>
+<li><p>Spring 定义了 3 中类型转换接口，实现任意一种</p>
+<ol>
+<li><code>Converter&lt;S,T&gt;</code></li>
+<li><code>ConverterFactory</code></li>
+<li><code>GenericConverter</code></li>
+</ol>
+</li>
+<li><p>配置 <code>ConversionService</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;转换器工厂id&quot; class=&quot;org.springframework.format.support.ConversionServiceFactoryBean&quot;&gt;</span><br><span class="line">    &lt;property name=&quot;converters&quot;&gt;</span><br><span class="line">        &lt;set&gt;</span><br><span class="line">            &lt;bean class=&quot;自定义转换器全类名&quot;/&gt;</span><br><span class="line">        &lt;/set&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>让 SpringMVC 使用自定义 <code>ConversionService</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:annotation-driven conversion-service=“转换器工厂id”/&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="10-3-格式化"><a href="#10-3-格式化" class="headerlink" title="10.3 格式化"></a>10.3 格式化</h2><h3 id="1-FormattingConversionService"><a href="#1-FormattingConversionService" class="headerlink" title="1 FormattingConversionService"></a>1 <code>FormattingConversionService</code></h3><ul>
+<li>既具有 类 型 转换功能又具有格式化功能</li>
+</ul>
+<h3 id="2-FormattingConversionServiceFactroyBean"><a href="#2-FormattingConversionServiceFactroyBean" class="headerlink" title="2 FormattingConversionServiceFactroyBean"></a>2 <code>FormattingConversionServiceFactroyBean</code></h3><ol>
+<li><code>&lt;mvc:annotation-driven/&gt;</code> 默认创建的 <code>ConversionService</code> 实例即为此工厂 bean</li>
+<li><code>@DateTiemFormat</code></li>
+<li><code>@NumberFormat</code></li>
+</ol>
+<h2 id="10-4-校验"><a href="#10-4-校验" class="headerlink" title="10.4 校验"></a>10.4 校验</h2><h3 id="1-JSR303"><a href="#1-JSR303" class="headerlink" title="1 JSR303"></a>1 JSR303</h3><ol>
+<li>java 为 bean 数据合法校验提供的标准框架，包含在 javaee6.0 中</li>
+<li>通过在字段上加注解<ol>
+<li><code>@Null</code></li>
+<li><code>@NotNull</code></li>
+<li><code>@Pattern(value)</code></li>
+<li><code>...</code></li>
+</ol>
+</li>
+</ol>
+<h3 id="2-Spring-的校验"><a href="#2-Spring-的校验" class="headerlink" title="2 Spring 的校验"></a>2 Spring 的校验</h3><ol>
+<li>Spring 有自己的校验框架，同时支持 jsr303</li>
+<li><code>LocalValidatorFactoryBean</code> <ol>
+<li>实现了 Spring 的 <code>Validator</code>接口，也实现了 jsr303 的 <code>Validator</code> 接口</li>
+<li><code>&lt;mvc:annotation-driver/&gt;</code> 默认会装配好一个此对象</li>
+</ol>
+</li>
+</ol>
+<h1 id="十一-拦截器"><a href="#十一-拦截器" class="headerlink" title="十一 拦截器"></a>十一 拦截器</h1><h2 id="11-1-概述"><a href="#11-1-概述" class="headerlink" title="11.1 概述"></a>11.1 概述</h2><ol>
+<li>过滤器是 JavaWeb 技术，而拦截器是 SpringMVC 独有的</li>
+<li>过滤器可以过滤任意请求，而拦截器只拦截 <code>Controller</code> 中的目标方法</li>
+</ol>
+<h2 id="11-2-HandlerInterceptor"><a href="#11-2-HandlerInterceptor" class="headerlink" title="11.2 HandlerInterceptor"></a>11.2 <code>HandlerInterceptor</code></h2><h3 id="1-API"><a href="#1-API" class="headerlink" title="1 API"></a>1 API</h3><ol>
+<li><code>boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)</code><ul>
+<li>目标方法执行前调用，<code>true</code>：放行，<code>false</code>：不放行</li>
+</ul>
+</li>
+<li><code>void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</code><ul>
+<li>目标方法执行后，渲染视图前调用</li>
+</ul>
+</li>
+<li><code>void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</code><ul>
+<li>渲染视图后调用，即到达目标页面之后</li>
+</ul>
+</li>
+<li>`</li>
+</ol>
+<h3 id="2-多个拦截器执行顺序"><a href="#2-多个拦截器执行顺序" class="headerlink" title="2 多个拦截器执行顺序"></a>2 多个拦截器执行顺序</h3><ol>
+<li>按照配置顺序<ol>
+<li>正序 <code>preHandler</code></li>
+<li>目标方法</li>
+<li>逆序 <code>postHandler</code></li>
+<li>渲染视图后</li>
+<li>逆序 <code>afterCompletion</code></li>
+</ol>
+</li>
+<li>假如有三个拦截器 `1 2 3``<ul>
+<li><code>pre1 pre2 pre3 handler post3 post2 post1 after3 after2 after1</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="11-3-自定义拦截器"><a href="#11-3-自定义拦截器" class="headerlink" title="11.3 自定义拦截器"></a>11.3 自定义拦截器</h2><ol>
+<li><p>实现<code>HandlerInterceptor</code> 或 继承<code>HandlerInterceptorAdapter</code></p>
+</li>
+<li><p>在 SpringMVC 配置文件中注册拦截器</p>
+<ol>
+<li><p>拦截所有方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:interceptors&gt;</span><br><span class="line">	// 1 注册拦截器</span><br><span class="line">	&lt;bean class=&quot;自定义拦截器全类名&quot;/&gt; </span><br><span class="line">	// 2 注册拦截器</span><br><span class="line">	&lt;ref bean=&quot;bean的id&quot;/&gt;</span><br><span class="line">&lt;/mvc:interceptors&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义拦截规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:interceptors&gt;</span><br><span class="line">	// 一个拦截器对应一个 &lt;mvc:interceptor&gt;</span><br><span class="line">	&lt;mvc:interceptor&gt;</span><br><span class="line">		&lt;!-- 哪些方法进行拦截 --&gt;</span><br><span class="line">		&lt;mvc:mapping path=&quot;/user/*&quot;/&gt;</span><br><span class="line">		&lt;!-- 哪些方法不进行拦截 --&gt;</span><br><span class="line">		&lt;mvc:exclude-mapping path=&quot;&quot;/&gt;</span><br><span class="line">		&lt;!-- 注册拦截器--&gt;</span><br><span class="line">		&lt;bean class=&quot;自定义拦截器全类名&quot;/&gt;</span><br><span class="line">	&lt;/mvc:interceptor&gt;</span><br><span class="line">&lt;/mvc:interceptors&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="十二-异常处理"><a href="#十二-异常处理" class="headerlink" title="十二 异常处理"></a>十二 异常处理</h1><h2 id="12-1-异常解析器"><a href="#12-1-异常解析器" class="headerlink" title="12.1 异常解析器"></a>12.1 异常解析器</h2><ol>
+<li>SpringMVC 的 <code>DispatcherServlet</code> 组件中有异常解析器<code>HandlerExceptionResolver</code></li>
+<li><code>dao，service，controller...</code> 出现异常都往上抛，最后抛给<code>DispatcherServlet</code></li>
+<li><code>DispatcherServlet</code><ol>
+<li>有异常解析器，则交给异常解析器，能处理则处理，不能处理则继续抛</li>
+<li>无异常解析器，则什么都不做直接响应到页面</li>
+</ol>
+</li>
+</ol>
+<h2 id="12-2-默认装配解析器"><a href="#12-2-默认装配解析器" class="headerlink" title="12.2 默认装配解析器"></a>12.2 默认装配解析器</h2><table>
+<thead>
+<tr>
+<th>异常解析器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ExceptionHandlerExcptionResolver</code></td>
+<td>处理标有 <code>@ExceptionHandler</code> 注解的异常</td>
+</tr>
+<tr>
+<td><code>ResponseStatusExceptionResolver</code></td>
+<td>处理标有 <code>@ResponseStatues</code> 注解的异常</td>
+</tr>
+<tr>
+<td><code>DefaultHandlerExceptionResolver</code></td>
+<td>处理 SpringMVC 自己的异常</td>
+</tr>
+</tbody></table>
+<h3 id="1-ExceptionHandler"><a href="#1-ExceptionHandler" class="headerlink" title="1 @ExceptionHandler"></a>1 <code>@ExceptionHandler</code></h3><h4 id="1-说明-6"><a href="#1-说明-6" class="headerlink" title="1 说明"></a>1 说明</h4><ol>
+<li>定义在方法上，对当前类有效</li>
+<li>表示此方法用来处理此类发生的指定异常<ol>
+<li>用形参 <code>Exception e</code> 接收异常</li>
+<li>携带异常信息只能使用  <code>ModelAndView</code> ，<code>String Model Map...</code> 不行</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-属性-5"><a href="#2-属性-5" class="headerlink" title="2 属性"></a>2 属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Class&lt;? extends Throwable&gt;[] value() default {}</code></td>
+<td>指定处理哪些异常</td>
+</tr>
+</tbody></table>
+<h4 id="3-ControllerAdvice"><a href="#3-ControllerAdvice" class="headerlink" title="3 @ControllerAdvice"></a>3 <code>@ControllerAdvice</code></h4><ol>
+<li>定义在类上，全局有效</li>
+<li>表示此类是一个全局的异常处理类</li>
+<li>在类中用 <code>@ExceptionHandler</code> 定义异常处理方法</li>
+</ol>
+<h3 id="2-ResponseStatues"><a href="#2-ResponseStatues" class="headerlink" title="2 @ResponseStatues"></a>2 <code>@ResponseStatues</code></h3><ol>
+<li><p>定义在方法上：方法发生异常时就会触发</p>
+</li>
+<li><p>定义在自定义异常类上：发生此自定义异常时就会触发</p>
+</li>
+<li><p>属性</p>
+<ol>
+<li><code>value</code>：状态码</li>
+<li><code>reason</code>：错误信息</li>
+</ol>
+</li>
+</ol>
+<h2 id="12-3-手动装配解析器"><a href="#12-3-手动装配解析器" class="headerlink" title="12.3 手动装配解析器"></a>12.3 手动装配解析器</h2><h3 id="SimpleMappingExceptionResolver"><a href="#SimpleMappingExceptionResolver" class="headerlink" title="SimpleMappingExceptionResolver"></a><code>SimpleMappingExceptionResolver</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class=&quot;org.springframework.web.servlet.handler.SimpleMappingExceptionResolver&quot;&gt;</span><br><span class="line">	// 配置哪些异常去哪些页面</span><br><span class="line">	&lt;property name=&quot;exceptionMappings&quot;&gt;</span><br><span class="line">		&lt;props&gt;</span><br><span class="line">			&lt;prop key=&quot;异常全类名&quot;&gt;页面视图名&lt;/prop&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">	// 错误信息</span><br><span class="line">	&lt;property name=&quot;exceptionAttribute&quot; value=&quot;自定义request域的key&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>为每个异常指定特定页面，会自动将异常存入request域默认key为<code>exception</code>，也可以自定义</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class=&quot;SimpleMappingExceptionResolver&quot;&gt;</span><br><span class="line">	&lt;property name=&quot;exceptionAttribute&quot; value=&quot;自定义request域的key&quot;/&gt;</span><br><span class="line">	&lt;property name=&quot;exceptionMappings&quot;&gt;</span><br><span class="line">		&lt;props&gt;</span><br><span class="line">			&lt;prop key=&quot;java.lang.NullPointException&quot;&gt;error1&lt;/prop&gt;</span><br><span class="line">			&lt;prop key=&quot;java.lang.IndexOutOfBoundsException&quot;&gt;error2&lt;/prop&gt;</span><br><span class="line">		&lt;/props&gt;</span><br><span class="line">	&lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="处理步骤"><a href="#处理步骤" class="headerlink" title="处理步骤"></a>处理步骤</h3><ol>
+<li>使用自定义异常类 或 已有异常类<ul>
+<li>用于设置异常信息</li>
+</ul>
+</li>
+<li>异常处理器<ol>
+<li>使用内置异常处理器<ul>
+<li>内置异常处理器有相应注解来实现携带异常信息跳到特定页面等</li>
+</ul>
+</li>
+<li>自定义异常处理器<ol>
+<li>实现<code>HandlerExceptionResoler</code><ul>
+<li>在自定义处理器中携带异常信息跳到特定页面</li>
+</ul>
+</li>
+<li>在<code>springmvc.xml</code>中配置异常处理器bean</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="文件上传-amp-下载"><a href="#文件上传-amp-下载" class="headerlink" title="文件上传 &amp; 下载"></a>文件上传 &amp; 下载</h1><h2 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h2><ul>
+<li>其实也是一种参数绑定(安)</li>
+<li>使用的是MultipartResolver接口，实现使用的是<code>commons-fileupload</code></li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ol>
+<li>form表单post请求，<code>enctype=multipart/form-data</code></li>
+<li>配置MultipartResolver接口实现类<code>CommonsMultipartResolver</code><ul>
+<li>bean id 必须为<code>multipartResolver</code></li>
+<li>依赖<code>commons-fileupload和commons-io</code></li>
+</ul>
+</li>
+<li>上传方法中形参<code>MultipartFile file</code><ul>
+<li><code>file</code>为表单上传name属性名</li>
+</ul>
+</li>
+<li>使用<code>MultipartFile</code>可以获取文件名，输入流，保存文件等等</li>
+</ol>
+<h3 id="MultipartFile"><a href="#MultipartFile" class="headerlink" title="MultipartFile"></a>MultipartFile</h3><ul>
+<li><code>getOriginalFilename()</code></li>
+<li><code>getInputStream()</code></li>
+<li><code>void transferTo(File file)</code></li>
+<li><code>default void transferTo(Path path)</code></li>
+</ul>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><h3 id="基于ResponseEntity实现"><a href="#基于ResponseEntity实现" class="headerlink" title="基于ResponseEntity实现"></a>基于ResponseEntity实现</h3><ul>
+<li>返回一个<code>ResponseEntity</code></li>
+</ul>
+<h3 id="Java通用下载实现"><a href="#Java通用下载实现" class="headerlink" title="Java通用下载实现"></a>Java通用下载实现</h3><ul>
+<li>设置响应头告诉浏览器是下载文件<ul>
+<li><code>response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+fileName);</code></li>
+</ul>
+</li>
+<li>设置响应头说明是文件类型<ul>
+<li><code>response.setHeader(&quot;content-type&quot;, &quot;image/jpeg&quot;);</code><ul>
+<li>设置文件类型是图片</li>
+</ul>
+</li>
+<li><code>response.setContentType(this.getServletContext().getMimeType(fileName))</code><ul>
+<li>设置类型为根据文件名获取的类型</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+	<div>
+    
+        <div style="text-align:center;color: #66ccff;font-size:14px;">-------------The End&nbsp;&nbsp;<i class="fa fa-paw"></i>&nbsp;&nbsp;客官请自便-------------</div>
+    
+</div
+      
+    </div>
+
+      <footer class="post-footer">
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/%E6%A1%86%E6%9E%B6/Spring/" rel="next" title="Spring">
+                  <i class="fa fa-chevron-left"></i> Spring
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/anyeansan.github.io/2020/11/08/%E6%A1%86%E6%9E%B6/SSM/" rel="prev" title="SSM">
+                  SSM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          秘笈
+        </li>
+        <li class="sidebar-nav-overview">
+          安₃
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一-概述"><span class="nav-text">一 概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二-执行流程"><span class="nav-text">二 执行流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三-前端控制器-DispatcherServlet"><span class="nav-text">三 前端控制器 DispatcherServlet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-配置"><span class="nav-text">3.1 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-组件"><span class="nav-text">3.2 组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-分类"><span class="nav-text">2 分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-处理器映射器-HandlerMapping"><span class="nav-text">3 处理器映射器 HandlerMapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-处理器适配器-HandlerAdapter"><span class="nav-text">4 处理器适配器 HandlerAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-视图解析器-ViewResolver"><span class="nav-text">5 视图解析器 ViewResolver</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-概述-1"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-InternalResourceViewResolver-配置"><span class="nav-text">2 InternalResourceViewResolver 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-lt-mvc-view-controller-gt"><span class="nav-text">3 &lt;mvc:view-controller&gt;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-控制器-Controller-amp-处理器-Handler"><span class="nav-text">6 控制器 Controller &amp; 处理器 Handler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五-配置"><span class="nav-text">五 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-静态资源处理"><span class="nav-text">5.1 静态资源处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-2"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解决"><span class="nav-text">2 解决</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在-SpringMVC-核心配置文件中配置"><span class="nav-text">1 在 SpringMVC 核心配置文件中配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-在-SpringMVC-核心配置文件中配置"><span class="nav-text">2 在 SpringMVC 核心配置文件中配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-lt-mvc-annotation-driven-gt"><span class="nav-text">5.2 &lt;mvc:annotation-driven/&gt;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六-原生-Servlet"><span class="nav-text">六 原生 Servlet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七-请求"><span class="nav-text">七 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-概述"><span class="nav-text">7.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-请求映射"><span class="nav-text">7.2 请求映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RequestMapping"><span class="nav-text">1 @RequestMapping</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性"><span class="nav-text">2 属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-其它映射注解"><span class="nav-text">2 其它映射注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-请求路径占位符"><span class="nav-text">7.3 请求路径占位符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-PathVariable"><span class="nav-text">1 @PathVariable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明-1"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性-1"><span class="nav-text">2 属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RESTFul-风格"><span class="nav-text">2 RESTFul 风格</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-请求格式"><span class="nav-text">1 请求格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-发送-put-delete-请求"><span class="nav-text">2 发送 put delete 请求</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-请求参数"><span class="nav-text">7.4 请求参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RequestParam"><span class="nav-text">1 @RequestParam</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明-2"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性-2"><span class="nav-text">2 属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-请求参数绑定"><span class="nav-text">2 请求参数绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-绑定机制"><span class="nav-text">1 绑定机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-获取请求参数的方式"><span class="nav-text">2 获取请求参数的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-直接获取"><span class="nav-text">1 直接获取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-封装对象"><span class="nav-text">2 封装对象</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-5-请求头：-RequestHeader"><span class="nav-text">7.5 请求头：@RequestHeader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-7-Cookie：-CookieValue"><span class="nav-text">7.7 Cookie：@CookieValue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-8-域"><span class="nav-text">7.8 域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-request-域：-RequestAttribute"><span class="nav-text">1 request 域：@RequestAttribute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-session-域：-SessionAttribute"><span class="nav-text">2 session 域：@SessionAttribute</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-9-POST-请求乱码"><span class="nav-text">7.9 POST 请求乱码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八-响应"><span class="nav-text">八 响应</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-响应数据"><span class="nav-text">8.1 响应数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Map-Model-ModelMap"><span class="nav-text">1 Map Model ModelMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ModelAndView"><span class="nav-text">2 ModelAndView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SessionAttributes"><span class="nav-text">3 @SessionAttributes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明-3"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性-3"><span class="nav-text">2 属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-ModelAttribute"><span class="nav-text">4 @ModelAttribute</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明-4"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性-4"><span class="nav-text">2 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-应用场景"><span class="nav-text">3 应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-说明-5"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-步骤"><span class="nav-text">2 步骤</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-转发和重定向"><span class="nav-text">8.2 转发和重定向</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九-JSON"><span class="nav-text">九 JSON</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-HttpMessageConverter-lt-T-gt"><span class="nav-text">9.1 HttpMessageConverter&lt;T&gt;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-3"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-实现类"><span class="nav-text">2 实现类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-ResponseBody"><span class="nav-text">9.2 @ResponseBody</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-RequestBody"><span class="nav-text">9.3 @RequestBody</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-4-RestController"><span class="nav-text">9.4 @RestController</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-5-JSON-处理"><span class="nav-text">9.5 JSON 处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十-数据绑定的处理"><span class="nav-text">十 数据绑定的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-概述"><span class="nav-text">10.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-2-类型转换"><span class="nav-text">10.2 类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-概述-4"><span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-自定义转换器"><span class="nav-text">2 自定义转换器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-3-格式化"><span class="nav-text">10.3 格式化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-FormattingConversionService"><span class="nav-text">1 FormattingConversionService</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-FormattingConversionServiceFactroyBean"><span class="nav-text">2 FormattingConversionServiceFactroyBean</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-4-校验"><span class="nav-text">10.4 校验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JSR303"><span class="nav-text">1 JSR303</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Spring-的校验"><span class="nav-text">2 Spring 的校验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十一-拦截器"><span class="nav-text">十一 拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#11-1-概述"><span class="nav-text">11.1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-2-HandlerInterceptor"><span class="nav-text">11.2 HandlerInterceptor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-API"><span class="nav-text">1 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-多个拦截器执行顺序"><span class="nav-text">2 多个拦截器执行顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-3-自定义拦截器"><span class="nav-text">11.3 自定义拦截器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十二-异常处理"><span class="nav-text">十二 异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#12-1-异常解析器"><span class="nav-text">12.1 异常解析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-2-默认装配解析器"><span class="nav-text">12.2 默认装配解析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-ExceptionHandler"><span class="nav-text">1 @ExceptionHandler</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-说明-6"><span class="nav-text">1 说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-属性-5"><span class="nav-text">2 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-ControllerAdvice"><span class="nav-text">3 @ControllerAdvice</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ResponseStatues"><span class="nav-text">2 @ResponseStatues</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-3-手动装配解析器"><span class="nav-text">12.3 手动装配解析器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SimpleMappingExceptionResolver"><span class="nav-text">SimpleMappingExceptionResolver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理步骤"><span class="nav-text">处理步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传-amp-下载"><span class="nav-text">文件上传 &amp; 下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#上传"><span class="nav-text">上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MultipartFile"><span class="nav-text">MultipartFile</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载"><span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于ResponseEntity实现"><span class="nav-text">基于ResponseEntity实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java通用下载实现"><span class="nav-text">Java通用下载实现</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="安₃"
+      src="/anyeansan.github.io/images/an3.png">
+  <p class="site-author-name" itemprop="name">安₃</p>
+  <div class="site-description" itemprop="description">一蓑烟雨任平生</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/anyeansan.github.io/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">琅嬛福地</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/anyeansan.github.io/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">门派</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/anyeansan.github.io/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star-half-full"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安₃</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/anyeansan.github.io/lib/anime.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/anyeansan.github.io/lib/velocity/velocity.ui.min.js"></script>
+<script src="/anyeansan.github.io/js/utils.js"></script><script src="/anyeansan.github.io/js/motion.js"></script>
+<script src="/anyeansan.github.io/js/schemes/pisces.js"></script>
+<script src="/anyeansan.github.io/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/anyeansan.github.io/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
